@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator id="validaridempresa">
+	
+<!--     <parameter id="empresa_id" type="integer" required="true" label="ID Empresa" /> -->
+
+</validator>

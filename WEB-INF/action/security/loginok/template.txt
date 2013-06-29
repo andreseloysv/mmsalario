@@ -1,0 +1,22 @@
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+	<title>Security System</title>
+</head>
+
+<body>
+
+<center>
+
+	${lbl:s_login_ok}
+	
+	<script language="javascript">
+	window.location="${def:context}${req:dinamica.security.uri}?idx=index.htm"
+	</script>
+	
+</center>
+
+</body>
+
+</html>

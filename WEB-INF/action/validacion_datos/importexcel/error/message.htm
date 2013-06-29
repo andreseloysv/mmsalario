@@ -1,0 +1,25 @@
+<html>
+<head>
+    <title>System Error</title>
+    <LINK REL="stylesheet" type="text/css" href="${def:context}/default.css" />
+</head>
+
+<body>
+
+	<script language="javascript">
+
+		if (${fld:total_errores}0 > 0)
+		{
+			parent.uploadErrorGrid("${req:dinamica.error.description@js}");	
+		}
+		else
+		{
+			alert("hola");
+			parent.uploadError("${req:dinamica.error.description@js}");
+		}
+
+	</script>
+
+</body>
+
+</html>

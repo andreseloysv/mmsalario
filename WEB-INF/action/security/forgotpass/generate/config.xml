@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<config>
+
+	<summary>
+		Regeneración de contraseña
+	</summary>
+	
+	<log>false</log>
+	
+	<transaction>
+		<classname>dinamica.security.ResetPassword</classname>
+		<validator>true</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+	</transaction>
+
+	<query>update.sql</query>
+
+	<output>
+		<classname>dinamica.GenericOutput</classname>
+		<template>template.htm</template>
+		<set-http-headers>true</set-http-headers>
+		<content-type>text/html</content-type>
+		<expiration>0</expiration>
+	</output>
+
+	<mail enabled="true">
+		<subject recordset="_request">Aviso de regeneración de contraseña</subject>
+		<mail-to recordset="_request" colname="email"/>
+		<body recordset="_request">message.txt</body>
+	</mail>
+
+</config>

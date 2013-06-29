@@ -1,0 +1,553 @@
+.centered_div {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	margin-left: -50%;
+	padding-right: 50%;
+	height: 30px;
+	width: 100%;
+	z-index: 100;
+	background-image: url(images/grid-hdr-bgcolor-white.png);
+	background-repeat: repeat-x;
+}
+
+TR.contenido {
+	border-bottom: rgb(218, 218, 218);
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+}
+
+table.carga_masiva {
+	border-bottom: rgb(0, 0, 0);
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+}
+
+img.icono {
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.titulo_instrucciones {
+	font-size: 16pt;
+	color: rgb(134, 134, 134);
+	text-align: center;
+	padding-top: 20px;
+	font-weight: 500;
+}
+
+.texto_instrucciones {
+	text-align: center;
+	padding-top: 16px;
+	font-size: 14pt;
+	font-weight: 500;
+	color: rgb(102, 102, 102);
+}
+/* BEGIN FONTS */
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Open Sans'), local('OpenSans'),
+		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff)
+		format('woff');
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 600;
+	src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
+		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSha1RVmPjeKy21_GQJaLlJI.woff)
+		format('woff');
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Open Sans Bold'), local('OpenSans-Bold'),
+		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzBa1RVmPjeKy21_GQJaLlJI.woff)
+		format('woff');
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: italic;
+	font-weight: 400;
+	src: local('Open Sans Italic'), local('OpenSans-Italic'),
+		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBtIh4imgI8P11RFo6YPCPC0.woff)
+		format('woff');
+}
+/* END FONTS */
+.celda { /* 	height: 100%; */
+	height: 30px;
+	/* 	width: 100%; */
+	margin: 0px;
+	border: none;
+	width: 200px;
+}
+
+th.titulotablas.celda_td {
+	padding: 0px;
+	margin: 0px;
+	background-image: url(images/grid-hdr-bgcolor-white.png);
+	background-repeat: repeat-x;
+}
+
+th.titulotablas.orange {
+	background-image: url(images/grid-hdr-bgcolor-orange.png);
+	background-repeat: repeat-x;
+	color: white;
+}
+
+th.titulotablas.texto-centrado {
+	text-align: center;
+	font-size: medium;
+}
+
+/* lightbox */
+.overlay {
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: #ccccff;
+	z-index: 1001;
+	-moz-opacity: 0.5;
+	opacity: .50;
+	filter: alpha(opacity =                                           50);
+}
+
+.progressTopRight {
+	float: right;
+	margin-right: 10px
+}
+
+.progressTopRight img {
+	vertical-align: middle;
+}
+
+.progress {
+	display: none;
+	margin-top: 5px;
+	color: gray;
+	width: 200px;
+	font-weight: normal;
+	font-family: Arial;
+	font-size: 10pt;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: #F7F7F7;
+	padding: 5px;
+}
+
+/* mensajes de validacion ajax en formularios */
+.errormsg {
+	color: red;
+}
+
+/*picklist*/
+.pickListBody {
+	border-color: black;
+	background-color: white;
+}
+
+.pickListHeader {
+	background-image: url(images/header-bg.gif);
+	background-repeat: repeat-x;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	padding-top: 2px;
+	color: gray;
+}
+
+/* grid */
+.grid {
+	border: 1px lightgrey solid;
+	border-collapse: collapse;
+}
+
+.grid th {
+	background-image: url(images/grid-hdr-bgcolor.gif);
+	background-repeat: repeat-x;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: normal;
+	padding: 3px;
+	border: 1px lightgrey solid;
+	color: gray;
+}
+
+.grid td {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	padding: 2px;
+	border: 1px lightgrey solid;
+}
+
+.grid tr.altColor td {
+	background-color: #F7F7F7;
+}
+
+.grid tr.normalColor td {
+	background-color: white;
+}
+
+.grid th a {
+	text-decoration: none;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: normal;
+	padding: 3px;
+	color: gray;
+}
+
+.grid th a:link {
+	text-decoration: none;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	padding: 3px;
+	color: gray;
+}
+
+.grid th a:visited {
+	text-decoration: none;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	padding: 3px;
+	color: gray;
+}
+
+.grid th a:hover {
+	text-decoration: none;
+	color: red;
+	background-color: yellow;
+}
+
+.grid TR.hilite TD {
+	background-color: #E3E4FA;
+	cursor: pointer;
+}
+
+/* forms */
+.formgrid {
+	border: 1px lightgrey solid;
+	border-collapse: collapse;
+	background-color: #F7F7F7;
+}
+
+.formgrid TH {
+	background-image: url(images/grid-hdr-bgcolor.gif);
+	background-repeat: repeat-x;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	padding-top: 2px;
+	padding-left: 4px;
+	border: 1px lightgrey solid;
+	text-align: left;
+	color: gray;
+}
+
+.formgrid TH.warning {
+	/* 	background-image: url(images/grid-hdr-bgcolor-red.png); */
+	/* 	background-repeat: repeat-x; */
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	padding-top: 2px;
+	padding-left: 4px;
+	border: 1px lightgrey solid;
+	text-align: left;
+	color: gray;
+	background-size: 10px;
+}
+
+.formgrid TD {
+	color: black;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: 600;
+}
+
+.formgrid TD.formlabel {
+	text-align: right;
+	padding-right: 7px;
+	vertical-align: top;
+}
+
+.formgrid TD.required {
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.formgrid TD.formlabelcrud {
+	text-align: left;
+	padding-left: 7px;
+}
+
+/* navigation controls */
+.navcontrols {
+	width: 200px;
+}
+
+.navcontrols td {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.banner {
+	background-image: url(images/header-bg.gif);
+	background-repeat: repeat-x;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: bold;
+	font-size: 10pt;
+	padding: 3px;
+	border: 1px #eeeeee solid;
+	color: gray;
+	height: 20px;
+	margin-bottom: 0px
+}
+
+/* regular tags */
+form {
+	margin: 0px;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	background: white;
+	margin: 0px;
+}
+
+h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+h2 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+h3 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: Arial;
+	font-size: 10pt;
+}
+
+/* hyperlinks */
+a {
+	font-family: Arial;
+	font-size: 10pt;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+a:link {
+	color: blue;
+}
+
+a:visited {
+	color: blue;
+}
+
+a:hover {
+	color: red;
+	background-color: yellow;
+}
+
+/* message box */
+.alert {
+	text-align: center;
+	color: blue;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: #F7F7F7;
+	padding: 5px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	top: 40%;
+	left: 40%;
+	z-index: 9999;
+	position: absolute;
+}
+
+.message {
+	text-align: left;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: #F7F7F7;
+	padding: 5px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+}
+
+input[type="submit"],input[type="button"],button {
+	cursor: pointer;
+}
+
+select {
+	background-color: white;
+}
+
+.button {
+	cursor: pointer;
+	vertical-align: text-bottom;
+}
+
+.tool {
+	cursor: pointer;
+	vertical-align: middle;
+	margin-top: 2px;
+}
+
+.tool2 {
+	cursor: pointer;
+}
+
+.panel td {
+	font-style: italic;
+	font-size: 10pt;
+	width: 120px;
+	height: 120px
+}
+
+/*
+BEGIN MENU
+*/
+.menuBody {
+	height: 1100px;
+	margin-left: 0px;
+	margin-right: 0px;
+	border-right: dotted 1px silver;
+}
+
+.menuContainer {
+	width: 100%;
+	border-bottom: dotted 1px silver;
+}
+
+.menuTitle {
+	background-color: white;
+	color: black;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: normal;
+	padding-left: 6px;
+	padding-top: 7px;
+	height: 24px;
+}
+
+.menuItems {
+	padding-bottom: 10px;
+	text-align: left;
+	background-color: white;
+}
+
+.menuItem {
+	padding-left: 16px;
+	color: black;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	padding-bottom: 5px;
+}
+
+div.menuTitle:hover,div.menuItem:hover {
+	cursor: pointer;
+	background-color: Lavender;
+	color: blue;
+}
+
+/* BEGIN IE6 hack */
+.menuTitleHover {
+	cursor: pointer;
+	background-color: Lavender;
+	color: blue;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	font-weight: normal;
+	padding-left: 6px;
+	padding-top: 7px;
+	height: 24px;
+}
+
+.menuItemHover {
+	cursor: pointer;
+	background-color: Lavender;
+	color: blue;
+	padding-left: 16px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	padding-bottom: 5px;
+}
+/* END IE6 hack */
+
+/* END MENU */
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+#nombre_empresa_popup {
+	top: 200px !important;
+	left: 280px !important;
+}
+
+TH.calendar {
+	color: rgb(255, 255, 255) !important;
+	background-color: rgb(255, 167, 32) !important;
+	font-size: 10pt !important;
+	padding: 1px !important;
+	font-weight: 700 !important;
+}
+
+TD.calCurDay {
+	color: rgb(255, 255, 255) !important;
+	font-weight: bold !important;
+	background-color: rgb(248, 198, 38) !important;
+	font-family: Arial !important;
+	font-size: 10pt !important;
+	padding: 1px !important;
+	cursor: pointer !important;
+}
+
+TD.calDay2 {
+	color: rgb(121, 116, 109) !important;
+	font-weight: bold !important;
+	background-color: rgb(250, 215, 101) !important;
+	font-family: Arial !important;
+	font-size: 10pt !important;
+	padding: 1px !important;
+	cursor: pointer !important;
+}
+
+.calendarHeader {
+	background-color: rgb(245, 245, 245) !important;
+	color: rgb(90, 90, 90) !important;
+	font-size: 10pt !important;
+	padding: 1px !important;
+}
+
+.overlay {
+	background-color: rgb(207, 201, 177) !important;
+}

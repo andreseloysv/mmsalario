@@ -1,0 +1,112 @@
+<html>
+
+<head>
+
+    <title>Menu</title>
+    <link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+	
+	<script language="javascript">
+	
+		function mouseOverHandler()
+		{
+			var e = window.event.srcElement;
+			if (e.className=="menuTitle")
+				e.className="menuTitleHover"
+			else if (e.className=="menuItem")
+				e.className="menuItemHover"
+		}
+
+		function mouseOutHandler()
+		{
+			var e = window.event.srcElement;
+			if (e.className=="menuTitleHover")
+				e.className="menuTitle"
+			else if (e.className=="menuItemHover")
+				e.className="menuItem"
+		}
+	
+		/* invoke service in right-side frame */
+		function gotoLink(url)
+		{
+			top.view.window.location = url;
+		}
+	
+		/* show/hide menu items */
+		function showMenu(divID)
+		{
+			var d = document.getElementById(divID)
+			if (d.style.display=="none")
+			{
+				closeMenus();
+				d.style.display="";
+			}
+			else
+			{
+				d.style.display="none";
+			}
+		}
+		
+		/* close all divs of class "menuItems" */
+		function closeMenus()
+		{
+			var m = document.getElementsByTagName("div");
+			for (var i = 0; i < m.length; i++) 
+			{ 
+				if (m[i].className=="menuItems")
+				{
+					m[i].style.display = "none";
+				}
+		    }
+		}	
+			
+		
+		/* request logout avoiding current frameset */
+		function exitFrame(url)
+		{
+			//avoid displaying this page inside frames
+			if (top.frames.length!=0) {
+			    if (window.location.href.replace)
+			        top.location.replace(url);
+			    else
+			        top.location.href=url;
+			}
+		}
+	
+	</script>
+
+</head>
+
+<body class="menuBody">
+
+<center>
+
+	<div class="menuContainer">
+		<div align="left" class="menuTitle" onclick="gotoLink('${def:context}/action/security/home/welcome')">
+			Principal
+		</div>
+	</div>	
+
+	<!--START MENU-->
+	${menu}
+
+	<div class="menuContainer">
+		<div align="left" class="menuTitle" onclick="exitFrame('${def:context}/action/security/exit')">
+			Salir del Sistema
+		</div>
+	</div>		
+	<!--END MENU-->
+
+
+</center>
+
+</body>
+
+<script languaje="javascript">
+		if ( navigator.appName.indexOf("Explorer")>0 )
+		{
+			document.body.onmouseover=mouseOverHandler;
+			document.body.onmouseout=mouseOutHandler;
+		}
+</script>
+
+</html>

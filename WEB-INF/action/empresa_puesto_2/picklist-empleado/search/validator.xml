@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator onerror='/action/error/crud'>
+	<parameter id='nombre' type='varchar' required='false' label='Empleado' maxlen='100'/>
+	<parameter id='cedula' type='integer' required='false' label='Cedula' maxlen='10'/>
+	<custom-validator classname="dinamica.validators.SQLPatternTransformer" parameter="nombre" rule="contains" />
+	<parameter id="unidad" type="integer" required="true" label="ID Unidad" />
+</validator>

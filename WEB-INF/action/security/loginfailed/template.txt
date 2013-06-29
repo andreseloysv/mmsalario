@@ -1,0 +1,45 @@
+<html>
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+<title>Security Admin</title>
+
+<!--generic script for every page (event handlers)-->
+<script language="javascript">
+
+//avoid displaying this page inside frames
+if (top.frames.length!=0) {
+    if (window.location.href.replace)
+        top.location.replace(self.location.href);
+    else
+        top.location.href=self.document.href;
+}
+
+</script>
+<!--end script-->
+
+</head>
+
+<body>
+
+<center>
+
+<br>
+
+<div class="alert" style="width:50%;text-align:center;color:blue">
+
+<h2 style="color:red">
+${lbl:s_login_failed}
+</h2>
+
+	<input type="button" class="button"
+	onclick="history.back();"
+	value="${lbl:s_login_retry}">
+
+</div>
+
+</center>
+
+</body>
+</html>

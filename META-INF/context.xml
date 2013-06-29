@@ -1,0 +1,9 @@
+<Context>
+
+	<Resource name="jdbc/dinamica" auth="Container" type="javax.sql.DataSource"
+		initialSize="3" maxActive="100" maxIdle="10" maxWait="3000"
+		username="postgres" password="basica" 
+		driverClassName="org.postgresql.Driver"
+		url="jdbc:postgresql://localhost/mmsalario"/>
+
+</Context>

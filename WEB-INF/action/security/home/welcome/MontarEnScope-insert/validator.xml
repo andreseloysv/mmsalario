@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator onerror="/action/error/validation/ajax">
+
+	<parameter id="brecha_min" type="integer" required="true" label="Valor minimo" maxlen="10" />
+	<parameter id="brecha_max" type="integer" required="true" label="Valor maximo" maxlen="10" />
+	<parameter id="presencial" type="integer" required="true" label="Obligatoriedad" maxlen="10" />
+
+<!-- 	<custom-validator classname="dinamica.validators.CheckDuplicateInSession" -->
+<!-- 		on-error-label="Ya existe un registro con este valor" -->
+<!-- 		colname="brecha_min" -->
+<!-- 		recordset="detail.sql" -->
+<!-- 		id="brecha_min" /> -->
+		
+</validator>
+

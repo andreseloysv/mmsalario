@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<config nodb="false">
+
+	<summary>
+		Exportar documento excel directo al browser
+	</summary>
+
+	<log>false</log>
+
+	<transaction>
+		<classname>dinamica.GenericTransaction</classname>
+		<validator>false</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+		<recordset id="query.sql" source="sql" scope="transaction" />
+		<recordset id="query_role.sql" source="sql" scope="transaction" />
+	</transaction>
+
+	<output>
+		<classname>dinamica.GenericExcelOutput</classname>
+	</output>
+	
+	<excel recordset='query.sql' sheetname='Empleado' filename='empleado_role.xls'>
+		<col id='id_persona' label='Id Empleado' />
+		<col id='nombre' label='Nombre' />
+		<col id='apellido' label='Apellido' />
+		<col id='correo' label='Email' />
+		<col id='unidad_organizativa' label='Unidad Organizativa' />
+		<col id='empresa' label='Empresa' />
+		
+		<sheet recordset='query_role.sql' sheetname='Role' >
+			<col id='role_id' label='Id Role' />
+			<col id='rolename' label='Role' />
+			<col id='description' label='Descripción' />
+			<col id='app_alias' label='Aplicación' />
+		</sheet>
+	</excel>
+
+</config>

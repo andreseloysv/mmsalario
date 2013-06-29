@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<config>
+
+	<summary>
+		Supervisados - Ver resultado de consulta paginado
+	</summary>
+	
+	<log>false</log>
+
+	<transaction>
+		<classname>domain.importexcel.ValidaDatosOutput</classname>
+		<validator>false</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+		<recordset id="viewchart.filter" source="session" scope="transaction" />
+	</transaction>
+	<output>
+		<classname>dinamica.GenericOutput</classname>
+		<template>template.htm</template>
+		<set-http-headers>true</set-http-headers>
+		<content-type>text/html; charset=iso-8859-1</content-type>
+		<expiration>0</expiration>
+	</output>
+	<on-exit return-code="1" forward-to="${def:actionroot}/notfound" />
+
+</config>

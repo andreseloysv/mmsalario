@@ -1,0 +1,110 @@
+<html>
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+<script type="text/javascript" src="${def:context}/action/script"></script>
+<title>Mercalcor</title>
+
+<script type="text/javascript">
+		//mostrar imagen y esconder su indicador de progreso de carga
+		function displayImage(imageID)
+		{
+			document.getElementById(imageID + "_wait").style.display='none';
+			document.getElementById(imageID).style.display='';
+		}
+		function rowOn(obj) {
+			currStyle = obj.style.backgroundColor;
+			obj.style.cursor="pointer"
+			obj.style.backgroundColor="#E3E4FA"
+		}
+		
+		function rowOff(obj) {
+			obj.style.backgroundColor=currStyle
+		}
+		
+		function pickEmpresa(){
+// 			var url = "${def:context}/action/picklist-empresa/form";
+				var url = "${def:context}/action/empresa_puesto_2/picklist-empresa/form";
+				pickOpen('nombre_empresa', 'empresa_id', url, '450', '300');
+		}
+	</script>
+
+<style>
+.pickListHeader {
+	background-color: #E3E4FA;
+	color: black;
+	font-size: 9pt;
+	padding: 1px;
+}
+</style>
+
+</head>
+
+<body>
+
+	<center>
+		<br> <br>
+
+		<div class="alert" style="width: 50%; color: gray; font-weight: bold">
+
+			Bienvenid@ ${fld:fname} ${fld:lname}, por favor selecciona<br>
+			un comando del Menú que aparece a tu izquierda.
+		</div>
+
+		<br>
+
+		<!--include al menu iconografico-->
+		${inc:${def:actionroot}/panel/view} <br>
+
+		<table class="grid" width="50%" cellspacing="1">
+
+			<tr>
+				<th colspan="4">Seleccione una empresa</th>
+			</tr>
+			<rows2>
+			<tr>
+				<td width="180" height="30" class="formlabel required">Empresa</td>
+				<td width="371" height="30">
+					<!--almacena el ID del item seleccionado--> <input type="hidden"
+					name="empresa_id" id="empresa_id" /> <!--almacena el nombre del item seleccionado-->
+					<input onClick="pickEmpresa()" placeholder="AddSolutions" type="text" id="nombre_empresa" name="nombre_empresa"
+					style="width: 183;" readonly /> <!--botones del picklist--> <img
+					src="${def:context}/images/search.gif" class="button"
+					onClick="pickEmpresa()" title="Seleccionar item" /></td>
+			</tr>
+			</rows2>
+
+		</table>
+		<br>
+
+		<!--tabla de ultimos logins-->
+		<table class="grid" width="50%" cellspacing="1">
+
+			<tr>
+				<th colspan="4">Sus últimos accesos al servidor</th>
+			</tr>
+
+			<tr>
+				<th width="25%">Fecha</th>
+				<th width="25%">Hora</th>
+				<th width="25%">Dirección IP</th>
+				<th width="25%">Aplicación</th>
+			</tr>
+
+			<rows>
+			<tr>
+				<td align="center"${fld:_rowStyle}>${fld:login_date}</td>
+				<td align="center"${fld:_rowStyle}>${fld:login_time}</td>
+				<td align="center"${fld:_rowStyle}>${fld:remote_addr}</td>
+				<td align="center"${fld:_rowStyle}>${fld:context}</td>
+			</tr>
+			</rows>
+
+		</table>
+
+	</center>
+
+</body>
+
+</html>

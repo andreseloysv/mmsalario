@@ -1,0 +1,112 @@
+<html>
+<head>
+
+<!--    <script type="text/javascript" src="${def:context}/jquery.easing.1.3.js"></script>
+        <script type="text/javascript" src="${def:context}/sexyalertbox.v1.2.jquery.mini.js"></script>
+        <link rel="stylesheet" type="text/css" media="all" href="${def:context}/sexyalertbox.css" />-->
+
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+<!--biblioteca generica JS/Dinamica-->
+<script type="text/javascript" src="${def:context}/action/script"></script>
+<script type="text/javascript"
+	src="${def:context}/action/empresa_puesto_2/javascript"></script>
+
+<title>Cuenta de usuario</title>
+
+</head>
+<body>
+	<div id="divform3" align="center">
+		<form name="form2" onsubmit="return upload()"
+			action="${def:context}${def:actionroot}/importexcel/insert"
+			method="POST" enctype="multipart/form-data" target="uploadFrame">
+			<table class="formgrid" width="100%" class="carga_masiva">
+				<!--titulo-->
+				<tr class="contenido" >
+					<th colspan="2" class="titulotablas texto-centrado" align="center">Carga
+						masiva de la data salarial<!--Carga masiva-->
+					</th>
+				</tr>
+				<tr class="contenido" >
+					<td width="33%" align="justify"><div
+							class="titulo_instrucciones">
+							Paso 1 - Descargar formato del archivo Excel <img
+								src="${def:context}/images/ExcelIcon2.png" border="0"
+								title="Descargar formato del archivo" class="icono"
+								onclick="infoExcel()">
+						</div> <!--Descargar archivo Excel--> <br> <br>
+					</td>
+				</tr>
+
+				<tr class="contenido" >
+					<td width="33%" align="justify"><div
+							class="titulo_instrucciones">
+							Paso 2 - Descargar archivo de soporte Excel
+							<!--Descargar archivo PDF con los foreign key-->
+							<img src="${def:context}/images/ExcelIcon2.png" border="0"
+								title="Descargar archivo de soporte" class="icono"
+								onclick="openExcel()">
+						</div> <br> <br> <!--                         <iframe name="uploadFrame" style="display: none"> </iframe> -->
+					</td>
+				</tr>
+
+				<tr class="contenido" >
+					<td width="34%" align="justify"><div
+							class="titulo_instrucciones" id="fila_carga_excel">
+
+
+							Paso 3 - Cargar archivo Excel <br> <br> <input
+								type="file" name="file" size="25" id="boton_fila_carga_excel">
+							<div id="imagen_archivo_excel" style="
+    display: none;
+"><img alt="archivo excel" src="${def:context}/images/excel-check.png"> El archivo excel se ha cargado con exito!.</div>
+						</div>
+					</td>
+				</tr>
+				<tr class="contenido" >
+					<td width="33%" align="center">
+					<div class="texto_instrucciones">
+							Seleccione la vigencia que desea darle a los datos. 
+							<br> 
+							<input id="fecha" class="date" name="fecha" type="text" value=""
+								maxlength="10" placeholder="01-01-1989"	onclick="calendarOpen('fecha')" 
+								style="text-align: center; width: 90px; ">
+								
+								 <img
+								src="${def:context}/images/Calendar-flat-circle-22.png"
+								title="Desplegar calendario" class="icono"
+								onclick="calendarOpen('fecha')"> 
+								
+								<br> 
+								Por defecto
+							seran vigentes hasta que se carguen nuevos datos de esta empresa.
+						</div> 
+						<input type="submit" value="Cargar archivo" class="button button-submit" name="submit" >
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+
+	<!--frame invisible para hacer el post-->
+	<iframe name="uploadFrame" style="display: none"> </iframe>
+
+	<!--panel de respuesta AJAX #3-->
+	<div id="responseError" style="display: none; width: 100%;"></div>
+
+
+	<!--indicador de progreso-->
+	<div id="status2" class="alert"
+		style="display: none; color: gray; width: 20%; font-weight: bold; font-family: Arial">
+		<img src="${def:context}/images/progress.gif"> Por favor
+		espere...
+	</div>
+
+	<!--colocar la respuesta a la izquierda del browser-->
+	<div style="float: left; padding-left: 50px">
+		<!--panel de respuesta AJAX para el grid paginado-->
+		<div id="response" style="display: none; width: 100%"></div>
+	</div>
+	<!--END FORM-->
+</body>
+</html>

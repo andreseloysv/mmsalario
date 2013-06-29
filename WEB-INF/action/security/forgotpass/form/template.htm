@@ -1,0 +1,219 @@
+<html>
+
+<head>
+
+	<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+	
+	<!--biblioteca generica JS/Dinamica-->
+	<script type="text/javascript" src="${def:context}/action/script">
+	</script>
+	
+	<title>Seguridad</title>
+	
+	<style>
+		body {margin:10px;}
+	</style>	
+	
+</head>
+
+<body>
+
+		<div style="float:left">
+		
+		<div style="height:350px;float:left">
+			<img src="${def:context}/images/newpassword.gif">
+		</div>		
+		
+		<h1>Olvidé mi contraseña</h1>
+
+		<p style="width:400px" align="justify">
+		Le será enviada por email una nueva contraseña, a la dirección
+		que indicó cuando se registró. Por favor ingrese los datos
+		que se le solicitan para confirmar su identidad.
+		</p>
+		</div>
+
+
+<div style="float:right">
+	
+	<!--formulario-->
+	<div id="form">		
+	
+	<form name="form1" onsubmit="return insert()">
+	
+		<div style="width:400px">
+		<table class="formgrid" width="100%">
+		
+			<!--ancho de la columna de etiquetas-->
+			<col width="40%">
+			<col width="60%">
+		
+			<!--titulo-->
+			<tr>
+				<th colspan="2">
+					<span id="formTitle">
+						Datos mínimos para idenficación positiva
+					</span>
+				</th>
+			</tr>
+				
+			<!--separador-->
+			<tr height="10px">
+				<td colspan="2"></td>
+			</tr>
+		
+			<!--campos-->
+			<tr>
+				<td class="formlabel">
+					Identificador
+				</td>
+				<td><input id="userlogin" name="userlogin" type="text" size="25" maxlength="25" ></td>
+			</tr>
+			<tr>
+				<td class="formlabel">
+					E-mail
+				</td>
+				<td><input id="email" name="email" type="text" size="30" maxlength="80" ></td>
+			</tr>
+		
+			<!--separador-->
+			<tr height="10px">
+				<td colspan="2"></td>
+			</tr>			
+		
+			<!--separador-->
+			<tr height="10px">
+				<td colspan="2"></td>
+			</tr>		
+		
+			<!--seccion del captcha-->
+			<tr>
+				<td class="formlabel" valign="top">
+				</td>
+				<td align="left"  valign="top">
+					<!--indicador de progreso de carga del captcha-->
+					[<a href="javascript:reloadCaptcha('captchaimg')">Refrescar imagen</a>]
+					<img id="captchaimg_wait" src="${def:context}/images/progress.gif">
+					<img 
+						id="captchaimg" 
+						style="display:none" 
+						src="${def:context}/action/security/getcaptcha" 
+						border="1" 
+						onload="displayCaptcha('captchaimg')">
+					<br>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="formlabel" valign="top">
+					Protección Anti-Spam
+				</td>
+				<td>
+					<input id="captcha" name="captcha" type="text" value="" maxlength="6" style="width:150px"><br>
+					Favor tipear los caracteres que aparecen en la imagen de arriba.
+				</td>
+			</tr>
+			
+							
+			<!--separador-->
+			<tr height="10px">
+				<td colspan="2"></td>
+			</tr>
+		
+			<!--botones-->
+			<tr>
+				<td colspan="2" align="center">
+					<input id="grabar" type="submit" value="Grabar" class="button">
+					<input id="cancelar" type="button" value="Cancelar" onclick="cancel()" class="button">				
+				</td>
+			</tr>
+			
+			<!--separador-->
+			<tr height="10px">
+				<td colspan="2"></td>
+			</tr>
+	
+		</table>
+		</div>
+	
+	</form>
+	</div>
+
+	<!--panel de respuesta-->
+	<div id="response" style="display:none;width:400px">
+	</div>
+	
+	<!--indicador de progreso-->
+	<br>
+	<div id="status" class="alert" style="text-align:center; display:none;color:gray;width:400px;font-weight:bold;font-family:Arial">
+		<img src="${def:context}/images/progress.gif"> Por favor espere...
+	</div>
+
+</div>
+
+<!--codigo de soporte del template-->
+<script type="text/javascript">
+
+	function cancel() {
+		window.location = "${def:context}/index.htm";
+	}
+
+	onload = function()
+	{ 
+		document.form1.userlogin.focus();
+	} 
+	
+	//retorna al estado previo que corresponde
+	//al estado actual de la pagina, cada llamada Ajax
+	//se encarga de definir cual es la funcion de goBack() que aplica
+	function goBack() 
+	{
+		_goBackFn()			
+	}
+	
+	//mostrar la actualizacion de un registro
+	function insert()
+	{		
+
+		document.getElementById("grabar").disabled=true;
+		clearErrorMessages();
+			
+		//llamada Ajax...
+		return ajaxCall(httpMethod="POST", 
+							uri="${def:actionroot}/generate", 
+							divResponse="response", 
+							divProgress="status", 
+							formName="form1", 
+							afterResponseFn=hideForm, 
+							onErrorFn=displayForm);	
+	}
+
+	function hideForm() {
+		document.getElementById("form").style.display="none";
+	}
+
+	//muestra el formulario principal para editar
+	function displayForm()
+	{
+		document.getElementById("grabar").disabled=false;
+		document.getElementById("form").style.display="";
+		document.getElementById("response").style.display="none";
+		document.form1.userlogin.focus();
+		
+	}
+	
+	//mostrar imagen y esconder su indicador de progreso de carga
+	function displayCaptcha(captchaID)
+	{
+		document.getElementById(captchaID + "_wait").style.display='none';
+		document.getElementById(captchaID).style.display='';
+	}	
+
+	function reloadCaptcha(captchaID) {
+		document.getElementById(captchaID + "_wait").style.display='';
+		document.getElementById(captchaID).src = "${def:context}/action/security/getcaptcha?dummy=" + Math.random();
+	}
+	
+</script>	
+</body>
+</html>

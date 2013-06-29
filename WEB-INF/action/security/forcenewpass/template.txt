@@ -1,0 +1,20 @@
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+<title>Security Admin</title>
+</head>
+
+<body>
+
+<center>
+
+Please wait...
+<script language="javascript">
+	window.location='${def:context}/action/security/forcenewpass/form'
+</script>
+
+</center>
+
+</body>
+</html>

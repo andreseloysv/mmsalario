@@ -1,0 +1,10 @@
+Estimado ${fld:fname} ${fld:lname}
+
+Se le informa que ha sido creada su cuenta de usuario en el sistema e360. A continuación sus  datos:
+
+Nombre de usuario: ${fld:userlogin}
+Contraseña: ${fld:confirm}
+
+Le invitamos a ingresar al sistema a través de la dirección  www.addsolutions.com.ve/e360, y disfrutar de las funcionalidades que E360 tiene para usted.
+___________
+e360 - Sistema de Encuestas de Desempeño de Empleados

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<config>
+	<sumary>
+		Esta mierda no sirve
+	</sumary>
+	<log>false</log>
+	<transaction>
+		<classname>domain.mmcontrolclass.ImportExcelUsuario</classname>
+		<validator>true</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+	</transaction>
+	<output>
+		<classname>dinamica.GenericOutput</classname>
+		<template>template.html</template>
+		<set-http-headers>true</set-http-headers>
+		<content-type>text/html</content-type>
+		<expiration>0</expiration>
+		<print mode="form" recordset="_request"/>
+	</output>
+</config>
