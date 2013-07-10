@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<config>
+
+	<summary>
+		Exportar documento excel directo al browser
+	</summary>
+
+	<log>false</log>
+
+	<transaction>
+		<classname>dinamica.GenericTransaction</classname>
+		<validator>false</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+		<recordset id="query-afiliado.sql" source="session" scope="transaction" />
+	</transaction>
+
+	<output>
+		<classname>dinamica.GenericExcelOutput</classname>
+	</output>
+	
+	<excel recordset='query-afiliado.sql' sheetname='Afiliar Cliente' filename='afiliado.xls'>
+		<col id='nombre' label='Nombre' />
+		<col id='cedula' label='Cédula' />
+		<col id='telefono' label='Télefono' />
+		<col id='email' label='Email' />
+		<col id='sexo_combo' label='Sexo ' />
+		<col id='ciudad_pl0' label='Ciudad' />
+	</excel>
+
+</config>

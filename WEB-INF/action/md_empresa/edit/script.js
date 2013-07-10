@@ -1,0 +1,12 @@
+document.form1.id.value='${fld:afiliado_id}';
+document.form1.nombre.value='${fld:nombre@js}';
+document.form1.cedula.value='${fld:cedula@js}';
+document.form1.telefono.value='${fld:telefono@js}';
+document.form1.email.value='${fld:email@js}';
+setComboValue('sexo','${fld:sexo}','form1');
+document.form1.ciudad_id_name.value='${fld:ciudad_pl0@js}';
+document.form1.ciudad_id.value='${fld:ciudad_id}';
+document.getElementById("formTitle").innerHTML = "Editar registro";
+document.getElementById("grabar").disabled=false;
+setFocusOnForm("form1");
+detailView();

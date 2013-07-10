@@ -1,16 +1,29 @@
 var timeoutID = 0;
+var nombre_empresa="";
 var someElement = $("#cargando"), overlay;
 
 // inicializa cuando se carga la pagina
 onload = function() {
-	paginacion(1);
-	$('input.celda').autoGrowInput({
-		comfortZone : 500,
-		minWidth : 100,
-		maxWidth : 2000
-	});
-	$('input.celda').trigger('keyup');
-	cargaDialogo();
+//	paginacion(1);
+//	$('input.celda').autoGrowInput({
+//		comfortZone : 500,
+//		minWidth : 100,
+//		maxWidth : 2000
+//	});
+//	$('input.celda').trigger('keyup');
+//	cargaDialogo();
+	addNew(); //prepara formulario para ingresar nuevo registro 
+	search(); //mostrar registros en vista paginada
+	
+	$("#nombre_empresa").focusin(function () {
+		if(nombre_empresa!=$(this).val()){
+			var str=$("#nombre_empresa").val();
+			var n=str.split(" - ");
+			$("#nombre_empresa").val(n[0]);
+			$("#fecha_ini_registro").val(n[1]);
+		}
+		});
+
 }
 
 function capaProtectora() {
@@ -46,7 +59,7 @@ function inizializaTabla() {
 
 }
 
-// document.form1.elements[0].focus();
+// document.form2.elements[0].focus();
 
 function pickIdEmpresa() {
 	var url = "${def:context}${def:actionroot}/picklist-empresa/form";
@@ -174,10 +187,10 @@ function pickIdEmpleado() {
 
 // configurar formulario para ingresar registro nuevo
 function addNew() {
-	clearForm("form1");
+	clearForm("form2");
 	document.getElementById("formTitle").innerHTML = "Crear cuenta de usuario";
 	document.getElementById("grabar").disabled = false;
-	setFocusOnForm("form1");
+	setFocusOnForm("form2");
 }
 
 // invoca un popup para descargar los documentos
@@ -270,6 +283,14 @@ function ajaxBusquedaPagina(pagina, campo_busqueda) {
 	// $('#tabla_excel tr:last').after(text);
 }
 
+function cargaEmpresa(){
+	ajaxCall(httpMethod = "GET",
+			uri = "${def:actionroot}/search?pagina=" + pagina
+					+ "&campo_busqueda=" + campo_busqueda, divResponse = response,
+			divProgress = "status2", formName = null,
+			afterResponseFn = inizializaTabla, onErrorFn = null);
+}
+
 function limpiarTiempo() {
 	window.clearTimeout(timeoutID);
 }
@@ -285,3 +306,274 @@ function buscar(elemento) {
 	}, 1000);
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// funciones del datail
+//inicializa cuando se carga la pagina
+//onload = function()
+//{
+//	addNew(); //prepara formulario para ingresar nuevo registro 
+//	search(); //mostrar registros en vista paginada
+//	document.form2.fnacimiento.onkeypress = keypressDate;
+//} 
+
+/** picklist de seleccion simple **/
+
+//desplegar picklist de seleccion simple
+function pickCiudadId(){
+	var url = "${def:context}${def:actionroot}/picklist/ciudad/form";
+	pickOpen ('ciudad_id_name','ciudad_id',url,'450','235');	
+}
+
+//ejecutar consulta y mostrar grid, si hay data viewPage() sera invocada automaticamente
+function search()
+{
+//	var url = "${def:actionroot}/search";
+//	
+//	//determina si refresca y se para en la pagina actual o en la pagina 1
+//	if (currentPage > 0)
+//		url = "${def:actionroot}/search?currentpage=" + currentPage;
+//
+//	//llamada Ajax...
+//	ajaxCall(httpMethod="GET", 
+//					uri= url, 
+//					divResponse="response", 
+//					divProgress="status", 
+//					formName=null, 
+//					afterResponseFn=null, 
+//					onErrorFn=null);
+}
+
+//traer la pagina N del grid
+function viewPage()
+{
+	var url = "${def:actionroot}/view";
+	gotoPage(url);
+}	
+
+//grabar el formulario
+function save()
+{
+	//determina si es un insert o un update
+	if (document.form2.id.value=="")
+		return insert();
+	else
+		return insert();
+//		return update();
+}
+
+//grabar registro nuevo en BD
+function insert()
+{
+		clearErrorMessages();
+		document.getElementById("grabar").disabled=true;
+
+		//llamada Ajax...
+		return ajaxCall(httpMethod="POST", 
+						uri="${def:actionroot}/insert", 
+						divResponse=null, 
+						divProgress="status", 
+						formName="form2", 
+						afterResponseFn=null, 
+						onErrorFn=retryAddnewOrEdit);	    	
+}
+
+//restaurar el formulario en caso de error
+function retryAddnewOrEdit() {
+	document.getElementById("grabar").disabled=false;
+	setFocusOnForm("form2");		
+}
+
+//editar registro en formulario
+function edit(id)
+{
+		clearErrorMessages();
+
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/edit?id=" + id , 
+						divResponse=null, 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);	
+}
+
+//actualizar registro en BD
+function update()
+{		
+		clearErrorMessages();
+		document.getElementById("grabar").disabled=true;
+		
+		//llamada Ajax...
+		return ajaxCall(httpMethod="POST", 
+						uri="${def:actionroot}/update", 
+						divResponse=null, 
+						divProgress="status", 
+						formName="form2", 
+						afterResponseFn=null, 
+						onErrorFn=retryAddnewOrEdit);	
+}
+
+//eliminar un registro
+function deleteRecord(id)
+{
+	if (window.confirm("¿Está seguro que desea ELIMINAR este registro?")==false)
+	{
+		return false;
+	}
+	
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/delete?id=" + id,
+						divResponse=null, 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);	
+					
+}
+
+//configurar formulario para ingresar registro nuevo
+function addNew()
+{
+
+	ajaxCall(httpMethod="GET", 
+					uri="${def:actionroot}/addnew",
+					divResponse=null, 
+					divProgress="status", 
+					formName=null, 
+					afterResponseFn=null, 
+					onErrorFn=null);
+							
+//	clearForm("form2");
+	clearForm("form2");
+//	document.getElementById("formTitle").innerHTML = "Añadir registro";
+	document.getElementById("saveDetail").value = "Añadir";
+	document.getElementById("grabar").disabled=false;
+	document.getElementById("saveDetail").disabled=false;
+	document.getElementById("detail").innerHTML = "";
+	setFocusOnForm("form2");
+}
+
+//invoca la generacion de un PDF en un popup
+function openPDF()
+{
+	var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+	var url = "${def:context}${def:actionroot}/pdf?random=" + Math.random();
+	var w = window.open(url, null, features);
+}
+
+//invoca la generacion de un Excel en un popup
+function openExcel()
+{
+	var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+	var url = "${def:context}${def:actionroot}/excel?random=" + Math.random();
+	var w = window.open(url, null, features);
+}
+
+//grabar registro nuevo del detalle en BD o actualizarlo en memoria
+function detailInsert()
+{
+		clearErrorMessages();
+		document.getElementById("saveDetail").disabled=true;
+
+		//registro nuevo o un update?
+		if (document.form2.rowindex.value=="") {
+			return ajaxCall(httpMethod="POST", 
+							uri="${def:actionroot}/detail/insert", 
+							divResponse="detail", 
+							divProgress="status", 
+							formName="form2", 
+							afterResponseFn=detailAddNew, 
+							onErrorFn=detailReady);
+		} else {
+			return ajaxCall(httpMethod="POST", 
+							uri="${def:actionroot}/detail/update", 
+							divResponse="detail", 
+							divProgress="status", 
+							formName="form2", 
+							afterResponseFn=detailAddNew, 
+							onErrorFn=detailReady);
+		
+		}
+			    	
+}	
+
+//en caso de error colocar focus y mostrar boton 
+function detailReady() {
+	document.getElementById("saveDetail").disabled=false;
+	setFocusOnForm("form2");
+}
+
+//prepara el formulario de detalle para ingreso de datos
+function detailAddNew() {
+	document.getElementById("saveDetail").disabled=false;
+	clearForm("form2");
+	setFocusOnForm("form2");
+	document.getElementById("saveDetail").value = "Añadir";
+}
+
+//editar registro en formulario
+function detailEdit(id)
+{
+		document.getElementById("saveDetail").value = "Modificar";
+		clearErrorMessages();
+
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/detail/edit?id=" + id , 
+						divResponse=null, 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);	
+}		
+
+//eliminar un registro del detalle
+function detailDelete(id)
+{
+	if (window.confirm("¿Está seguro que desea ELIMINAR este registro?")==false)
+	{
+		return false;
+	}
+	
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/detail/delete?id=" + id,
+						divResponse="detail", 
+						divProgress="status", 
+						formName="form2", 
+						afterResponseFn=detailAddNew, 
+						onErrorFn=detailReady);	
+					
+}
+
+//mostrar el grid del detalle
+function detailView() {
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/detail/view",
+						divResponse="detail", 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);	
+}
+function pickEmpresa(){
+	var url = "${def:context}/action/recalcula_promedio/picklist-empresa/form";
+	pickOpen('nombre_empresa', 'empresa_id', url, '450', '300');
+}
+
+

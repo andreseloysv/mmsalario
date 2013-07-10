@@ -2,6 +2,8 @@ package domain.mmcontrolclass;
 
 import java.io.File;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import jxl.*;
@@ -30,14 +32,22 @@ public class ImportExcelUsuario extends GenericTableManager {
 	public int service(Recordset inputParams) throws Throwable {
 
 		ActualizaPromedio();
-
+		String fecha_vigencia_datos="";
 		String concoma = "";
 		Number number = 0;
 		int rc = super.service(inputParams);
 		int id_empresa = 0;
 		int id_empresa_variacion = 0;
 		NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
-
+		if(inputParams.containsField("fecha")){
+			if(inputParams.getString("fecha")!=null){
+					fecha_vigencia_datos = new SimpleDateFormat("yyyy-MM-dd").format(inputParams.getDate("fecha")); 
+			}else{
+				fecha_vigencia_datos = new SimpleDateFormat("yyyy-MM-dd").format( new Date());
+			}
+			//Insertar la fecha a la tabla procedencia fecha!!!
+		}
+		System.out.print("fehcaaaaaaaaaaaaaaaaaaaaa-----------------------> "+fecha_vigencia_datos+" <-----------------");
 		// crea un recordset para el manejo de los errores
 		Recordset rsError = new Recordset();
 

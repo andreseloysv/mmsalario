@@ -7,7 +7,7 @@
 	</summary>
 	
 	<log>false</log>
-<!-- 	<clear-session id="viewchart.filter" /> -->
+	<clear-session id="viewchart.filter" />
 	<transaction>
 		<classname>dinamica.GenericTransaction</classname>
 		<validator>true</validator>

@@ -1,0 +1,441 @@
+<html>
+
+<head>
+
+	<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+	
+	<!--biblioteca generica JS/Dinamica-->
+	<script type="text/javascript" src="${def:context}/action/script">
+	</script>
+	
+	<title>Afiliar Cliente</title>
+
+</head>
+
+<body>
+
+<!--banner-->
+<div class="banner">
+	<div style="float: left;">Afiliar Cliente</div>
+	${inc:/action/progress}
+</div>
+
+<br>
+<center>
+<!--formulario addnew/edit-->
+<div id="form">
+<table class="formgrid" width="800px">
+
+	<!--ancho de la columna de etiquetas-->
+	<col width="30%">
+	<col width="60%">
+
+	<!--titulo-->
+	<tr>
+		<th colspan="2"><span id="formTitle">Añadir registro</span></th>
+	</tr>
+
+	<!--separador-->
+	<tr height="10px">
+		<td colspan="2"></td>
+	</tr>
+
+	<!--formulario master-->
+	<form name="form1" onsubmit="return false;">
+	<tr>
+		<td class="formlabel required">Nombre</td>
+		<td>
+			<input id="nombre" name="nombre" type="text" size="30" maxlength="60">
+		</td>
+	</tr>
+	<tr>
+		<td class="formlabel required">Cédula</td>
+		<td>
+			<input id="cedula" name="cedula" type="text" size="15" maxlength="20">
+		</td>
+	</tr>
+	<tr>
+		<td class="formlabel required">Télefono</td>
+		<td>
+			<input id="telefono" name="telefono" type="text" size="15" maxlength="20">
+		</td>
+	</tr>
+	<tr>
+		<td class="formlabel">Email</td>
+		<td>
+			<input id="email" name="email" type="text" size="30" maxlength="60">
+		</td>
+	</tr>
+	<tr>
+		<td class="formlabel required">Sexo </td>
+		<td>
+			<select name="sexo" id="sexo">
+				<option value="M">Masculino</option>
+				<option value="F">Femenino</option>
+
+			</select> 
+		</td>
+	</tr>
+	<!--control picklist de seleccion simple-->
+	<tr>
+		<td class="formlabel required">Ciudad</td>
+		<td>
+			<!--almacena el ID del item seleccionado--> 
+			<input type="hidden" name="ciudad_id" id="ciudad_id" /> 
+			<!--almacena el nombre del item seleccionado-->
+			<input type="text" name="ciudad_id_name" id="ciudad_id_name" style="width: 40%;" readonly /> 
+			<!--botones del picklist--> 
+			<img src="${def:context}/images/search.gif" class="button" onclick="pickCiudadId();" title="Seleccionar item" /> 
+			<img src="${def:context}/images/clear.gif" class="button" onclick="document.form1.ciudad_id.value='';document.form1.ciudad_id_name.value='';"
+				title="Borrar valor seleccionado" />
+		</td>
+	</tr>
+	
+	<input type="hidden" name="id" value="" />
+	</form>
+
+	<!--separador-->
+	<tr height="10px">
+		<td colspan="2"></td>
+	</tr>
+	
+	<!--titulo-->
+	<tr>
+		<th colspan="2">Registros Detalle</th>
+	</tr>
+
+	<tr>
+		<td colspan="2" align="center">
+
+			<!--subformulario para ingresar/editar el detalle-->
+			<form name="form2" onsubmit="return false;">
+				<table width="90%">
+					<tr>
+						<td style="font-style:italic;text-decoration:underline;">Nombre</td>
+						<td style="font-style:italic;text-decoration:underline;">Filiación</td>
+						<td style="font-style:italic;text-decoration:underline;">Fecha nacimiento</td>
+						<td style="font-style:italic;text-decoration:underline;">Teléfono</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<input id="nombre_familiar" name="nombre_familiar" type="text" size="35" maxlength="60">
+						</td>
+						<td valign="top">
+							<select name="filiacion" id="filiacion">
+								<option value="Madre">Madre</option>
+								<option value="Padre">Padre</option>
+								<option value="Hermano">Hermano</option>
+								<option value="Hijo">Hijo</option>
+								<option value="Otro">Otro</option>
+							</select> 
+						</td>
+						<td valign="top">
+							<input id="fnacimiento" name="fnacimiento" type="text" size="10" value="" maxlength="10">
+							<img class="tool2" src="${def:context}/images/calendar.gif" title="Desplegar calendario.." onclick="calendarOpen('fnacimiento')">
+						</td>
+						<td valign="top">
+							<input id="telefono_familiar" name="telefono_familiar" type="text" size="15" maxlength="20">
+						</td>
+						<td valign="top">
+							<button id="saveDetail" onclick="detailInsert()">Añadir</button>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+						<div id="form2_error" class="errormsg"></div>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="rowindex" value="" />
+			</form>
+
+			<!--grid de detalle-->
+			<div id="detail" style="width: 80%"></div>
+
+		</td>
+	</tr>
+
+	<!--separador-->
+	<tr height="5px">
+		<td colspan="2"></td>
+	</tr>
+
+	<!--botones-->
+	<tr>
+		<td align="center" colspan="2">
+		<button id="grabar" onclick="save()" class="button">Grabar</button>
+		&nbsp;
+		<button class="button" onclick="addNew()">Cancelar</button>
+		</td>
+	</tr>
+
+	<!--separador-->
+	<tr height="5px">
+		<td colspan="2"></td>
+	</tr>
+
+</table>
+</div>
+
+<br>
+
+<!--panel de respuesta AJAX-->
+<div id="response" style="display: none; width: 100%"></div>
+</center>
+<!--codigo de soporte del template-->
+<script type="text/javascript">
+
+	//inicializa cuando se carga la pagina
+	onload = function()
+	{
+		addNew(); //prepara formulario para ingresar nuevo registro 
+		search(); //mostrar registros en vista paginada
+		document.form2.fnacimiento.onkeypress = keypressDate;
+	} 
+
+	/** picklist de seleccion simple **/
+	
+	//desplegar picklist de seleccion simple
+	function pickCiudadId(){
+		var url = "${def:context}${def:actionroot}/picklist/ciudad/form";
+		pickOpen ('ciudad_id_name','ciudad_id',url,'450','235');	
+	}
+	
+	//ejecutar consulta y mostrar grid, si hay data viewPage() sera invocada automaticamente
+	function search()
+	{
+		var url = "${def:actionroot}/search";
+		
+		//determina si refresca y se para en la pagina actual o en la pagina 1
+		if (currentPage > 0)
+			url = "${def:actionroot}/search?currentpage=" + currentPage;
+
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri= url, 
+						divResponse="response", 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);
+	}
+
+	//traer la pagina N del grid
+	function viewPage()
+	{
+		var url = "${def:actionroot}/view";
+		gotoPage(url);
+	}	
+	
+	//grabar el formulario
+	function save()
+	{
+		//determina si es un insert o un update
+		if (document.form1.id.value=="")
+			return insert();
+		else
+			return update();
+	}
+
+	//grabar registro nuevo en BD
+	function insert()
+	{
+			clearErrorMessages();
+			document.getElementById("grabar").disabled=true;
+	
+			//llamada Ajax...
+			return ajaxCall(httpMethod="POST", 
+							uri="${def:actionroot}/insert", 
+							divResponse=null, 
+							divProgress="status", 
+							formName="form1", 
+							afterResponseFn=null, 
+							onErrorFn=retryAddnewOrEdit);	    	
+	}
+
+	//restaurar el formulario en caso de error
+	function retryAddnewOrEdit() {
+		document.getElementById("grabar").disabled=false;
+		setFocusOnForm("form1");		
+	}
+
+	//editar registro en formulario
+	function edit(id)
+	{
+			clearErrorMessages();
+
+			//llamada Ajax...
+			ajaxCall(httpMethod="GET", 
+							uri="${def:actionroot}/edit?id=" + id , 
+							divResponse=null, 
+							divProgress="status", 
+							formName=null, 
+							afterResponseFn=null, 
+							onErrorFn=null);	
+	}
+	
+	//actualizar registro en BD
+	function update()
+	{		
+			clearErrorMessages();
+			document.getElementById("grabar").disabled=true;
+			
+			//llamada Ajax...
+			return ajaxCall(httpMethod="POST", 
+							uri="${def:actionroot}/update", 
+							divResponse=null, 
+							divProgress="status", 
+							formName="form1", 
+							afterResponseFn=null, 
+							onErrorFn=retryAddnewOrEdit);	
+	}
+	
+	//eliminar un registro
+	function deleteRecord(id)
+	{
+		if (window.confirm("¿Está seguro que desea ELIMINAR este registro?")==false)
+		{
+			return false;
+		}
+		
+			//llamada Ajax...
+			ajaxCall(httpMethod="GET", 
+							uri="${def:actionroot}/delete?id=" + id,
+							divResponse=null, 
+							divProgress="status", 
+							formName=null, 
+							afterResponseFn=null, 
+							onErrorFn=null);	
+						
+	}
+	
+	//configurar formulario para ingresar registro nuevo
+	function addNew()
+	{
+	
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/addnew",
+						divResponse=null, 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);
+								
+		clearForm("form1");
+		clearForm("form2");
+		document.getElementById("formTitle").innerHTML = "Añadir registro";
+		document.getElementById("saveDetail").value = "Añadir";
+		document.getElementById("grabar").disabled=false;
+		document.getElementById("saveDetail").disabled=false;
+		document.getElementById("detail").innerHTML = "";
+		setFocusOnForm("form1");
+	}
+	
+	//invoca la generacion de un PDF en un popup
+	function openPDF()
+	{
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var url = "${def:context}${def:actionroot}/pdf?random=" + Math.random();
+		var w = window.open(url, null, features);
+	}
+
+	//invoca la generacion de un Excel en un popup
+	function openExcel()
+	{
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var url = "${def:context}${def:actionroot}/excel?random=" + Math.random();
+		var w = window.open(url, null, features);
+	}
+	
+	//grabar registro nuevo del detalle en BD o actualizarlo en memoria
+	function detailInsert()
+	{
+			clearErrorMessages();
+			document.getElementById("saveDetail").disabled=true;
+	
+			//registro nuevo o un update?
+			if (document.form2.rowindex.value=="") {
+				return ajaxCall(httpMethod="POST", 
+								uri="${def:actionroot}/detail/insert", 
+								divResponse="detail", 
+								divProgress="status", 
+								formName="form2", 
+								afterResponseFn=detailAddNew, 
+								onErrorFn=detailReady);
+			} else {
+				return ajaxCall(httpMethod="POST", 
+								uri="${def:actionroot}/detail/update", 
+								divResponse="detail", 
+								divProgress="status", 
+								formName="form2", 
+								afterResponseFn=detailAddNew, 
+								onErrorFn=detailReady);
+			
+			}
+				    	
+	}	
+
+	//en caso de error colocar focus y mostrar boton 
+	function detailReady() {
+		document.getElementById("saveDetail").disabled=false;
+		setFocusOnForm("form2");
+	}
+
+	//prepara el formulario de detalle para ingreso de datos
+	function detailAddNew() {
+		document.getElementById("saveDetail").disabled=false;
+		clearForm("form2");
+		setFocusOnForm("form2");
+		document.getElementById("saveDetail").value = "Añadir";
+	}
+	
+	//editar registro en formulario
+	function detailEdit(id)
+	{
+			document.getElementById("saveDetail").value = "Modificar";
+			clearErrorMessages();
+
+			//llamada Ajax...
+			ajaxCall(httpMethod="GET", 
+							uri="${def:actionroot}/detail/edit?id=" + id , 
+							divResponse=null, 
+							divProgress="status", 
+							formName=null, 
+							afterResponseFn=null, 
+							onErrorFn=null);	
+	}		
+
+	//eliminar un registro del detalle
+	function detailDelete(id)
+	{
+		if (window.confirm("¿Está seguro que desea ELIMINAR este registro?")==false)
+		{
+			return false;
+		}
+		
+			//llamada Ajax...
+			ajaxCall(httpMethod="GET", 
+							uri="${def:actionroot}/detail/delete?id=" + id,
+							divResponse="detail", 
+							divProgress="status", 
+							formName="form2", 
+							afterResponseFn=detailAddNew, 
+							onErrorFn=detailReady);	
+						
+	}
+	
+	//mostrar el grid del detalle
+	function detailView() {
+			ajaxCall(httpMethod="GET", 
+							uri="${def:actionroot}/detail/view",
+							divResponse="detail", 
+							divProgress="status", 
+							formName=null, 
+							afterResponseFn=null, 
+							onErrorFn=null);	
+	}
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+INSERT INTO demo.afiliado
+(
+	afiliado_id,
+	nombre,
+	cedula,
+	telefono,
+	email,
+	sexo,
+	ciudad_id
+)
+VALUES
+(
+	${seq:nextval@demo.seq_afiliado},
+	${fld:nombre},
+	${fld:cedula},
+	${fld:telefono},
+	${fld:email},
+	${fld:sexo},
+	${fld:ciudad_id}
+)

@@ -6,7 +6,7 @@
 <!--biblioteca generica JS/Dinamica-->
 <script type="text/javascript" src="${def:context}/action/script"></script>
 <script type="text/javascript"
-	src="${def:context}/action/control_validacion/javascript"></script>
+	src="${def:context}/action/recalcula_promedio/javascript"></script>
 <title>Cuenta de usuario</title>
 
 </head>
@@ -14,81 +14,86 @@
 	<div id="divform3" align="center">
 		<!--panel de control de navegacion-->
 
+		<!-- 		<form> -->
+		<label for="name">Seleccione la muestra con la cual desea
+			hacer la validacion de los cargos:</label>
+		<fieldset class="text ui-widget-content ui-corner-all">
+		<legend >Comprar mis datos actuales versus mi data
+				anterior</legend>
+			
+		</fieldset>
+		<fieldset class="text ui-widget-content ui-corner-all">
+		<legend >Comparame contra una muestra selecta:</legend>
 
-		<table class='formgrid' width='100%' id='tabla_excel'>
-			<tr>
-				<th colspan='15' class='titulotablas'>Validacion de los datos</th>
-			</tr>
-			<tr>
-				<th colspan='17'>
-					<div class='centered_div'>
+				<form name="form2" id="form2" onsubmit="return false;">
+					<table style="margin: auto;"
+						top" class="text ui-widget-content ui-corner-all">
+						<div id="response" style="display: none; width: 100%"></div>
+						<!--include al menu iconografico-->
+						${inc:${def:actionroot}/panel/view}
+						<br>
 
-						<span style='float: right;'> Buscar: <input type='text'
-							value='' name='campo_busqueda'
-							onkeyup='buscar(this);' id='campo_busqueda'
-							class='text ui-widget-content ui-corner-all'
-							placeholder='Buscar...' /> <img
-							src='${def:context}/images/pmprev.gif' class='icono'
-							onclick='paginacion(document.getElementById("PagePrev").value)' />
+						<table class="grid" width="50%" cellspacing="1">
 
-							<input name='pagina' id='pagina' type='text' size='1'
-							maxlength='5' value=''
-							onkeyup='paginacion(this.value);' /><span id="max_page">/</span>  <img
-							src='${def:context}/images/pmnext.gif' class='icono'
-							onclick='paginacion(document.getElementById("PageNext").value)' />
+							<tr>
+								<th colspan="4">Seleccione una empresa</th>
+							</tr>
+							<rows2>
+							<tr>
+								<td width="20" height="30" class="formlabel required">Empresa</td>
+								<td width="371" height="30">
+									<!--almacena el ID del item seleccionado--> <input
+									type="hidden" name="empresa_id" id="empresa_id" /> <!--almacena el nombre del item seleccionado-->
+									<input onClick="pickEmpresa()"   placeholder="AddSolutions"
+									type="text" id="nombre_empresa" name="nombre_empresa"
+									style="width: 180;" readonly />	
+									<label>Fecha</label>
+									<input onClick="pickEmpresa()" placeholder="28-01-1989"
+									type="text" id="fecha_ini_registro" name="fecha_ini_registro"
+									style="width: 140;" readonly />										
+									
+									 <!--botones del picklist--> <img
+									src="${def:context}/images/search.gif" class="button"
+									onClick="pickEmpresa()" title="Seleccionar item" /> <img
+									src="${def:context}/images/Add.png" class="button"
+									onClick="detailInsert()" title="Seleccionar item" />
+									<button style="display: none" id="saveDetail"
+										onclick="detailInsert()">Añadir</button>
+								</td>
+							</tr>
+							</rows2>
 
-						</span>
+						</table>
+						</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<div id="form2_error" class="errormsg"></div>
+							</td>
+						</tr>
+					</table>
+					<input type="hidden" name="rowindex" value="" />
+				</form>
 
-					</div></th>
-			</tr>
-			<tr>
-				<th class='titulotablas'>n</th>
-				<th class='titulotablas'></th>
-				<th class='titulotablas'>A</th>
-				<th class='titulotablas'>B</th>
-				<th class='titulotablas'>C</th>
-				<th class='titulotablas'>D</th>
-				<th class='titulotablas'>E</th>
-				<th class='titulotablas' width="240px">F</th>
-				<th class='titulotablas' width="240px">G</th>
-				<th class='titulotablas'>H</th>
-				<th class='titulotablas'>I</th>
-				<th class='titulotablas'>J</th>
-				<th class='titulotablas'>K</th>
-				<th class='titulotablas'>L</th>
-				<th class='titulotablas'>M</th>
-				<th class='titulotablas'>N</th>
-				<th class='titulotablas'>O</th>
-			</tr>
-			<tr>
-				<th class='titulotablas'></th>
-				<th class='titulotablas'>alerta</th>
-				<th class='titulotablas'>Nombre de la empresa</th>
-				<th class='titulotablas'>Encadenado</th>
-				<th class='titulotablas'>Codigo</th>
-				<th class='titulotablas'>Nivel</th>
-				<th class='titulotablas'>Modificador</th>
-				<th class='titulotablas'>Familia</th>
-				<th class='titulotablas'>Tutulo del puesto</th>
-				<th class='titulotablas orange'>SBM</th>
-				<th class='titulotablas orange'>Comisiones</th>
-				<th class='titulotablas orange'>Fondo de ahorro extra</th>
-				<th class='titulotablas orange'>Bonos variables</th>
-				<th class='titulotablas orange'>Fondo de ahorro ordinario</th>
-				<th class='titulotablas orange'>Asignacion no salarial</th>
-				<th class='titulotablas orange'>Asignacion de vehiculo</th>
-				<th class='titulotablas orange'>Ano de ingreso</th>
-				<th class='titulotablas orange'></th>
-			</tr>
-		
-		</table>
+				<!--grid de detalle-->
+				<div id="detail" style="width: 50%;"></div>
+				<button id="grabar" onclick="save()" class="button">Grabar</button>
+				&nbsp;
+				<button class="button" onclick="addNew()">Cancelar</button>
+			</fieldset>
+		<fieldset class="text ui-widget-content ui-corner-all">
+		<legend >Validacion por sector y tamaño:</legend>
+			<label for="name">Validacion solo sector</label> <input type="text" name="name"
+				id="name" class="text ui-widget-content ui-corner-all" /> <label
+				for="email">Email</label> <input type="text" name="email" id="email"
+				value="" class="text ui-widget-content ui-corner-all" /> <label
+				for="password">Password</label> <input type="password"
+				name="password" id="password" value=""
+				class="text ui-widget-content ui-corner-all" />
+		</fieldset>
+		<!-- 		</form> -->
 	</div>
 
-	
-
-
-	<!--frame invisible para hacer el post-->
-	<iframe name="uploadFrame" style="display: none"> </iframe>
 
 	<!--panel de respuesta AJAX #3-->
 	<div id="responseError" style="display: none; width: 100%;"></div>
@@ -98,26 +103,10 @@
 		<!--panel de respuesta AJAX para el grid paginado-->
 		<div id="response" style="display: none; width: 100%"></div>
 	</div>
-	<!--END FORM-->
 
 
 
 
 
-	<div id="dialog-form" title="Create new user">
-		<p class="validateTips">All form fields are required.</p>
-		<form>
-			<fieldset>
-				<label for="name">Name</label> <input type="text" name="name"
-					id="name" class="text ui-widget-content ui-corner-all" /> <label
-					for="email">Email</label> <input type="text" name="email"
-					id="email" value="" class="text ui-widget-content ui-corner-all" />
-				<label for="password">Password</label> <input type="password"
-					name="password" id="password" value=""
-					class="text ui-widget-content ui-corner-all" />
-			</fieldset>
-		</form>
-	</div>
-	<div id="cargando"></div>
 </body>
 </html>

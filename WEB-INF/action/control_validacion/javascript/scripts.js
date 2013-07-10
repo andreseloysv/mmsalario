@@ -11,9 +11,38 @@ onload = function() {
 	});
 	$('input.celda').trigger('keyup');
 	cargaDialogo();
+	$("#tabla_excel").tablesorter({
+		 textExtraction: function(node) {
+	            return node.childNodes[0].value; 
+	        } 
+	});
 }
 
+// var myTextExtraction = function(node)
+// {
+// // extract data from markup and return it
+// return node.childNodes[0].value;
+// }
 
+$.tablesorter.addParser({
+	id : 'inputs',
+	is : function(s) {
+		return false;
+	},
+	format : function(s, table, cell) {
+		var $c = $(cell);
+		// return 1 for true, 2 for false, so true sorts before false
+		if (!$c.hasClass('updateInput')) {
+			$c.addClass('updateInput').bind('keyup', function() {
+				$(table).trigger('updateCell', [ cell, false ]); // false to
+																	// prevent
+																	// resort
+			});
+		}
+		return $c.find('input').val();
+	},
+	type : 'text'
+});
 
 function inizializaTabla() {
 	$(document.getElementById("max_page")).text("/" + $("#PageCount").val());
@@ -23,7 +52,10 @@ function inizializaTabla() {
 		minWidth : 100,
 		maxWidth : 2000
 	});
-	$("#cargando").css({'display' : 'none'});
+	$("#cargando").css({
+		'display' : 'none'
+	});
+	$("#tabla_excel").trigger("update"); 
 }
 
 // document.form1.elements[0].focus();

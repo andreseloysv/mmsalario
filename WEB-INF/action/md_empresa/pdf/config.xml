@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<config>
+
+	<summary>
+		Generar reporte generico PDF
+	</summary>
+
+	<log>false</log>
+
+	<pdf-title>Afiliar Cliente</pdf-title>
+
+	<transaction>
+		<classname>dinamica.GenericTransaction</classname>
+		<validator>false</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+		<recordset id="query-afiliado.sql" source="session" scope="transaction" />
+	</transaction>
+
+	<output>
+		<classname>dinamica.PDFSimpleTable</classname>
+	</output>
+
+	<pdf-table recordset='query-afiliado.sql' width='100'>
+		<logo url='/images/logo-dinamica.png' scale='100' />
+		<col name='nombre' title='Nombre' width='16' align='left' />
+		<col name='cedula' title='Cédula' width='16' align='left' />
+		<col name='telefono' title='Télefono' width='16' align='left' />
+		<col name='email' title='Email' width='16' align='left' />
+		<col name='sexo_combo' title='Sexo ' width='16' align='left' />
+		<col name='ciudad_pl0' title='Ciudad' width='16' align='center' />
+	</pdf-table>
+
+</config>

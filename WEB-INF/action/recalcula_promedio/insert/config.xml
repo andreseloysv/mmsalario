@@ -5,7 +5,7 @@
 	<log>false</log>
 	<transaction>
 <!-- 		<classname>dinamica.GenericTransaction</classname> -->
-<classname>domain.mmcontrolclass.calculaPromedio</classname>
+<classname>domain.importexcel.calculaPromedio</classname>
 		<validator>false</validator>
 		<transaction>false</transaction>
 		<jdbc-log>false</jdbc-log>

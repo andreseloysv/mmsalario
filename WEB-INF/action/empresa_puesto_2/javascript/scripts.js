@@ -18,31 +18,32 @@ onload = function() {
 
 	// $(this).bind('keyup keydown blur update', checkMyDate);
 
-	$('#fecha').bind(
-			'keydown update',
-			(function(event) {
-				// si es distinto de 8 backspace entonces ejecuto la validacion
-				// de la
-				// fecha.
-
-				if (event.keyCode != 8) {
-					if ($.inArray(event.keyCode, key_codes) < 0) {
-						event.preventDefault();
-					} else {
-						if (checkMyDate(document.getElementById("fecha"),
-								$('#fecha'), event, event.keyCode,
-								key_codes_num) == 1) {
-							if ($('#fecha').val().length == 2) {
-								$('#fecha').val($('#fecha').val() + "-");
-							}
-							if ($('#fecha').val().length == 5) {
-								$('#fecha').val($('#fecha').val() + "-");
-							}
-						}
-					}
-				}
-
-			}));
+//	$('#fecha').bind(
+//			'keydown update',
+//			(function(event) {
+//				// si es distinto de 8 backspace entonces ejecuto la validacion
+//				// de la
+//				// fecha.
+//
+//				if (event.keyCode != 8) {
+//					if ($.inArray(event.keyCode, key_codes) < 0) {
+//						event.preventDefault();
+//					} else {
+//						if (checkMyDate(document.getElementById("fecha"),
+//								$('#fecha'), event, event.keyCode,
+//								key_codes_num) == 1) {
+//							if ($('#fecha').val().length == 2) {
+//								$('#fecha').val($('#fecha').val() + "-");
+//							}
+//							if ($('#fecha').val().length == 5) {
+//								$('#fecha').val($('#fecha').val() + "-");
+//							}
+//						}
+//					}
+//				}
+//
+//			}));
+	$( "#fecha" ).datepicker();
 }
 function checkMyDate(campo, elementoJquery, event, keycode, key_codes_num) {
 	var re = /^(\d{1,2})\-(\d{1,2})\-(\d{4})$/;

@@ -8,6 +8,7 @@
 	
 	<log>false</log>
 	<clear-session id="resultado" />
+	<clear-session id="viewchart.filter" />
 	<transaction>
 <!-- 		<classname>domain.importexcel.ValidaDatosOutput</classname> -->
 <classname>dinamica.GenericTransaction</classname>

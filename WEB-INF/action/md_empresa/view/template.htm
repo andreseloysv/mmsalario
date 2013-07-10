@@ -1,0 +1,49 @@
+<!--data grid-->
+<table class="grid" width="800px">
+
+	<!--toolbar-->
+	<tr>
+		<th colspan="20">
+			<!--título del grid--> 
+			<span style="float: left;">Contenido de la tabla </span>
+			<!--panel de control de navegacion--> 
+			<span style="float: right;">${inc:/action/pagecontrols}</span> 
+			<!--indicador de progreso-->
+			<img id="grid-progress" src="${def:context}/images/progress.gif" style="float: right; margin-right: 10px; display: none"> 
+			<!--toolbar del grid-->
+			<span style="float: left; margin-left: 40px">
+				<img src="${def:context}/images/reload.gif" onclick="search()" title="Recargar data" class="tool">
+				<img src="${def:context}/images/print.gif" onclick="openPDF()" title="Exportar a PDF" class="tool">
+				<img src="${def:context}/images/excel.gif" onclick="openExcel()" title="Exportar a Excel" class="tool">
+			</span>
+		</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		<th colspan="2"></th>
+		<th width=16%><a href="javascript:onclick=sortBy('nombre','query-afiliado.sql')" title="Haga CLICK para ordenar por esta columna">Nombre</a></th>
+		<th width=16%><a href="javascript:onclick=sortBy('cedula','query-afiliado.sql')" title="Haga CLICK para ordenar por esta columna">Cédula</a></th>
+		<th width=16%><a href="javascript:onclick=sortBy('telefono','query-afiliado.sql')" title="Haga CLICK para ordenar por esta columna">Télefono</a></th>
+		<th width=16%><a href="javascript:onclick=sortBy('email','query-afiliado.sql')" title="Haga CLICK para ordenar por esta columna">Email</a></th>
+		<th width=16%><a href="javascript:onclick=sortBy('sexo_combo','query-afiliado.sql')" title="Haga CLICK para ordenar por esta columna">Sexo </a></th>
+		<th width=16%><a href="javascript:onclick=sortBy('ciudad_pl0','query-afiliado.sql')" title="Haga CLICK para ordenar por esta columna">Ciudad</a></th>
+
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr ${fld:_rowStyle}>
+		<td align="center" width="3%"><img src="${def:context}/images/clear.gif" class="tool" onclick="deleteRecord('${fld:afiliado_id}')" title="Eliminar"></td>
+		<td align="center" width="3%"><img src="${def:context}/images/edit.gif" style="cursor: pointer" onclick="edit('${fld:afiliado_id}')" class="tool" title="Editar"></td>
+		<td align="left">${fld:nombre}</td>
+		<td align="left">${fld:cedula}</td>
+		<td align="left">${fld:telefono}</td>
+		<td align="left">${fld:email}</td>
+		<td>${fld:sexo_combo}</td>
+		<td>${fld:ciudad_pl0}</td>
+
+	</tr>
+	</rows>
+
+</table>

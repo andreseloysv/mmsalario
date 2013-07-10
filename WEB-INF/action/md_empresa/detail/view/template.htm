@@ -1,0 +1,30 @@
+<!--data grid-->
+<table class="grid" width="100%">
+
+	<!--encabezados-->
+	<tr>
+		<th colspan="2"></th>
+		<th>Nombre</th>
+		<th>Filiación</th>
+		<th>Fecha nacimiento</th>
+		<th>Teléfono</th>
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr ${fld:_rowStyle}>
+		<td align="center" width="3%"><img
+			src="${def:context}/images/clear.gif" class="tool"
+			onclick="detailDelete(${fld:_rowIndex})" title="Eliminar registro">
+		</td>
+		<td align="center" width="3%"><img
+			src="${def:context}/images/edit.gif" style="cursor: pointer"
+			onclick="detailEdit(${fld:_rowIndex})" class="tool"	title="Editar registro"></td>
+		<td align="left">${fld:nombre_familiar}</td>
+		<td align="left">${fld:filiacion}</td>
+		<td align="center">${fld:fnacimiento@dd-MM-yyyy}</td>
+		<td align="center">${fld:telefono_familiar}</td>
+	</tr>
+	</rows>
+
+</table>

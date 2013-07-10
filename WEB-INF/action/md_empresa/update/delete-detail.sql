@@ -1,0 +1,1 @@
+delete from demo.familiar WHERE afiliado_id = ${fld:id}
