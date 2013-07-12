@@ -4,14 +4,7 @@ var someElement = $("#cargando"), overlay;
 
 // inicializa cuando se carga la pagina
 onload = function() {
-//	paginacion(1);
-//	$('input.celda').autoGrowInput({
-//		comfortZone : 500,
-//		minWidth : 100,
-//		maxWidth : 2000
-//	});
-//	$('input.celda').trigger('keyup');
-//	cargaDialogo();
+
 	addNew(); //prepara formulario para ingresar nuevo registro 
 	search(); //mostrar registros en vista paginada
 	
@@ -379,13 +372,13 @@ function insert()
 {
 		clearErrorMessages();
 		document.getElementById("grabar").disabled=true;
-
+		console.log(document.getElementsByName("form_detail"));
 		//llamada Ajax...
 		return ajaxCall(httpMethod="POST", 
 						uri="${def:actionroot}/insert", 
 						divResponse=null, 
 						divProgress="status", 
-						formName="form2", 
+						formName="form_detail", 
 						afterResponseFn=null, 
 						onErrorFn=retryAddnewOrEdit);	    	
 }

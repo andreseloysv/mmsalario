@@ -13,37 +13,7 @@ onload = function() {
 	key_codes_num[55] = 7;
 	key_codes_num[56] = 8;
 	key_codes_num[57] = 9;
-	// addNew(); //prepara formulario para ingresar nuevo registro
-	// search(); //mostrar registros en vista paginada
-
-	// $(this).bind('keyup keydown blur update', checkMyDate);
-
-//	$('#fecha').bind(
-//			'keydown update',
-//			(function(event) {
-//				// si es distinto de 8 backspace entonces ejecuto la validacion
-//				// de la
-//				// fecha.
-//
-//				if (event.keyCode != 8) {
-//					if ($.inArray(event.keyCode, key_codes) < 0) {
-//						event.preventDefault();
-//					} else {
-//						if (checkMyDate(document.getElementById("fecha"),
-//								$('#fecha'), event, event.keyCode,
-//								key_codes_num) == 1) {
-//							if ($('#fecha').val().length == 2) {
-//								$('#fecha').val($('#fecha').val() + "-");
-//							}
-//							if ($('#fecha').val().length == 5) {
-//								$('#fecha').val($('#fecha').val() + "-");
-//							}
-//						}
-//					}
-//				}
-//
-//			}));
-	$( "#fecha" ).datepicker();
+	
 }
 function checkMyDate(campo, elementoJquery, event, keycode, key_codes_num) {
 	var re = /^(\d{1,2})\-(\d{1,2})\-(\d{4})$/;

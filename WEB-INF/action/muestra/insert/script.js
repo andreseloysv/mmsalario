@@ -1,0 +1,1 @@
+alert("La muestra a sido creada con exito.");

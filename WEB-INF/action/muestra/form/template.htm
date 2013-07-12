@@ -1,0 +1,153 @@
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+<link rel="stylesheet" type="text/css" href="${def:context}/jquery.css" />
+<!--biblioteca generica JS/Dinamica-->
+<script type="text/javascript" src="${def:context}/action/script"></script>
+<script type="text/javascript"
+	src="${def:context}/action/muestra/javascript"></script>
+<title>Cuenta de usuario</title>
+
+</head>
+<body>
+	<div id="divform3" align="center">
+		<!--panel de control de navegacion-->
+
+		<!-- 		<form> -->
+		<label for="name">Seleccione la muestra con la cual desea
+			hacer la validacion de los cargos:</label>
+		<fieldset class="text ui-widget-content ui-corner-all">
+			<legend>Comprar mis datos actuales versus mi data anterior</legend>
+
+		</fieldset>
+		<fieldset class="text ui-widget-content ui-corner-all">
+			<legend>Comparame contra una muestra selecta:</legend>
+
+			
+				<table style="margin: auto;"
+					top" class="text ui-widget-content ui-corner-all">
+					<div id="response" style="display: none; width: 100%"></div>
+					<!--include al menu iconografico-->
+					${inc:${def:actionroot}/panel/view}
+					<br>
+					<form name="form2" id="form2" onsubmit="return false;">
+					<table class="grid" width="50%" cellspacing="1">
+						<tr>
+							<td>Tamaño</td>
+							<td>
+							 <input type="hidden"
+								name="tamano_id" id="tamano_id" /> <!--almacena el nombre del item seleccionado-->
+								<input onClick="pickTamano()" placeholder="AddSolutions"
+								type="text" id="nombre_tamano" name="nombre_tamano"
+								style="width: 180;" readonly />
+							</td>
+						</tr>
+						<tr>
+							<td>Sector</td>
+							<td>
+							 <input type="hidden"
+								name="sector_id" id="sector_id" /> <!--almacena el nombre del item seleccionado-->
+								<input onClick="pickSector()" placeholder="AddSolutions"
+								type="text" id="nombre_sector" name="nombre_sector"
+								style="width: 180;" readonly />
+							</td>
+						</tr>
+
+						<tr>
+							<td><label>Rango de fecha</label></td>
+							<td>
+								<input placeholder="01-04-1989"  type="text" id="rango_fecha_ini_registro" name="rango_fecha_ini_registro" style="width: 70;" readonly />
+								<input placeholder="14-11-1990" 	type="text" id="rango_fecha_fin_registro" name="rango_fecha_fin_registro" style="width: 70;" readonly />
+							</td>
+						</tr>
+					</table>
+					</form>
+					<form name="form2" id="form2" onsubmit="return false;">
+					<table class="grid" width="50%" cellspacing="1">
+						<rows2>
+
+						<tr>
+							<td class="formlabel required">Empresa en especifico</td>
+							<td>
+							
+								<!--almacena el ID del item seleccionado--> 
+								<input type="hidden"		name="empresa_id" id="empresa_id" /> 
+								
+								<!--almacena el nombre del item seleccionado-->
+								<input onClick="pickEmpresa()" placeholder="AddSolutions"		type="text" id="nombre_empresa" name="nombre_empresa" style="width: 180;" readonly /> 
+								<input 	placeholder="28-01-1989" type="hidden" id="fecha_ini_registro"  name="fecha_ini_registro" style="width: 70;" readonly /> 
+								
+								<!--botones del picklist-->
+								<img src="${def:context}/images/search.gif" class="button" onClick="pickEmpresa()" title="Seleccionar item" /> 
+								<img	src="${def:context}/images/Add.png" class="button"	onClick="detailInsert()" title="Seleccionar item" />
+								<button style="display: none" id="saveDetail" 	onclick="detailInsert()">Añadir</button>
+								
+							</td>
+						</tr>
+						</rows2>
+
+					</table>
+					</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<div id="form2_error" class="errormsg"></div>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="rowindex" value="" />
+			</form>
+
+
+
+			<!--  Lista de empresa_muestra resultado  -->
+
+			<div id="empresa_muestra_resultado" name="empresa_muestra_resultado"></div>
+
+			<!-- FIN DE Lista de empresa_muestra resultado -->
+
+
+
+			<!--grid de detalle-->
+			<form id="form_detail" name="form_detail" onsubmit="return false;">
+				<table top" class="text ui-widget-content ui-corner-all"
+					style="margin-top: 20px; text-align: center; width: 500px;">
+					<tr>
+						<td><label>Nombre de la muestra: </label>
+						</td>
+						<td><input class="input_mater_detail"
+							placeholder="Mi muestra" type="text" id="nombre_muestra"
+							name="nombre_muestra" />
+						</td>
+					</tr>
+
+				</table>
+				<div id="detail" style="width: 50%;"></div>
+				<button id="grabar" onclick="save()" class="button">Grabar</button>
+				&nbsp;
+				<button class="button" onclick="addNew()">Cancelar</button>
+			</form>
+		</fieldset>
+		<fieldset class="text ui-widget-content ui-corner-all">
+			<legend>Validacion por sector y tamaño:</legend>
+			<label for="name">Validacion solo sector</label> <input type="text"
+				name="name" id="name" class="text ui-widget-content ui-corner-all" />
+			<label for="email">Email</label> <input type="text" name="email"
+				id="email" value="" class="text ui-widget-content ui-corner-all" />
+			<label for="password">Password</label> <input type="password"
+				name="password" id="password" value=""
+				class="text ui-widget-content ui-corner-all" />
+		</fieldset>
+		<!-- 		</form> -->
+	</div>
+
+	<!--panel de respuesta AJAX #3-->
+	<div id="responseError" style="display: none; width: 100%;"></div>
+	<!--colocar la respuesta a la izquierda del browser-->
+	<div style="float: left; padding-left: 50px">
+		<!--panel de respuesta AJAX para el grid paginado-->
+		<div id="response" style="display: none; width: 100%"></div>
+	</div>
+</body>
+</html>

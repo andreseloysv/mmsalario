@@ -18,76 +18,86 @@
 		<label for="name">Seleccione la muestra con la cual desea
 			hacer la validacion de los cargos:</label>
 		<fieldset class="text ui-widget-content ui-corner-all">
-		<legend >Comprar mis datos actuales versus mi data
-				anterior</legend>
-			
+			<legend>Comprar mis datos actuales versus mi data anterior</legend>
+
 		</fieldset>
 		<fieldset class="text ui-widget-content ui-corner-all">
-		<legend >Comparame contra una muestra selecta:</legend>
+			<legend>Comparame contra una muestra selecta:</legend>
 
-				<form name="form2" id="form2" onsubmit="return false;">
-					<table style="margin: auto;"
-						top" class="text ui-widget-content ui-corner-all">
-						<div id="response" style="display: none; width: 100%"></div>
-						<!--include al menu iconografico-->
-						${inc:${def:actionroot}/panel/view}
-						<br>
+			<form name="form2" id="form2" onsubmit="return false;">
+				<table style="margin: auto;"
+					top" class="text ui-widget-content ui-corner-all">
+					<div id="response" style="display: none; width: 100%"></div>
+					<!--include al menu iconografico-->
+					${inc:${def:actionroot}/panel/view}
+					<br>
 
-						<table class="grid" width="50%" cellspacing="1">
+					<table class="grid" width="50%" cellspacing="1">
 
-							<tr>
-								<th colspan="4">Seleccione una empresa</th>
-							</tr>
-							<rows2>
-							<tr>
-								<td width="20" height="30" class="formlabel required">Empresa</td>
-								<td width="371" height="30">
-									<!--almacena el ID del item seleccionado--> <input
-									type="hidden" name="empresa_id" id="empresa_id" /> <!--almacena el nombre del item seleccionado-->
-									<input onClick="pickEmpresa()"   placeholder="AddSolutions"
-									type="text" id="nombre_empresa" name="nombre_empresa"
-									style="width: 180;" readonly />	
-									<label>Fecha</label>
-									<input onClick="pickEmpresa()" placeholder="28-01-1989"
-									type="text" id="fecha_ini_registro" name="fecha_ini_registro"
-									style="width: 140;" readonly />										
-									
-									 <!--botones del picklist--> <img
-									src="${def:context}/images/search.gif" class="button"
-									onClick="pickEmpresa()" title="Seleccionar item" /> <img
-									src="${def:context}/images/Add.png" class="button"
-									onClick="detailInsert()" title="Seleccionar item" />
-									<button style="display: none" id="saveDetail"
-										onclick="detailInsert()">Añadir</button>
-								</td>
-							</tr>
-							</rows2>
-
-						</table>
-						</td>
-						</tr>
 						<tr>
-							<td colspan="3">
-								<div id="form2_error" class="errormsg"></div>
+							<th colspan="4">Seleccione una empresa</th>
+						</tr>
+						<rows2>
+						<tr>
+							<td width="20" height="30" class="formlabel required">Empresa</td>
+							<td width="371" height="30">
+								<!--almacena el ID del item seleccionado--> <input type="hidden"
+								name="empresa_id" id="empresa_id" /> <!--almacena el nombre del item seleccionado-->
+								<input onClick="pickEmpresa()" placeholder="AddSolutions"
+								type="text" id="nombre_empresa" name="nombre_empresa"
+								style="width: 180;" readonly /> <label>Fecha</label> <input
+								onClick="pickEmpresa()" placeholder="28-01-1989" type="text"
+								id="fecha_ini_registro" name="fecha_ini_registro"
+								style="width: 140;" readonly /> <!--botones del picklist--> <img
+								src="${def:context}/images/search.gif" class="button"
+								onClick="pickEmpresa()" title="Seleccionar item" /> <img
+								src="${def:context}/images/Add.png" class="button"
+								onClick="detailInsert()" title="Seleccionar item" />
+								<button style="display: none" id="saveDetail"
+									onclick="detailInsert()">Añadir</button>
 							</td>
 						</tr>
-					</table>
-					<input type="hidden" name="rowindex" value="" />
-				</form>
+						</rows2>
 
-				<!--grid de detalle-->
+					</table>
+					</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<div id="form2_error" class="errormsg"></div>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="rowindex" value="" />
+			</form>
+
+			<!--grid de detalle-->
+			<form id="form_detail" name="form_detail" onsubmit="return false;">
+				<table 
+					top" class="text ui-widget-content ui-corner-all" style="margin-top: 20px;text-align: center;width: 500px;">
+					<tr>
+						<td>
+								<label>Nombre de la muestra: </label> 
+						</td>
+						<td>
+						<input class="input_mater_detail" placeholder="Mi muestra" type="text" id="nombre_muestra" name="nombre_muestra" />
+						</td>
+					</tr>
+					
+				</table>
 				<div id="detail" style="width: 50%;"></div>
 				<button id="grabar" onclick="save()" class="button">Grabar</button>
 				&nbsp;
 				<button class="button" onclick="addNew()">Cancelar</button>
-			</fieldset>
+			</form>
+		</fieldset>
 		<fieldset class="text ui-widget-content ui-corner-all">
-		<legend >Validacion por sector y tamaño:</legend>
-			<label for="name">Validacion solo sector</label> <input type="text" name="name"
-				id="name" class="text ui-widget-content ui-corner-all" /> <label
-				for="email">Email</label> <input type="text" name="email" id="email"
-				value="" class="text ui-widget-content ui-corner-all" /> <label
-				for="password">Password</label> <input type="password"
+			<legend>Validacion por sector y tamaño:</legend>
+			<label for="name">Validacion solo sector</label> <input type="text"
+				name="name" id="name" class="text ui-widget-content ui-corner-all" />
+			<label for="email">Email</label> <input type="text" name="email"
+				id="email" value="" class="text ui-widget-content ui-corner-all" />
+			<label for="password">Password</label> <input type="password"
 				name="password" id="password" value=""
 				class="text ui-widget-content ui-corner-all" />
 		</fieldset>

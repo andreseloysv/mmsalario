@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+	<validator id="viewchart.filter">
+	<parameter id="pagina" type="integer" required="false" label="pagina" maxlen="50" />
+	<parameter id="campo_busqueda" type="varchar" required="false" label="campo_busqueda" maxlen="50" />
+</validator>

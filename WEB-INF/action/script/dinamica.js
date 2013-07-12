@@ -27616,7 +27616,7 @@ function capaProtectora() {
         firstDay: 1,
         isRTL: false,
         showMonthAfterYear: false,
-        showOn: "button",
+        showOn: "both",
         buttonImage: "${def:context}/images/Calendar-flat-circle-22.png",
         buttonImageOnly: true,
         changeMonth: true,

@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+	<validator id="viewchart.filter">
+	<parameter id="nombre_tamano" type="varchar" required="false" label="nombre_tamano" maxlen="100" />
+	<parameter id="nombre_sector" type="varchar" required="false" label="nombre_sector" maxlen="100" />
+	<parameter id="rango_fecha_ini_registro" type="varchar" required="false" label="rango_fecha_ini_registro" maxlen="100" />
+	<parameter id="rango_fecha_fin_registro" type="varchar" required="false" label="rango_fecha_fin_registro" maxlen="100" />
+	
+</validator>
