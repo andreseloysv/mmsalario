@@ -1,0 +1,29 @@
+<!--data grid-->
+<table class="grid" style="width: 95%;">
+
+	<!--toolbar-->
+	<tr>
+		<th colspan="2">
+			<span style="color: gray; float: left;"></span> 
+			<!--panel de control de navegacion--> 
+			<span style="float: right;">${req:controls}</span> 
+			<!--indicador de progreso-->
+			<img id="grid-progress" style="float: right; display: none" src="${def:context}/images/progress.gif">
+		</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		<th width="70%"><a href="javascript:onclick=sortBy('nombre_encuesta','busca_empresa.sql')" title="Haga CLICK para ordenar por esta columna">Empresa</a></th>
+		<th width="30%"><a href="javascript:onclick=sortBy('fecha_ini_registro','busca_empresa.sql')" title="Haga CLICK para ordenar por esta columna">Fecha de los datos</a></th>
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr ${fld:_rowStyle} onmouseover="rowOn(this)"onmouseout="rowOff(this)" onclick="selectItem('${fld:encuesta_id}')">
+		<td style="font-size: 9pt;" align="center"><span  id="${fld:encuesta_id}" name="${fld:encuesta_id}">${fld:nombre_encuesta}</span></td>
+		<td style="font-size: 9pt;" align="center"><span id="${fld:encuesta_id}" name="${fld:encuesta_id}">${fld:fecha_datos}</span></td>
+	</tr>
+	</rows>
+	
+</table>

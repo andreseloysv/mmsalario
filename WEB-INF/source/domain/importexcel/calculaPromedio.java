@@ -80,8 +80,7 @@ public class calculaPromedio extends GenericTransaction {
 						rs_promedio.append("cargo_fk", java.sql.Types.INTEGER);
 						rs_promedio.append("valor", java.sql.Types.DOUBLE);
 						rs_promedio.addNew();
-						rs_promedio.setValue("sector_fk",
-								new Integer(rs_sector.getString("sector_id")));
+						rs_promedio.setValue("sector_fk",new Integer(rs_sector.getString("sector_id")));
 						rs_promedio.setValue("tamano_empresa_fk", new Integer(
 								rs_empresa.getString("empresa_id")));
 						rs_promedio.setValue("cargo_fk", new Integer(

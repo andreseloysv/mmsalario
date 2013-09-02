@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<config>
+
+	<summary>
+		Generar reporte PDF
+	</summary>
+
+	<log>false</log>
+
+	<pdf-title>Documentos e imágenes cargados en BD</pdf-title>
+
+	<transaction>
+		<classname>dinamica.GenericTransaction</classname>
+		<validator>false</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+		<recordset id="query.sql" source="session" scope="transaction" />
+	</transaction>
+
+	<output>
+		<classname>dinamica.PDFSimpleTable</classname>
+	</output>
+
+	<pdf-table recordset="query.sql" width="100">
+		
+		<logo url="/images/logo-dinamica.png" scale="100" />
+		
+		
+		<col name="description" title="Documento" width="40" align="left" />
+		<col name="filename" title="Archivo" width="20" align="center" />
+		<col name="content_type" title="Formato" width="20" align="center" />
+		<col name="image_size" title="Tamaño (KB)" width="20" align="right" format="#,###,###"/>
+	
+	</pdf-table>
+
+</config>

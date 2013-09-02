@@ -25,16 +25,15 @@
 			<legend>Comparame contra una muestra selecta:</legend>
 
 			
-				<table style="margin: auto;"
-					top" class="text ui-widget-content ui-corner-all">
+				<table style="margin: auto;" class="text ui-widget-content ui-corner-all" >
 					<div id="response" style="display: none; width: 100%"></div>
 					<!--include al menu iconografico-->
 					${inc:${def:actionroot}/panel/view}
 					<br>
-					<form name="form2" id="form2" onsubmit="return false;">
-					<table class="grid" width="50%" cellspacing="1">
+					<form name="form_filtro_busca_empresa" id="form_filtro_busca_empresa" onsubmit="return false;">
+					<table class="grid"  style='width: 400px;'  cellspacing="1">
 						<tr>
-							<td>Tamaño</td>
+							<td style=' width: 200px;' >Tamaño</td>
 							<td>
 							 <input type="hidden"
 								name="tamano_id" id="tamano_id" /> <!--almacena el nombre del item seleccionado-->
@@ -45,7 +44,7 @@
 						</tr>
 						<tr>
 							<td>Sector</td>
-							<td>
+							<td style=' width: 250px;'>
 							 <input type="hidden"
 								name="sector_id" id="sector_id" /> <!--almacena el nombre del item seleccionado-->
 								<input onClick="pickSector()" placeholder="AddSolutions"
@@ -64,12 +63,12 @@
 					</table>
 					</form>
 					<form name="form2" id="form2" onsubmit="return false;">
-					<table class="grid" width="50%" cellspacing="1">
+					<table class="grid"  style='width: 400px;' cellspacing="1">
 						<rows2>
 
 						<tr>
-							<td class="formlabel required">Empresa en especifico</td>
-							<td>
+							<td class="formlabel required"  style=' width: 200px;'>Empresa en especifico</td>
+							<td style=' width: 250px;'>
 							
 								<!--almacena el ID del item seleccionado--> 
 								<input type="hidden"		name="empresa_id" id="empresa_id" /> 
@@ -111,8 +110,7 @@
 
 			<!--grid de detalle-->
 			<form id="form_detail" name="form_detail" onsubmit="return false;">
-				<table top" class="text ui-widget-content ui-corner-all"
-					style="margin-top: 20px; text-align: center; width: 500px;">
+				<table top" class="text ui-widget-content ui-corner-all" 	style="margin-top: 20px; text-align: center; width: 500px; displya:none " id="tabla_nombre_muestra">
 					<tr>
 						<td><label>Nombre de la muestra: </label>
 						</td>
@@ -128,16 +126,6 @@
 				&nbsp;
 				<button class="button" onclick="addNew()">Cancelar</button>
 			</form>
-		</fieldset>
-		<fieldset class="text ui-widget-content ui-corner-all">
-			<legend>Validacion por sector y tamaño:</legend>
-			<label for="name">Validacion solo sector</label> <input type="text"
-				name="name" id="name" class="text ui-widget-content ui-corner-all" />
-			<label for="email">Email</label> <input type="text" name="email"
-				id="email" value="" class="text ui-widget-content ui-corner-all" />
-			<label for="password">Password</label> <input type="password"
-				name="password" id="password" value=""
-				class="text ui-widget-content ui-corner-all" />
 		</fieldset>
 		<!-- 		</form> -->
 	</div>

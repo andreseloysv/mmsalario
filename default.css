@@ -15,7 +15,6 @@ text-align: center;
 	cursor: pointer;
 }
 .centered_div {
-	position: fixed;
 	top: 0px;
 	left: 0px;
 	margin-left: -50%;
@@ -59,42 +58,45 @@ img.icono {
 	font-weight: 500;
 	color: rgb(102, 102, 102);
 }
+
+
+
 /* BEGIN FONTS */
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 400;
-	src: local('Open Sans'), local('OpenSans'),
-		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff)
-		format('woff');
-}
+/* @font-face { */
+/* 	font-family: 'Open Sans'; */
+/* 	font-style: normal; */
+/* 	font-weight: 400; */
+/* 	src: local('Open Sans'), local('OpenSans'), */
+/* 		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff) */
+/* 		format('woff'); */
+/* } */
 
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 600;
-	src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
-		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSha1RVmPjeKy21_GQJaLlJI.woff)
-		format('woff');
-}
+/* @font-face { */
+/* 	font-family: 'Open Sans'; */
+/* 	font-style: normal; */
+/* 	font-weight: 600; */
+/* 	src: local('Open Sans Semibold'), local('OpenSans-Semibold'), */
+/* 		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSha1RVmPjeKy21_GQJaLlJI.woff) */
+/* 		format('woff'); */
+/* } */
 
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 700;
-	src: local('Open Sans Bold'), local('OpenSans-Bold'),
-		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzBa1RVmPjeKy21_GQJaLlJI.woff)
-		format('woff');
-}
+/* @font-face { */
+/* 	font-family: 'Open Sans'; */
+/* 	font-style: normal; */
+/* 	font-weight: 700; */
+/* 	src: local('Open Sans Bold'), local('OpenSans-Bold'), */
+/* 		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzBa1RVmPjeKy21_GQJaLlJI.woff) */
+/* 		format('woff'); */
+/* } */
 
-@font-face {
-	font-family: 'Open Sans';
-	font-style: italic;
-	font-weight: 400;
-	src: local('Open Sans Italic'), local('OpenSans-Italic'),
-		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBtIh4imgI8P11RFo6YPCPC0.woff)
-		format('woff');
-}
+/* @font-face { */
+/* 	font-family: 'Open Sans'; */
+/* 	font-style: italic; */
+/* 	font-weight: 400; */
+/* 	src: local('Open Sans Italic'), local('OpenSans-Italic'), */
+/* 		url(http://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBtIh4imgI8P11RFo6YPCPC0.woff) */
+/* 		format('woff'); */
+/* } */
 /* END FONTS */
 .celda { /* 	height: 100%; */
 	height: 30px;
@@ -566,4 +568,187 @@ TD.calDay2 {
 
 .overlay {
 	background-color: rgb(207, 201, 177) !important;
+}
+
+
+#overlay_opcion_porcentaje_desviacion{
+			width: 500px;
+			height: 50px;
+			background-color: rgb(190, 190, 190);
+			position: absolute;
+			top: 50px;
+			z-index: 20;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 50px;
+			color: white;
+}
+#overlay_opcion_rango_desviacion{
+			width: 500px;
+			height: 100px;
+			background-color: rgb(190, 190, 190);
+			position: absolute;
+			top: 150px;
+			z-index: 100;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 50px;
+			color: white;
+}
+
+.div_horizontal{
+float:left;
+}
+
+.label_table_add_encuesta
+{
+	padding: 0 !important; 
+	margin: 0px !important;
+	text-align: center !important;
+}
+
+.texto_centrado{
+text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+Estilo para la tabla
+*/
+
+.datagrid table { border-collapse: collapse; text-align: left; width: 700px;margin: auto }
+.datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }
+.datagrid table td, .datagrid table th { padding: 3px 10px; }
+.datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#FFFFFF; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; }
+.datagrid table thead th:first-child { border: none; }
+.datagrid table tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 12px;font-weight: normal; }
+.datagrid table tbody .alt td { background: #E1EEF4; color: #00557F; }
+.datagrid table tbody td:first-child { border-left: none; }
+.datagrid table tbody tr:last-child td { border-bottom: none; }
+.datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEF4;}
+.datagrid table tfoot td { padding: 0; font-size: 12px }
+.datagrid table tfoot td div{ padding: 2px; }
+.datagrid table tfoot td ul { margin: 0; padding:0; list-style: none; text-align: right; }
+.datagrid table tfoot  li { display: inline; }
+.datagrid table tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }
+.datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}
+.datagrid table .altColor {
+	background-color: #F7F7F7;
+}
+
+.datagrid table .altColor .dato{
+	background-color: #F7F7F7;
+	border: #F7F7F7;height: 80%;width: 100%;outline: #F7F7F7;
+}
+.datagrid table .altColor .dato{
+	background-color: #F7F7F7;
+	border: #F7F7F7;height: 100%;width: 100%;outline: #F7F7F7;
+}
+
+.datagrid table .dato{
+	border: white;height: 80%;width: 100%;outline: white;
+}
+.datagrid table .dato{
+	border: white;height: 100%;width: 100%;outline: white;
+}
+
+div.fileinputs {
+	position: relative;
+}
+
+div.fakefile {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+}
+
+input.file {
+	position: relative;
+	text-align: right;
+	-moz-opacity:0 ;
+	filter:alpha(opacity: 0);
+	opacity: 0;
+	z-index: 2;
+}
+
+
+
+
+  .ui-tooltip, .arrow:after {
+  	color: #666666;
+    background: black;
+    border: 2px solid white;
+  }
+  .ui-tooltip {
+    padding: 10px 20px;
+    color: white;
+    border-radius: 20px;
+    font: bold 12px ;
+    text-transform: uppercase;
+    box-shadow: 0 0 7px black;
+  }
+  .arrow {
+    width: 70px;
+    height: 16px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    margin-left: -35px;
+    bottom: -16px;
+  }
+  .arrow.top {
+    top: -16px;
+    bottom: auto;
+  }
+  .arrow.left {
+    left: 20%;
+  }
+  .arrow:after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -20px;
+    width: 25px;
+    height: 25px;
+    box-shadow: 6px 5px 9px -9px black;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    tranform: rotate(45deg);
+  }
+  .arrow.top:after {
+    bottom: -20px;
+    top: auto;
+  }
+  
+  
+  input.hidden {
+    position: absolute;
+    left: -9999px;
+}
+
+#profile-image {
+    cursor: pointer;
+    background: #dddddd;
+ 	width: 250px;
+    height: 80px;
+    line-height: 80px;
+border-width: 2px;
+border-color: white;
+color: rgb(58, 58, 58);
 }

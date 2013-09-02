@@ -2,6 +2,8 @@ var timeoutID = 0;
 var nombre_empresa="";
 var nombre_tamano="";
 var nombre_sector="";
+var rango_fecha_ini_registro="";
+var rango_fecha_fin_registro="";
 
 var someElement = $("#cargando"), overlay;
 
@@ -16,16 +18,22 @@ onload = function() {
 			var n=str.split(" - ");
 			$("#nombre_empresa").val(n[0]);
 			$("#fecha_ini_registro").val(n[1]);
+			
+			$("#tabla_nombre_muestra").css( "display", "block" );
 		}
 		});
 	$("#nombre_tamano").focusin(function () {
 		if(nombre_tamano!=$(this).val()){
+			nombre_tamano=$(this).val();
 			buscar_empresas();
+			$("#tabla_nombre_muestra").css( "display", "block" );
 		}
 		});
 	$("#nombre_sector").focusin(function () {
 		if(nombre_sector!=$(this).val()){
+			nombre_sector=$(this).val();
 			buscar_empresas();
+			$("#tabla_nombre_muestra").css( "display", "block" );
 		}
 		});
 
@@ -33,11 +41,15 @@ onload = function() {
 	$( "#rango_fecha_ini_registro" ).datepicker({
 		onClose: function( selectedDate ) {
 	        $( "#rango_fecha_fin_registro" ).datepicker( "option", "minDate", selectedDate );
+	        buscar_empresas();
+	        $("#tabla_nombre_muestra").css( "display", "block" );
 	      }
 	});
 	$( "#rango_fecha_fin_registro" ).datepicker({
 		onClose: function( selectedDate ) {
 	        $( "#rango_fecha_ini_registro" ).datepicker( "option", "maxDate", selectedDate );
+	        buscar_empresas();
+	        $("#tabla_nombre_muestra").css( "display", "block" );
 	      }
 	});
 	
@@ -384,6 +396,16 @@ function viewPage()
 // grabar el formulario
 function save()
 {
+	if(validaNombreMuestra()==0){
+		return 0;
+	}
+	
+	$("#nombre_muestra_form_error").remove();
+	
+	$.each( $("#nombre_muestra_form"), function( key, value ) {
+		$(value).attr('value', $("#nombre_muestra").val());
+});
+	
 	// determina si es un insert o un update
 	if (document.form2.id.value=="")
 		return insert();
@@ -392,19 +414,36 @@ function save()
 // return update();
 }
 
+function inicializaGrabar(){
+	document.getElementById("grabar").disabled=false;
+}
+
 // grabar registro nuevo en BD
 function insert()
 {
 		clearErrorMessages();
+		if($("#form_detail input").length==1){
+			alert("Debe agregar al menos una empresa a la muestra.");
+			return 0;
+		}
+		inicializaNombreMuestra();
 		document.getElementById("grabar").disabled=true;
-		console.log(document.getElementsByName("form_detail"));
+		var mi_form=document.getElementsByName("form_detail");
+		
+		$('<input>').attr({
+		    type: 'hidden',
+		    id: 'nombre_muestra_form',
+		    name: 'nombre_muestra_form',
+		    value: $("#nombre_muestra").val()
+		}).appendTo(mi_form);
+		
 		// llamada Ajax...
 		return ajaxCall(httpMethod="POST", 
 						uri="${def:actionroot}/insert", 
 						divResponse=null, 
 						divProgress="status", 
 						formName="form_detail", 
-						afterResponseFn=null, 
+						afterResponseFn=inicializaGrabar, 
 						onErrorFn=retryAddnewOrEdit);	    	
 }
 
@@ -530,6 +569,57 @@ function detailInsert()
 			    	
 }	
 
+
+// grabar registro nuevo del detalle en BD o actualizarlo en memoria
+function listDetailInsert(form_name,form_objeto)
+{
+		clearErrorMessages();
+		document.getElementById("saveDetail").disabled=true;
+
+		// registro nuevo o un update?
+		
+			return ajaxCall(httpMethod="POST", 
+							uri="${def:actionroot}/detail/insert", 
+							divResponse="detail", 
+							divProgress="status", 
+							formName=form_name, 
+							afterResponseFn=detailAddNew, 
+							onErrorFn=detailReady);
+}	
+function validaNombreMuestra(){
+	if($("#nombre_muestra").val()==""){
+		$('<div>').attr({
+		    id: 'nombre_muestra_form_error',
+		    class: 'errormsg'
+		}).appendTo($("#nombre_muestra").parent());
+		$("#nombre_muestra_form_error").text("Este valor DEBE ser ingresado.");
+		return 0;
+	}
+	return 1;
+}
+function llenaListDestailInsert(){
+	if(validaNombreMuestra()==0){
+		return 0;
+	}
+	
+	$.each( $("#empresa_muestra_resultado form"), function( key, value ) {
+		
+		if($(value).find("input:checked").length>0){
+			if($(value).find("#nombre_muestra_form").length<=0){
+			$('<input>').attr({
+			    type: 'hidden',
+			    id: 'nombre_muestra_form',
+			    name: 'nombre_muestra_form',
+			    value: $("#nombre_muestra").val()
+			}).appendTo(value);
+			}else{
+				$(value).find("#nombre_muestra_form").val($("#nombre_muestra").val());
+			}
+			listDetailInsert($(value).attr('name'),value);
+		}
+});
+
+}
 // en caso de error colocar focus y mostrar boton
 function detailReady() {
 	document.getElementById("saveDetail").disabled=false;
@@ -538,6 +628,8 @@ function detailReady() {
 
 // prepara el formulario de detalle para ingreso de datos
 function detailAddNew() {
+	$("#empresa_muestra_resultado table").html('');
+	
 	document.getElementById("saveDetail").disabled=false;
 	clearForm("form2");
 	setFocusOnForm("form2");
@@ -605,11 +697,18 @@ function pickSector() {
 }
 
 function buscar_empresas(){
-	ajaxCall(httpMethod="GET", 
+	// alert("/action/buscar_empresa/form?nombre_tamano="+$("#nombre_tamano").val()+"&nombre_sector="+$("#nombre_sector").val());
+	ajaxCall(httpMethod="POST", 
+// uri="/action/buscar_empresa/form?tamano="+$("#nombre_tamano").val()+"&sector="+$("#nombre_sector").val(),
 			uri="/action/buscar_empresa/form",
 			divResponse="empresa_muestra_resultado", 
 			divProgress="status", 
-			formName=null, 
+			formName="form_filtro_busca_empresa", 
 			afterResponseFn=null, 
 			onErrorFn=null);	
+}
+function inicializaNombreMuestra(){
+	var elemento=$("#tabla_nombre_muestra");
+	elemento.css( "display", "none" );
+	elemento.find("input")[0].value="";
 }

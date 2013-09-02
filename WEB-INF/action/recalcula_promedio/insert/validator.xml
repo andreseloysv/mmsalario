@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+	<validator id="viewchart.filter">
+	<parameter id="nombre_muestra" type="varchar" required="false" label="nombre_muestra" maxlen="50" />
+</validator>

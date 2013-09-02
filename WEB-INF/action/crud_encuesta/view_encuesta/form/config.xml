@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<config>
+
+	<summary>
+		Muestra la lista de encuestas
+	</summary>
+	
+	<log>false</log>
+	
+	<!--configura el control de paginacion-->
+	<set-request-attribute id="paging.recordset" value="busca_encuesta.sql" />
+	<set-request-attribute id="paging.pagesize" value="5" />
+	
+	<set-request-attribute id="controls" value="file:/WEB-INF/action/pagecontrols/controls.htm"/>
+	
+	<transaction>
+		<classname>dinamica.GenericTransaction</classname>
+		<validator>false</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+		<recordset id="busca_encuesta.sql" source="sql" scope="session" />
+	</transaction>
+	
+	<output>
+		<classname>dinamica.GenericOutput</classname>
+		<print mode="table" recordset="busca_encuesta.sql" tag="lista_encuestas" alternate-colors="true" />
+		<template>template.htm</template>
+		<set-http-headers>true</set-http-headers>
+		<content-type>text/html; charset=iso-8859-1</content-type>
+		<expiration>0</expiration>
+	</output>
+	
+	<on-exit return-code="1" forward-to="${def:actionroot}/notfound" />
+
+</config>

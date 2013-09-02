@@ -9,13 +9,18 @@
 <link rel="stylesheet" type="text/css" href="${def:context}/jquery.css" />
 <!--biblioteca generica JS/Dinamica-->
 <script type="text/javascript" src="${def:context}/action/script"></script>
-<script type="text/javascript"
-	src="${def:context}/action/empresa_puesto_2/javascript"></script>
+<script type="text/javascript" src="${def:context}/action/empresa_puesto_2/javascript"></script>
 
 <title>Cuenta de usuario</title>
 
 </head>
 <body>
+<div style="background-color: rgb(243, 243, 243);height: 60px;">
+
+		<div style="width: 250px;color: gray;font-weight: bold;padding-top: 20px;float: right;">
+			Bienvenid@
+		</div>
+</div>
 	<div id="divform3" align="center">
 		<form name="form2" onsubmit="return upload()"
 			action="${def:context}${def:actionroot}/importexcel/insert"
@@ -68,14 +73,8 @@
 					<div class="texto_instrucciones">
 							Seleccione la vigencia que desea darle a los datos. 
 							<br> 
-							<input id="fecha" class="date" name="fecha" type="text" value=""
-								maxlength="10" placeholder="01-01-1989" style="text-align: center; width: 90px; ">
-								
-<!-- 								 <img id="fecha" -->
-<!-- 								src="${def:context}/images/Calendar-flat-circle-22.png" -->
-<!-- 								title="Desplegar calendario" class="icono" -->
-<!-- 								onclick="calendarOpen('fecha')">  -->
-								
+							<input id="fecha" class="date" name="fecha" type="text" 
+								maxlength="10" placeholder="01-01-1989" style="text-align: center; width: 90px; ">				
 								<br> 
 								Por defecto
 							seran vigentes hasta que se carguen nuevos datos de esta empresa.

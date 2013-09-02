@@ -1,0 +1,1 @@
+select (MAX(encuesta_id)+1) as encuesta_id from encuesta;

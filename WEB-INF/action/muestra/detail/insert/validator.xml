@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
 <validator onerror="/action/error/validation/ajax">
 
+	<parameter id="nombre_muestra_form" type="varchar" required="true" label="nombre_muestra_form" maxlen="100" />
 	<parameter id="nombre_empresa" type="varchar" required="true" label="nombre_empresa" maxlen="100" />
 	<parameter id="fecha_ini_registro" type="date" required="true" label="fecha_ini_registro" maxlen="100" />
 	

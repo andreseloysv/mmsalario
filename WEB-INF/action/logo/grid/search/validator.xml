@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator onerror="/action/error/validation/ajax">
+
+    <parameter id="nombre" type="varchar" required="false" label="Nombre" maxlen="20" />
+ 
+    <parameter id="rif" type="varchar" required="false" label="RIF" maxlen="20" regexp="((^J|^G)-\d{8}-\d{1})|((^V|^E)-\d{5,8})"
+     regexp-error-label="El RIF no tiene el formato correcto. Si desea incluir un Nro. de RIF, use algo similar a: J-99999999-0 o G-99999999-0" />
+
+    <custom-validator classname="dinamica.validators.SQLPatternTransformer"
+		parameter="nombre" rule="like" ifnull="%" />
+    
+</validator>

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -19,79 +20,39 @@
 	}
 
 	</script>
-	
-	<style>
-		body {margin:10px;}
-	</style>
 
 </head>
 
-<body onload="document.form1.userlogin.focus()">
+<body onload="document.form1.userlogin.focus()" style="overflow-x: hidden;">
 		
 <!--logo-->
-<div style="float:left">
+<div style="height: 300px;    background-image: url('images/pattern1.png');  background-repeat: repeat;  width: 100%;  margin: auto;background-color: rgb(255, 255, 255);z-index: 10;position: absolute;">
 
-	<div style="height:350px;float:left">
-		<img src="images/syslogo.jpg">
+	<div style="/* float:left; */background-image: url('images/cityy.png');height: 100%;/* margin-left: 300px; *//* background-repeat: repeat; *//* width: 500px; *//* background-color: rgb(255, 255, 255); *//* z-index: 1; *//* position: absolute; */">
+		<img src="images/marketMonitor.png">
 	</div>
-	
-	<!--titulo-->
-	<h1 style="margin-top:0px;margin-left:80px">mmsalario v1.0</h1>
-	
-	<!--parrafo de presentacion-->
-	<p style="width:450px;margin-left:80px" align="justify">
-	
-	Incluir en este párrafo una descripción breve del sistema<br><br>
-		
-	Creado por Martín Córdova y Asociados C.A.<br>
-	RIF: J-31134803-4<br>
-	
-	<br><br>
-	
-	<table width="270px" class="formgrid">
-		
-		<tr>
-			<td valign="top" width="30px" style="padding-left:8px; padding-top:3px; background-color:white">
-				<img src="images/logo-small.gif">
-			</td>
-			<td valign="top" style="padding-right:3px; padding-left:6px; background-color:white">
-			Construido con el framework Dinámica para JEE/Ajax:   
-			<a href="http://www.martincordova.com" target="dinamica">www.martincordova.com</a>
-			</td>
-		</tr>
-		
-	</table>	
-	<br>
-	
 
-	<br>
-	
-	[<a href="javascript:alert('Por implementar')">Términos de uso y privacidad</a>]
-	&nbsp;
-	[<a href="javascript:alert('Por implementar')">Manual de Usuario</a>]
-
-	</p>
 
 </div>
 	
 
-
-<div style="float:right">
+<div style="width: 100%;margin-left: 300px;height: 300px;background-image: url('images/pattern1.png');position: absolute;z-index: 100;"></div>
+<div style="/* float:right; */position: relative;z-index: 100;float: right;margin-top: 40px;">
 
 		<!--FORM-->
 		<div style="width:300px">
 		
 		<form name="form1" action="action/security/login" method="post">
 
-		<table class="formgrid" width="95%" align="center">
+		<table class="formgrid" width="95%" align="center" style="background-color: white;opacity: 0.88;">
 		
 			<!--column layout-->
-			<col width="40%">
+			<colgroup><col width="40%">
 			<col width="60%">
 		
 
 			<!--section header-->
-			<tr>
+			</colgroup><tbody><tr>
 				<th colspan="2">
 					Ingresar al Sistema
 				</th>
@@ -104,7 +65,7 @@
 			
 			<!--form fields-->
 			<tr>
-				<td  class="formlabel">
+				<td class="formlabel" style="font-weight: 500;color: rgb(92, 92, 92);">
 					Identificador:
 				</td>
 				<td>
@@ -112,7 +73,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="formlabel">
+				<td class="formlabel" style="font-weight: 500;color: rgb(92, 92, 92);">
 					Contraseña:
 				</td>
 				<td>
@@ -124,13 +85,25 @@
 			<tr>
 				<td align="center" colspan="2">
 					<br>
-					<input type="submit" value="Ingresar" class="button">
+					<input type="submit" value="Iniciar sesión" class="button">
 					<br><br>
 				</td>
 			</tr>
-	
+			<tr>
+				<td colspan="2"  <td colspan="2" style="text-align: center;font-weight: 500;color: rgb(92, 92, 92);">
+				<div style="margin: 10px auto;max-width: 325px;text-align: center;background-color: #e5e5e5;height: 1px;" >
+</div>
+						<b style="
+position: relative;
+top: -19px;
+background-color: white;
+font-size: 13px;">¿Olvidaste tu contraseña?</b><br>
+						Haz click <a href="action/security/forgotpass/form">AQUI</a> 
+						para generar una nueva contraseña.
+				</td>
+			</tr>
+		</tbody>
 		</table>
-		
 		<!--URI to navigate after sucessful login-->
 		<input type="hidden" name="uri" value="/action/security/home">
 		
@@ -139,6 +112,28 @@
 		</div>
 		<!--END FORM-->
 
+		<br>
+
+<!-- 		<div style="width:300px"> -->
+		
+<!-- 			<table align="center" width="95%" class="formgrid"> -->
+				
+<!-- 				<tbody><tr> -->
+<!-- 					<td valign="top" width="60px"> -->
+<!-- 						<img src="images/captcha.gif"> -->
+<!-- 					</td> -->
+<!-- 					<td valign="top" style="padding-right:3px"> -->
+<!-- 					<b>¿Olvidaste tu contraseña?</b><br> -->
+<!-- 					Haz click <a href="action/security/forgotpass/form">AQUI</a>  -->
+<!-- 					para generar una nueva contraseña. -->
+<!-- 					</td> -->
+<!-- 				</tr> -->
+				
+<!-- 			</tbody></table> -->
+		
+<!-- 		</div> -->
+
+</div>
 		<br>
 
 		<div style="width:300px">

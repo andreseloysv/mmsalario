@@ -4,29 +4,24 @@
 
 <link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
 <title>Sistema de Seguridad</title>
+
+
+<script language="JavaScript" type="text/javascript">
+
+var pagina='${def:context}/index.htm';
+function redireccionar() 
+{
+alert("Hasta pronto");
+location.href=pagina
+} 
+setTimeout ("redireccionar()", 1);
+
+</script>
+                      
+
 </head>
 
 <body>
-
-<center>
-
-<br>
-
-<div class="alert" style="width:40%">
-
-${lbl:s_session_terminated}
-
-<br><br>
-
-	<input type="button" class="button"
-	onclick="window.location='${def:context}/index.htm'"
-	value="${lbl:s_login_again}">
-
-<br>
-
-</div>
-
-</center>
 
 </body>
 </html>

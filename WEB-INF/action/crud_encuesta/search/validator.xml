@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+	<parameter id='nombre' type='varchar' required='false' label='Sector' maxlen='100'/>
+	<custom-validator classname="dinamica.validators.SQLPatternTransformer" parameter="nombre" rule="contains" />
+</validator>

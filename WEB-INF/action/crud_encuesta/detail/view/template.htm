@@ -1,0 +1,23 @@
+<!--data grid-->
+<table class="grid" width="100%">
+
+	<!--encabezados-->
+	<tr>
+		<th colspan="1"></th>
+		<th>Empresa</th>
+		<th>Fecha</th>
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr ${fld:_rowStyle}>
+		<td align="center" width="3%"><img
+			src="${def:context}/images/clear.gif" class="tool"
+			onclick="detailDelete(${fld:_rowIndex})" title="Eliminar registro">
+		</td>
+		<td align="left"> <input class="input_mater_detail" type="text" name="${fld:nombre_empresa}_${fld:_rowIndex}" value="${fld:nombre_empresa}" readonly></td>
+		<td align="left"><input  class="input_mater_detail" type="text" name="${fld:fecha_ini_registro}_${fld:_rowIndex}" value="${fld:fecha_ini_registro}" readonly></td>
+	</tr>
+	</rows>
+
+</table>

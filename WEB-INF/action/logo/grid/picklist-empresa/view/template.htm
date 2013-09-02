@@ -1,0 +1,32 @@
+<!--data grid-->
+<table class="grid" style="width: 95%;">
+
+	<!--toolbar-->
+	<tr>
+		<th colspan="2">
+			<span style="color: gray; float: left;"></span> 
+			<!--panel de control de navegacion--> 
+			<span style="float: right;">${req:controls}</span> 
+			<!--indicador de progreso-->
+			<img id="grid-progress" style="float: right; display: none" src="${def:context}/images/progress.gif">
+		</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		<th width="50%"><a href="javascript:onclick=sortBy('nombre','query-empresa.sql')" title="Haga CLICK para ordenar por esta columna">Nombre</a></th>
+		<th width="50%"><a href="javascript:onclick=sortBy('rif','query-empresa.sql')" title="Haga CLICK para ordenar por esta columna">RIF</a></th>
+
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr ${fld:_rowStyle} onmouseover="rowOn(this)"onmouseout="rowOff(this)" onclick="selectItem('${fld:id_empresa}')">
+		<td style="font-size: 9pt;" align="center"><span id="${fld:id_empresa}">${fld:nombre}</span></td>
+		<td style="font-size: 9pt;" align="center">${fld:rif}</td>
+		
+	</tr>
+	</rows>
+
+</table>
+

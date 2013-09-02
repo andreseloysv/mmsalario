@@ -13,7 +13,7 @@ onload = function() {
 	key_codes_num[55] = 7;
 	key_codes_num[56] = 8;
 	key_codes_num[57] = 9;
-	
+	$( "#fecha" ).datepicker();
 }
 function checkMyDate(campo, elementoJquery, event, keycode, key_codes_num) {
 	var re = /^(\d{1,2})\-(\d{1,2})\-(\d{4})$/;

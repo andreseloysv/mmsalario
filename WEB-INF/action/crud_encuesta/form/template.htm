@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+<link rel="stylesheet" type="text/css" href="${def:context}/jquery.css" />
+<!--biblioteca generica JS/Dinamica-->
+<script type="text/javascript" src="${def:context}/action/script"></script>
+<script type="text/javascript"
+	src="${def:context}/action/crud_encuesta/javascript"></script>
+<title>Crear encuesta salarial</title>
+
+</head>
+
+<body>
+<div style="background-color: rgb(243, 243, 243);height: 60px;">
+
+		<div style="width: 250px;color: gray;font-weight: bold;padding-top: 20px;float: right;">
+			Bienvenid@ ${fld:fname} ${fld:lname},
+		</div>
+</div>
+	<div id="divform3" align="center">
+		<!--panel de control de navegacion-->
+
+		<!-- 		<form> -->
+		<label for="name">Seleccione la muestra con la cual desea hacer la encuesta de cargos:</label>
+		<fieldset class="text ui-widget-content ui-corner-all"> 
+			<legend>Comprar mis datos actuales versus mi data anterior</legend>
+		</fieldset>
+			
+		<fieldset class="text ui-widget-content ui-corner-all">
+			
+		<table class="text ui-widget-content ui-corner-all" border="0" style="margin-top: 20px;margin-bottom: -20px; text-align: center; width: 500px; displya:none " id="tabla_nombre_muestra">
+					<tr>
+				<td>
+				<!--formulario addnew/edit-->
+   			   <form name="form1" id="form1" onsubmit="return guardaFoto()" action="${def:context}${def:actionroot}/upload" 
+				method="POST" enctype="multipart/form-data" target="uploadFrame">
+
+				<input id="profile-image-upload" class="hidden" type="file" id="file" name="file" size="30" onchange="upload_encuesta()">
+				<div id="profile-image">Haz click aqui para colocar un logo</div>
+<!-- 				<div id="imagen_cargada"></div> -->
+				<!-- PKEY -->
+				<input type="hidden" name="id" value="">
+		
+				<!-- informacion del archivo temporal -->
+				<input type="hidden" name="_tempfile" id="_tempfile">
+				<input type="hidden" name="_filename" id="_filename">
+				<input type="hidden" name="_contenttype" id="_contenttype">
+				<input type="hidden" name="_filesize"  id="_filesize">
+		
+				</form>
+				</td>
+			<td>
+				
+			</td>
+			</tr>
+			<tr>
+				<td class="texto_centrado" style="width: 250px;">
+					<label>Nombre de la encuesta: </label>
+				</td>
+				<td class="texto_centrado" >
+					<input class="input_mater_detail"  placeholder="Mi encuesta" type="text" id="nombre_encuesta" 	name="nombre_encuesta" />
+				</td>
+			</tr>
+		</table>
+		
+		
+
+		<div id="response" style="display: none; width: 500px"></div>
+					<!--include al menu iconografico-->
+					${inc:${def:actionroot}/panel/view}
+					<br>
+		<form name="form_filtro_busca_empresa" id="form_filtro_busca_empresa" onsubmit="return false;">
+			<table class="grid"  style='width: 500px;'  cellspacing="1">
+				<tr>
+					<td class="label_table_add_encuesta" >Tamaño</td>
+					<td class="texto_centrado" >
+						<input type="hidden" name="tamano_id" id="tamano_id" />
+						 <!--almacena el nombre del item seleccionado-->
+						<input onClick="pickTamano()" placeholder="AddSolutions" type="text" id="nombre_tamano" name="nombre_tamano" style="width: 180;" readonly />
+    				</td>
+			</tr>
+			<tr>
+				<td class="label_table_add_encuesta" >Sector</td>
+				<td  class="texto_centrado"  style=' width: 250px;'>
+							 <input type="hidden" name="sector_id" id="sector_id" />
+							  <!--almacena el nombre del item seleccionado-->
+								<input onClick="pickSector()" placeholder="AddSolutions" type="text" id="nombre_sector" name="nombre_sector" style="width: 180;" readonly />
+				</td>
+			</tr>
+			<tr>
+				<td class="label_table_add_encuesta" >
+					<label>Rango de fecha</label>
+				</td>
+				<td  class="texto_centrado" >
+					<input placeholder="01-04-1989"  type="text" id="rango_fecha_ini_registro" name="rango_fecha_ini_registro" style="width: 70px;" readonly />
+					<input placeholder="14-11-1990" 	type="text" id="rango_fecha_fin_registro" name="rango_fecha_fin_registro" style="width: 70px;" readonly />
+				</td>
+			</tr>
+		</table>
+	</form>
+	<form name="form2" id="form2" onsubmit="return false;">
+					<table class="grid"  style='width: 500px;' cellspacing="1">
+						<rows2>
+
+						<tr>
+							<td class="formlabel required" style=' text-align: center;'  >Empresa en especifico</td>
+							<td style=' width: 250px;'  class="texto_centrado" >
+							
+								<!--almacena el ID del item seleccionado--> 
+								<input type="hidden"		name="empresa_id" id="empresa_id" /> 
+								
+								<!--almacena el nombre del item seleccionado-->
+								<input onClick="pickEmpresa()" placeholder="AddSolutions"		type="text" id="nombre_empresa" name="nombre_empresa" style="width: 180;" readonly /> 
+								<input 	placeholder="28-01-1989" type="hidden" id="fecha_ini_registro"  name="fecha_ini_registro" style="width: 70;" readonly />
+								<input 	type="hidden" id="nombre_muestra_form"  name="nombre_muestra_form"  /> 
+								
+								<!--botones del picklist-->
+								<img src="${def:context}/images/search.gif" class="button" onClick="pickEmpresa()" title="Seleccionar item" /> 
+								<img	src="${def:context}/images/Add.png" class="button"	onClick="detailInsert()" title="Seleccionar item" />
+								<button style="display: none" id="saveDetail" 	onclick="detailInsert()">Añadir</button>
+								
+							</td>
+						</tr>
+						</rows2>
+
+					</table>
+					</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<div id="form2_error" class="errormsg"></div>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="rowindex" value="" />
+			</form>
+
+
+
+			<!--  Lista de empresa_muestra resultado  -->
+
+			<div id="empresa_muestra_resultado" name="empresa_muestra_resultado"></div>
+
+			<!-- FIN DE Lista de empresa_muestra resultado -->
+
+
+
+			<!--grid de detalle-->
+			<form id="form_detail" name="form_detail" onsubmit="return false;">
+
+				<div id="detail" style="width: 50%;"></div>
+				<button id="grabar" onclick="save()" class="button">Grabar</button>
+				&nbsp;
+				<button class="button" onclick="addNew()">Cancelar</button>
+			</form>
+		</fieldset>
+		<!-- 		</form> -->
+	</div>
+
+	<!--panel de respuesta AJAX #3-->
+	<div id="responseError" style="display: none; width: 100%;"></div>
+	<!--colocar la respuesta a la izquierda del browser-->
+	<div style="float: left; padding-left: 50px">
+		<!--panel de respuesta AJAX para el grid paginado-->
+		<div id="response" style="display: none; width:500px"></div>
+	</div>
+	
+	<!--frame invisible para hacer el post del archivo-->
+	<iframe name="uploadFrame" style="display: none;">
+	</iframe>
+</body>
+</html>

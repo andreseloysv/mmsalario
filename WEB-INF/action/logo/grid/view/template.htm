@@ -1,0 +1,57 @@
+<!--data grid-->
+<table class="grid" width="880px">
+
+	<!--toolbar-->
+	<tr>
+		<th colspan="9">
+			<!--título del grid--> 
+			<span style="float: left;">Contenido de la tabla </span>
+			<!--panel de control de navegacion--> 
+			<span style="float: right;">${req:controls}</span> 
+			<!--indicador de progreso-->
+			<img id="grid-progress" src="${def:context}/images/progress.gif" style="float: right; margin-right: 10px; display: none"> 
+			<!--toolbar del grid-->
+			<span style="float: left; margin-left: 40px">
+				<img src="${def:context}/images/reload.gif" onclick="search()" title="Recargar data" class="tool">
+				<!-- <img src="${def:context}/images/print.gif" onclick="openPDF()" title="Exportar a PDF" class="tool">
+				<img src="${def:context}/images/excel.gif" onclick="openExcel()" title="Exportar a Excel" class="tool"> -->
+			</span>
+		</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		
+		<th width="20%"><a href="javascript:onclick=sortBy('filename','query-base.sql')" title="Haga CLICK para ordenar por esta columna">Archivo</a></th>
+		<th width="20%"><a href="javascript:onclick=sortBy('content_type','query-base.sql')" title="Haga CLICK para ordenar por esta columna">Contenido</a></th>
+		<th width="20%"><a href="javascript:onclick=sortBy('description','query-base.sql')" title="Haga CLICK para ordenar por esta columna">Descripción</a></th>
+		<th width="20%"><a href="javascript:onclick=sortBy('image_size','query-base.sql')" title="Haga CLICK para ordenar por esta columna">Tamaño</a></th>
+		<th width="20%"><a href="javascript:onclick=sortBy('nombre_pl0','query-base.sql')" title="Haga CLICK para ordenar por esta columna">Empresa</a></th>
+		<th colspan="4"></th>
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr ${fld:_rowStyle}>
+		<td align="left">${fld:filename}</td>
+		<td align="left">${fld:content_type}</td>
+		<td align="left">${fld:description}</td>
+		<td align="center">${fld:image_size}</td>
+		<td>${fld:nombre_pl0}</td>
+		<td align="center" width="3%"><img src="${def:context}/images/download.gif" class="tool" onclick="downloadBlob('${fld:id_imagen}')" title="Descargar a su PC el archivo" ></td>
+		<td align="center" width="3%"><img src="${def:context}/images/search.gif" class="tool" onclick="openBlob('${fld:id_imagen}', '${fld:content_type}')" title="Ver documento" ></td>
+		<td align="center" width="3%"><img src="${def:context}/images/clear.gif" class="tool" onclick="deleteRecord('${fld:id_imagen}')" title="Eliminar"></td>
+		<td align="center" width="3%"><img src="${def:context}/images/edit.gif" style="cursor: pointer" onclick="edit('${fld:id_imagen}')" class="tool" title="Editar"></td>
+		
+
+	</tr>
+	
+	<div id="divblob${fld:id_imagen}" style="left: -10000px; position: absolute" onmousedown="comienzoMovimiento(event, this.id);" onmouseover="this.style.cursor='move'">
+		<img id="blobfull${fld:id_imagen}" src="${def:context}/images/fullimage.gif" class="button" title="Ver Tamaño Completo">
+		<img id="blobclose${fld:id_imagen}" src="${def:context}/images/close.gif" class="button" onclick="closeImage('divblob${fld:id_imagen}')" title="Cerrar">
+		<img id="blob${fld:id_imagen}" style="width:400px" onload="openImage('blob${fld:id_imagen}', 'divblob${fld:id_imagen}', 'blobclose${fld:id_imagen}', 'status', 'blobfull${fld:id_imagen}')">
+	</div>
+	
+	</rows>
+
+</table>

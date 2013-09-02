@@ -71,13 +71,20 @@
 			        top.location.href=url;
 			}
 		}
-	
+		
+
 	</script>
 
 </head>
 
 <body class="menuBody">
-
+<div onclick="gotoLink('/mmsalario/action/security/home/welcome')"  style="
+    width: 300px;
+    background-color: rgb(226, 226, 226);
+    cursor: pointer;
+    height: 60px;
+    background-image: url('${def:context}/images/LogoMarketMonitor.png');
+"></div>
 <center>
 
 	<div class="menuContainer">

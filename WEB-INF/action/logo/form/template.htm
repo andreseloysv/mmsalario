@@ -1,0 +1,486 @@
+<html>
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+
+<!--biblioteca generica JS/Dinamica-->
+<script type="text/javascript" src="${def:context}/action/script">
+</script>
+
+<title>Imagen</title>
+
+</head>
+
+<body>
+
+<!--banner-->
+<div class="banner">
+	<div style="float: left;">Imagen</div>
+	${req:progress}
+</div>
+
+<br>
+
+<!--formulario addnew/edit-->
+<div id="form" align="center">
+<form name="form1" onsubmit="return upload()" action="${def:context}${def:actionroot}/upload" 
+			method="POST" enctype="multipart/form-data" target="uploadFrame">
+
+<table class="formgrid" width="450px">
+
+	<!--ancho de la columna de etiquetas-->
+	<col width="30%">
+	<col width="60%">
+
+	<!--titulo-->
+	<tr>
+		<th colspan="2"><span id="formTitle"> Añadir registro </span></th>
+	</tr>
+
+	<!--separador-->
+	<tr height="10px">
+		<td colspan="2"></td>
+	</tr>
+
+	<!--campos-->
+		<tr>
+		<td class="formlabel required">Descripción</td>
+		<td>
+			<textarea COLS="30" ROWS="3" NAME="description" id="description"></textarea>
+		</td>
+	</tr>
+	<!--control picklist de seleccion simple-->
+	<tr>
+		<td class="formlabel required">Empresa</td>
+		<td>
+			<!--almacena el ID del item seleccionado--> 
+			<input type="hidden" name="id_empresa" id="id_empresa" /> 
+			<!--almacena el nombre del item seleccionado-->
+			<input type="text" name="id_empresa_name" id="id_empresa_name" style="width: 80%;" readonly /> 
+			<!--botones del picklist--> 
+			<img src="${def:context}/images/search.gif" class="button" onclick="pickIdEmpresa();" title="Seleccionar item" /> 
+			<img src="${def:context}/images/clear.gif" class="button" onclick="document.form1.id_empresa.value='';document.form1.id_empresa_name.value='';"
+				title="Borrar valor seleccionado" />
+		</td>
+	</tr>
+
+	
+	<tr>
+		<td class="formlabel required">
+			Archivo:
+		</td>
+		<td>
+			<input id="file" type="file" name="file" size="30" onchange="setFileInfo('','','','')">
+		</td>
+	</tr>
+
+	<!--separador-->
+	<tr height="10px">
+		<td colspan="2"></td>
+	</tr>
+
+	<!--botones-->
+	<tr>
+		<td align="center" colspan="2">
+			<input type="submit" value="Grabar" class="button" name="submit" id="grabar">
+			<input type="button" value="Cancelar" class="button" onclick="addNew()">
+		</td>
+	</tr>
+
+	<!--separador-->
+	<tr height="5px">
+		<td colspan="2"></td>
+	</tr>
+
+</table>
+
+		<!-- PKEY -->
+		<input type="hidden" name="id" value="">
+
+		<!-- informacion del archivo temporal -->
+		<input type="hidden" name="_tempfile">
+		<input type="hidden" name="_filename">
+		<input type="hidden" name="_contenttype">
+		<input type="hidden" name="_filesize">
+
+</form>
+</div>
+
+<!--frame invisible para hacer el post del archivo-->
+<iframe name="uploadFrame" style="display:none">
+</iframe>
+
+<br>
+
+
+<!--panel de respuesta AJAX para el grid paginado-->
+<div id="response" style="display: none; width: 100%" align="center"></div>
+
+</body>
+
+<!--codigo de soporte del template-->
+<script type="text/javascript">
+
+	//inicializa cuando se carga la pagina
+	onload = function()
+	{
+		carga();
+		addNew(); //prepara formulario para ingresar nuevo registro 
+		search(); //mostrar registros en vista paginada
+
+	} 
+	
+	/** picklist de seleccion simple **/
+	
+	//desplegar picklist de seleccion simple
+	function pickIdEmpresa(){
+		var url = "${def:context}/action/picklist/empresa/form";
+		pickOpen ('id_empresa_name','id_empresa',url,'450','335');	
+	}
+	
+	//ejecutar consulta y mostrar grid, si hay data viewPage() sera invocada automaticamente
+	function search()
+	{
+		var url = "${def:actionroot}/search";
+		
+		//determina si refresca y se para en la pagina actual o en la pagina 1
+		if (currentPage > 0)
+			url = "${def:actionroot}/search?currentpage=" + currentPage;
+
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri= url, 
+						divResponse="response", 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);
+	}
+
+
+
+	//enviar POST del formulario
+	function upload()
+	{
+	
+		//determinar si es un insert
+		if (document.form1.id.value=="") {
+			if (document.form1.file.value=="") {
+				alert("Por favor indique el archivo a ser cargado.");
+				document.form1.file.focus();
+				return false;
+			}
+			if (document.form1._tempfile.value=="") {
+				document.form1.submit.disabled = true;
+				document.getElementById("status").style.display="";
+				return true;
+			} else {
+				save();
+				return false;
+			}		
+		} else {
+			//es un update, determinar si quieren actualizar tambien el blob
+			if (document.form1.file.value=="") {
+				save();
+				return false;
+			} else {
+				document.form1.submit.disabled = true;
+				document.getElementById("status").style.display="";				
+				return true;
+			}
+		}
+	
+	}
+	
+	//pone los valores del archivo cargado 
+	//en los controles del formulario, es llamada por el iframe escondido
+	function setFileInfo(tempFile, fileName, fileSize, contentType) {
+		document.form1._tempfile.value = tempFile;
+		document.form1._filename.value = fileName;
+		document.form1._filesize.value = fileSize;
+		document.form1._contenttype.value = contentType;
+	}
+
+	//traer la pagina N del grid
+	function viewPage()
+	{
+		var url = "${def:actionroot}/view";
+		gotoPage(url);
+	}	
+	
+	//grabar el formulario
+	function save()
+	{
+		var uri = "${def:actionroot}/insert"
+		if (document.form1.id.value!="") {
+			if (document.form1._tempfile.value=="")
+				uri = "${def:actionroot}/update"
+			else
+				uri = "${def:actionroot}/updateblob"
+		}
+				
+		ajaxCall(httpMethod="POST", 
+						uri, 
+						divResponse=null, 
+						divProgress="status", 
+						formName="form1", 
+						afterResponseFn=null, 
+						onErrorFn=retryAddnewOrEdit);	 
+	}
+
+	//restaurar el formulario en caso de error
+	function retryAddnewOrEdit() {
+		document.form1.submit.disabled=false;
+		setFocusOnForm("form1");		
+	}
+
+	function addNew() {
+		document.getElementById("formTitle").innerHTML = "Añadir registro";
+		clearErrorMessages();
+		document.form1.submit.disabled = false;
+		document.form1.reset();
+		clearForm("form1");
+		setFocusOnForm("form1");
+	}
+
+	//funcion de callback del iframe cuando no carga correctamente el documento
+	function uploadError(msg)
+	{
+		document.getElementById("status").style.display="none";	
+		document.form1.submit.disabled = false;
+		alert(msg);
+		document.form1.description.focus();
+	}
+
+	//editar registro en formulario
+	function edit(id)
+	{
+		clearErrorMessages();
+
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/edit?id=" + id , 
+						divResponse=null, 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);	
+	}
+	
+	//eliminar un registro
+	function deleteRecord(id)
+	{
+		if (window.confirm("¿Está seguro que desea ELIMINAR este registro?")==false)
+		{
+			return false;
+		}
+		
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/delete?id=" + id,
+						divResponse=null, 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);	
+						
+	}
+	
+	//invoca un popup para descargar los documentos
+	function downloadBlob(id)
+	{
+		var url = "${def:context}${def:actionroot}/download?id=" + id
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		window.location = url;
+	}
+	
+	//invoca la generacion de un PDF en un popup
+	function openPDF()
+	{
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var url = "${def:context}${def:actionroot}/pdf?random=" + Math.random();
+		var w = window.open(url, null, features);
+	}
+
+	//invoca la generacion de un Excel en un popup
+	function openExcel()
+	{
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var url = "${def:context}${def:actionroot}/excel?random=" + Math.random();
+		var w = window.open(url, null, features);
+	}
+	
+	//invoca un popup para mostrar los documentos
+	function openFullImage(id,url)
+	{
+		var features = "height=600,width=700,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var w = window.open(url, id, features);
+	}
+	
+	//invoca un popup para mostrar los documentos
+	function openBlob(id, type)
+	{
+		var url = "${def:context}${def:actionroot}/getblob?id=" + id
+		if (type.indexOf("image") != -1)
+			getImage(url,'blob' + id,'status', 'blobfull' + id);
+		else {
+			var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+			var w = window.open(url, id, features);
+		}
+	}
+	
+	//carga la imagen en un div oculto
+	function getImage(url, id, divProgress, idFull)
+	{
+		var progress = document.getElementById(divProgress);
+		if (progress!=null)
+			progress.style.display='';
+		
+		document.getElementById(id).src=url + '&random=' + Math.random();
+		var full = document.getElementById(idFull);
+		eval('full.onclick= function(){openFullImage("' + id + '","' + url + '" )}')
+	}
+	
+	//abrir imagen en un div con drag and drop
+	function openImage(idIMG, idDIV, idClose, divProgress, idFull)
+	{
+		var height = document.getElementById(idIMG).height;
+		var width = document.getElementById(idIMG).width;
+		var url = document.getElementById(idIMG).src;
+		var boxdiv = document.getElementById(idDIV);
+		
+		var close = document.getElementById(idClose);
+		if (close!=null) {
+			close.style.left = (width - 5) + 'px';
+			close.style.bottom = (height + 17) + 'px';
+			close.style.position = 'absolute';
+		}
+		
+		var full = document.getElementById(idFull);
+		if (full!=null) {
+			full.style.left = (width - 30) + 'px';
+			full.style.bottom = (height + 15) + 'px';
+			full.style.position = 'absolute';
+		}
+		
+		var progress = document.getElementById(divProgress);
+		if (progress!=null)
+			progress.style.display='none';
+		
+		boxdiv.style.position = 'absolute';
+		boxdiv.style.width = width + 'px';
+		boxdiv.style.height = height + 'px';
+		boxdiv.style.border = '#9d9d9d 1px solid';
+		boxdiv.style.backgroundColor = 'white';
+		boxdiv.style.padding = "10px";
+		boxdiv.style.paddingTop = "25px";
+		boxdiv.style.display = '';
+		
+		if (boxdiv.style.left < '0px') {
+			boxdiv.style.top = (pageHeight() - height) / 2 + 'px';
+			boxdiv.style.left = (pageWidth() - width) / 2 + 'px';
+		}
+	}
+	
+	//cerrar div donde se encuentra la imagen
+	function closeImage(id)
+	{
+		var boxdiv = document.getElementById(id);
+		boxdiv.style.position = 'absolute';
+		boxdiv.style.left = -10000 + 'px';
+	}
+	
+	/*
+	* Inicio funciones para drag and drop de un DIV
+	*/
+	function carga()
+	{
+	    posicion=0;
+	   
+	    // IE
+	    if(navigator.userAgent.indexOf("MSIE")>=0) navegador=0;
+	    // Otros
+	    else navegador=1;
+	}
+	 
+	function evitaEventos(event)
+	{
+	    // Funcion que evita que se ejecuten eventos adicionales
+	    if(navegador==0)
+	    {
+	        window.event.cancelBubble=true;
+	        window.event.returnValue=false;
+	    }
+	    if(navegador==1) event.preventDefault();
+	}
+	 
+	function comienzoMovimiento(event, id)
+	{
+	    elMovimiento=document.getElementById(id);
+	   
+	     // Obtengo la posicion del cursor
+	    if(navegador==0)
+	     {
+	        cursorComienzoX=window.event.clientX+document.documentElement.scrollLeft+document.body.scrollLeft;
+	        cursorComienzoY=window.event.clientY+document.documentElement.scrollTop+document.body.scrollTop;
+	 
+	        document.attachEvent("onmousemove", enMovimiento);
+	        document.attachEvent("onmouseup", finMovimiento);
+	    }
+	    if(navegador==1)
+	    {   
+	        cursorComienzoX=event.clientX+window.scrollX;
+	        cursorComienzoY=event.clientY+window.scrollY;
+	       
+	        document.addEventListener("mousemove", enMovimiento, true);
+	        document.addEventListener("mouseup", finMovimiento, true);
+	    }
+	   
+	    elComienzoX=parseInt(elMovimiento.style.left);
+	    elComienzoY=parseInt(elMovimiento.style.top);
+	    // Actualizo el posicion del elemento
+	    elMovimiento.style.zIndex=++posicion;
+	   
+	    evitaEventos(event);
+	}
+	 
+	function enMovimiento(event)
+	{ 
+	    var xActual, yActual;
+	    if(navegador==0)
+	    {   
+	        xActual=window.event.clientX+document.documentElement.scrollLeft+document.body.scrollLeft;
+	        yActual=window.event.clientY+document.documentElement.scrollTop+document.body.scrollTop;
+	    } 
+	    if(navegador==1)
+	    {
+	        xActual=event.clientX+window.scrollX;
+	        yActual=event.clientY+window.scrollY;
+	    }
+	   
+	    elMovimiento.style.left=(elComienzoX+xActual-cursorComienzoX)+"px";
+	    elMovimiento.style.top=(elComienzoY+yActual-cursorComienzoY)+"px";
+	 
+	    evitaEventos(event);
+	}
+	 
+	function finMovimiento(event)
+	{
+	    if(navegador==0)
+	    {   
+	        document.detachEvent("onmousemove", enMovimiento);
+	        document.detachEvent("onmouseup", finMovimiento);
+	    }
+	    if(navegador==1)
+	    {
+	        document.removeEventListener("mousemove", enMovimiento, true);
+	        document.removeEventListener("mouseup", finMovimiento, true);
+	    }
+	}
+	/*
+	* Fin de funciones para drag and drop de un DIV
+	*/
+</script>
+
+</html>

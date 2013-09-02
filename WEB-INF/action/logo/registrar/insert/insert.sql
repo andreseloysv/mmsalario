@@ -1,0 +1,20 @@
+INSERT INTO public.imagen
+(
+	id_imagen,
+	description,
+	id_empresa,
+	image_size,
+	image_data,
+	filename,
+	content_type
+)
+VALUES
+(
+	${seq:nextval@imagen_id_imagen_seq},
+	${fld:description},
+	${fld:id_empresa},
+	${fld:_filesize},
+	?,
+	${fld:_filename},
+	${fld:_contenttype}
+)

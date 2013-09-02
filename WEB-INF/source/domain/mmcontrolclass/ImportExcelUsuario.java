@@ -697,8 +697,7 @@ public class ImportExcelUsuario extends GenericTableManager {
 			throw new Throwable(
 					"El archivo de Excel no contiene el formato especifícado.");
 		}
-		System.out
-				.print("Funcionaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
 		System.out.print(rs.getRecordCount());
 		rs.top();
 		int contador_aux = 0;
