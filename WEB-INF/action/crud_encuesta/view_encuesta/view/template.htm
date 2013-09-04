@@ -1,29 +1,109 @@
-<!--data grid-->
-<table class="grid" style="width: 95%;">
 
-	<!--toolbar-->
-	<tr>
-		<th colspan="2">
-			<span style="color: gray; float: left;"></span> 
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+<link rel="stylesheet" type="text/css" href="${def:context}/jquery.css" />
+<!--biblioteca generica JS/Dinamica-->
+<script type="text/javascript" src="${def:context}/action/script"></script>
+<script type="text/javascript" src="${def:context}/action/crud_encuesta/view_encuesta/javascript"></script>
+<title>Cuenta de usuario</title>
+
+</head>
+
+<body>
+<div style="background-color: rgb(243, 243, 243);height: 60px;">
+
+		<div style="width: 250px;color: gray;font-weight: bold;padding-top: 20px;float: right;">
+
+		</div>
+</div>
+
+	<div class="datagrid">
+	<span style="color: gray; float: left;" ></span> 
 			<!--panel de control de navegacion--> 
-			<span style="float: right;">${req:controls}</span> 
+			<span >${req:controls}</span> 
 			<!--indicador de progreso-->
 			<img id="grid-progress" style="float: right; display: none" src="${def:context}/images/progress.gif">
-		</th>
-	</tr>
-
-	<!--encabezados-->
-	<tr>
-		<th width="70%"><a href="javascript:onclick=sortBy('nombre_encuesta','busca_empresa.sql')" title="Haga CLICK para ordenar por esta columna">Empresa</a></th>
-		<th width="30%"><a href="javascript:onclick=sortBy('fecha_ini_registro','busca_empresa.sql')" title="Haga CLICK para ordenar por esta columna">Fecha de los datos</a></th>
-	</tr>
-
-	<!--data-->
+	<table>
+		<thead>
+		<tr>
+		<th colspan="3" >
+			
+			</th>
+		</tr>
+			<tr>
+				<th>Logo</th><th>Nombre</th><th>Descripcion</th>
+			</tr>
+		</thead>
+		<tfoot>
+		
+			<tr>
+				<td colspan="3">
+				<div id="paging">
+				</div>
+			</tr>
+		</tfoot>
+		
+	<tbody>
 	<rows>
-	<tr ${fld:_rowStyle} onmouseover="rowOn(this)"onmouseout="rowOff(this)" onclick="selectItem('${fld:encuesta_id}')">
-		<td style="font-size: 9pt;" align="center"><span  id="${fld:encuesta_id}" name="${fld:encuesta_id}">${fld:nombre_encuesta}</span></td>
-		<td style="font-size: 9pt;" align="center"><span id="${fld:encuesta_id}" name="${fld:encuesta_id}">${fld:fecha_datos}</span></td>
+	<tr ${fld:_rowStyle} ondblclick="editar(this)"  id="${fld:encuesta_id}" >
+		<td title="Haz doble click para editar" ><img src="${def:context}/action/crud_encuesta/view_encuesta/getblob?id=${fld:encuesta_id}" width="200px" height="85px" > <input style="display:none;" id="content_type__${fld:encuesta_id}" value="${fld:content_type}" ><input style="display:none;" id="file_name__${fld:encuesta_id}" value="${fld:filename}" ><input style="display:none;" id="image_size__${fld:encuesta_id}" value="${fld:image_size}" ><input style="display:none;" id="image_data__${fld:encuesta_id}" value="${fld:image_data}" > </td>
+		<td title="Haz doble click para editar" ><input id="input_${fld:encuesta_id}" class="dato" type="text" value="${fld:nombre_encuesta}" readonly ></td>
+		<td title="Haz doble click para editar" ><textarea readonly id="textarea_${fld:encuesta_id}" class="dato" rows="8" cols="60"  > ${fld:descripcion_encuesta}</textarea></td>
 	</tr>
 	</rows>
-	
+</tbody>
+
 </table>
+</div>
+<div id="guardar" style="position: absolute;display: none;"><button>Guardar</button></div>
+
+
+<div id="resultado" name="resultado"></div>
+
+
+
+
+<!--formulario addnew/edit-->
+<div id="form" align="center">
+<form name="form1" onsubmit="return upload()" action="http://localhost/mmsalario/action/crud_encuesta/view_encuesta/upload" 
+			method="POST" enctype="multipart/form-data" target="uploadFrame">
+
+		<!-- PKEY -->
+		<input type="hidden" name="id" value="">
+		<!-- informacion del archivo temporal -->
+		<input type="hidden" name="_tempfile">
+		<input type="hidden" name="_filename">
+		<input type="hidden" name="_contenttype">
+		<input type="hidden" name="_filesize">
+
+</form>
+</div>
+
+<!--frame invisible para hacer el post del archivo-->
+<iframe name="uploadFrame" style="display: none;">
+</iframe>
+
+<br>
+
+
+<!--panel de respuesta AJAX-->
+<div id="response" style="display: none; width: 100%; margin-top: 7px">
+</div>
+
+
+</body>
+</html>

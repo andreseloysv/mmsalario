@@ -11,7 +11,7 @@
 	<clear-session id="viewchart.filter" />
 	<transaction>
 <!-- 		<classname>domain.importexcel.ValidaDatosOutput</classname> -->
-<classname>dinamica.GenericTransaction</classname>
+		<classname>dinamica.GenericTransaction</classname>
 		<validator>true</validator>
 		<transaction>false</transaction>
 		<jdbc-log>false</jdbc-log>

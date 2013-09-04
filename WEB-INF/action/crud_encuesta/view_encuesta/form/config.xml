@@ -8,13 +8,8 @@
 	
 	<log>false</log>
 	
-	<!--configura el control de paginacion-->
-	<set-request-attribute id="paging.recordset" value="busca_encuesta.sql" />
-	<set-request-attribute id="paging.pagesize" value="5" />
-	
-	<set-request-attribute id="controls" value="file:/WEB-INF/action/pagecontrols/controls.htm"/>
-	
 	<transaction>
+<!-- 		<classname>domain.importexcel.Paginacion</classname> -->
 		<classname>dinamica.GenericTransaction</classname>
 		<validator>false</validator>
 		<transaction>false</transaction>
@@ -24,7 +19,7 @@
 	
 	<output>
 		<classname>dinamica.GenericOutput</classname>
-		<print mode="table" recordset="busca_encuesta.sql" tag="lista_encuestas" alternate-colors="true" />
+<!-- 		<print mode="table" recordset="busca_encuesta.sql" tag="lista_encuestas" alternate-colors="true" /> -->
 		<template>template.htm</template>
 		<set-http-headers>true</set-http-headers>
 		<content-type>text/html; charset=iso-8859-1</content-type>

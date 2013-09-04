@@ -10,7 +10,7 @@
 	<clear-session id="busca_encuesta.sql" />
 	<!--configura el control de paginacion-->
 	<set-request-attribute id="paging.recordset" value="busca_encuesta.sql" />
-	<set-request-attribute id="paging.pagesize" value="5" />
+	<set-request-attribute id="paging.pagesize" value="3" />
 	
 	<transaction>
 		<classname>dinamica.GenericSearch</classname>
@@ -20,7 +20,7 @@
 		<recordset id="busca_encuesta.sql" source="sql" scope="session" on-empty-return="1" />
 	</transaction>	
 	
-	<on-exit return-code="0" forward-to="${def:actionroot}/view"/>
+	<on-exit return-code="0" forward-to="/action/initview"/>
 	<on-exit return-code="1" forward-to="${def:actionroot}/notfound"/>
 
 </config>
