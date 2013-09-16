@@ -1,0 +1,1 @@
+UPDATE empresa SET nombre_empresa=${fld:nombre_empresa},rif=${fld:rif_empresa},	telefono=${fld:telefono_empresa},direccion=${fld:direccion_empresa},tamano_fk=${fld:tamano_id},sector_fk=${fld:sector_id} WHERE empresa_id=${fld:empresa_id};

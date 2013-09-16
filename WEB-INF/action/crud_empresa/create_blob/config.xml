@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<config>
+
+	<summary>
+		Actualiza valores de un formulario en una tabla
+	</summary>
+
+	<log>false</log>
+
+	<transaction>
+		<classname>dinamica.GenericTableManager</classname>
+		<validator>true</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+		<recordset id="busqueda.sql" source="sql" scope="transaction" />
+	</transaction>
+
+	<query>insert.sql</query>
+
+	<output>
+		<classname>dinamica.GenericOutput</classname>
+		<template>template.html</template>
+		<set-http-headers>true</set-http-headers>
+		<content-type>text/html; charset=iso-8859-1</content-type>
+		<print mode="table" recordset="busqueda.sql" tag="ultima-imagen" />
+<!-- 	<content-type>text/javascript; charset=iso-8859-1</content-type> -->
+		<expiration>0</expiration>
+	</output>
+
+</config>

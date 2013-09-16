@@ -49,10 +49,8 @@
 		</div>
 </div>
 	<center>
-		<br> <br>
-
-
-
+		<br> 
+		<br>
 		<br>
 
 		<!--include al menu iconografico-->
@@ -75,35 +73,7 @@
 					onClick="pickEmpresa()" title="Seleccionar item" /></td>
 			</tr>
 			</rows2>
-
 		</table>
-		<br>
-
-		<!--tabla de ultimos logins-->
-		<table class="grid" width="50%" cellspacing="1">
-
-			<tr>
-				<th colspan="4">Sus últimos accesos al servidor</th>
-			</tr>
-
-			<tr>
-				<th width="25%">Fecha</th>
-				<th width="25%">Hora</th>
-				<th width="25%">Dirección IP</th>
-				<th width="25%">Aplicación</th>
-			</tr>
-
-			<rows>
-			<tr>
-				<td align="center"${fld:_rowStyle}>${fld:login_date}</td>
-				<td align="center"${fld:_rowStyle}>${fld:login_time}</td>
-				<td align="center"${fld:_rowStyle}>${fld:remote_addr}</td>
-				<td align="center"${fld:_rowStyle}>${fld:context}</td>
-			</tr>
-			</rows>
-
-		</table>
-
 	</center>
 
 </body>

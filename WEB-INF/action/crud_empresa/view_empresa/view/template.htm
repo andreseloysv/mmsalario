@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+	<link rel="stylesheet" type="text/css" href="${def:context}/jquery.css" />
+	<!--biblioteca generica JS/Dinamica-->
+	<script type="text/javascript" src="${def:context}/action/script"></script>
+	<script type="text/javascript" src="${def:context}/action/crud_empresa/view_empresa/javascript"></script>
+	
+	<title>Lista de empresas</title>
+
+</head>
+
+<body>
+
+	<div style="background-color: rgb(243, 243, 243);height: 60px;">
+		<div style="width: 250px;color: gray;font-weight: bold;padding-top: 20px;float: right;"></div>
+	</div>
+	
+		<div class="datagrid">
+		<span style="color: gray; float: left;" ></span> 
+				<!--panel de control de navegacion--> 
+				<span >${req:controls}</span> 
+				<!--indicador de progreso-->
+				<img id="grid-progress" style="float: right; display: none" src="${def:context}/images/progress.gif">
+		<table>
+			<thead>
+			<tr>
+			<th colspan="3" >
+				
+				</th>
+			</tr>
+				<tr>
+					<th>Logo</th><th>Nombre</th><th>Descripcion</th>
+				</tr>
+			</thead>
+			<tfoot>
+			
+				<tr>
+					<td colspan="3">
+					<div id="paging">
+					</div>
+				</tr>
+			</tfoot>
+			
+		<tbody>
+		<rows>
+		<tr ${fld:_rowStyle} ondblclick="editar(this)"  id="${fld:empresa_id}" >
+			<td title="Haz doble click para editar" ><img src="${def:context}/action/crud_empresa/view_empresa/getblob?id=${fld:empresa_id}" width="200px" height="85px" > <input style="display:none;" id="content_type__${fld:empresa_id}" value="${fld:content_type}" ><input style="display:none;" id="file_name__${fld:empresa_id}" value="${fld:filename}" ><input style="display:none;" id="image_size__${fld:empresa_id}" value="${fld:image_size}" ><input style="display:none;" id="image_data__${fld:empresa_id}" value="${fld:image_data}" > </td>
+			<td title="Haz doble click para editar" ><input id="input_${fld:empresa_id}" class="dato" type="text" value="${fld:nombre_empresa}" readonly ></td>
+			<td title="Haz doble click para editar" ><textarea readonly id="textarea_${fld:empresa_id}" class="dato" rows="8" cols="60"  > ${fld:description}</textarea></td>
+		</tr>
+		</rows>
+	</tbody>
+	
+	</table>
+	</div>
+	<div id="guardar" style="position: absolute;display: none;"><button>Guardar</button></div>
+	
+	
+	<div id="resultado" name="resultado"></div>
+	
+	
+	
+	
+	<!--formulario addnew/edit-->
+	<div id="form" align="center">
+	<form name="form1" onsubmit="return upload()" 
+				action="http://localhost/mmsalario/action/crud_empresa/view_empresa/upload" 
+				method="POST" enctype="multipart/form-data" target="uploadFrame">
+	
+			<!-- PKEY -->
+			<input type="hidden" name="id" value="">
+			<!-- informacion del archivo temporal -->
+			<input type="hidden" name="_tempfile">
+			<input type="hidden" name="_filename">
+			<input type="hidden" name="_contenttype">
+			<input type="hidden" name="_filesize">
+	
+	</form>
+	</div>
+	
+	<!--frame invisible para hacer el post del archivo-->
+	<iframe name="uploadFrame" style="display: none;">
+	</iframe>
+	
+	<br>
+	
+	
+	<!--panel de respuesta AJAX-->
+	<div id="response" style="display: none; width: 100%; margin-top: 7px">
+	</div>
+
+
+</body>
+</html>

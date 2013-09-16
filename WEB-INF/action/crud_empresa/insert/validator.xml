@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator onerror="/action/error/validation/ajax">
+	
+	<parameter id="empresa_id" type="varchar" required="true" label="empresa_id" maxlen="100" />
+	<parameter id="nombre_empresa" type="varchar" required="true" label="nombre_empresa" maxlen="100" />
+	<parameter id="rif_empresa" type="varchar" required="true" label="rif_empresa" maxlen="100" />
+	<parameter id="telefono_empresa" type="varchar" required="true" label="telefono_empresa" maxlen="100" />
+	<parameter id="direccion_empresa" type="varchar" required="true" label="direccion_empresa" maxlen="100" />
+	<parameter id="tamano_id" type="integer" required="true" label="tamano_id" maxlen="100" />
+	<parameter id="sector_id" type="integer" required="true" label="sector_id" maxlen="100" />
+		
+	<parameter id="file" type="varchar" required="false" label="Archivo temporal" maxlen="500"/>
+	<parameter id="file.content-type" type="varchar" required="false" label="Formato" maxlen="150"/>
+	<parameter id="file.filename" type="varchar" required="false" label="Archivo" maxlen="400"/>
+	<parameter id="image_size" type="integer" required="false" label="Tamaño del archivo"/>
+	
+</validator>

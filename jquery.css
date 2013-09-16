@@ -802,7 +802,7 @@ body .ui-tooltip {
 }
 .ui-widget-content {
 	border: 1px solid #dddddd;
-	background: #F3F3F3 url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
+	background: #FFFFFF url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
 	color: #333333;
 }
 .ui-widget-content a {
@@ -1175,4 +1175,7 @@ body .ui-tooltip {
 	opacity: .2;
 	filter: Alpha(Opacity=20);
 	border-radius: 5px;
+}
+.label_table_add_empresa{
+	width: 290px;
 }

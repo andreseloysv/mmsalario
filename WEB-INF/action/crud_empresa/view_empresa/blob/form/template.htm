@@ -1,0 +1,215 @@
+<html>
+
+<head>
+	<LINK REL="stylesheet" type="text/css" href="${def:context}/default.css" />
+	
+	<!--biblioteca generica JS/Dinamica-->
+	<script type="text/javascript" src="${def:context}/action/script">
+	</script>
+	
+	<title>Blob</title>
+	
+</head>
+
+<body>
+
+<!--banner-->
+<div class="banner">
+	Manejo de documentos
+</div>
+<br>
+
+<center>
+
+<!--formulario de upload-->
+<div id="form">
+
+<form name="form1" onsubmit="return upload()" action="${def:context}${def:actionroot}/insert" 
+		method="POST" enctype="multipart/form-data" target="uploadFrame">
+
+<table width="400px" class="formgrid">
+
+	<!--ancho de la columna de etiquetas-->
+	<col width="30%"> 
+
+	<!--titulo-->
+	<tr>
+		<th colspan="2">
+			Cargar documento
+		</th>
+	</tr>
+
+	<!--separador-->
+	<tr height="10px">
+		<td colspan="2"></td>
+	</tr>
+
+	<!--campos-->
+	<tr>
+		<td class="formlabel required">
+			Descripción:
+		</td>
+		<td>
+			<input name="description" type="text" size="45" value="" maxlength="100">
+		</td>
+	</tr>
+	<tr>
+		<td class="formlabel required">
+			Archivo:
+		</td>
+		<td>
+			<input type="file" name="file" size="30">
+		</td>
+	</tr>
+
+	<!--separador-->
+	<tr height="10px">
+		<td colspan="2"></td>
+	</tr>
+
+	<!--botones-->
+	<tr>
+		<td align="center" colspan="2">
+			<input type="submit" value="Grabar" class="button" name="submit">
+		</td>
+	</tr>
+	
+	<!--separador-->
+	<tr height="10px">
+		<td colspan="2"></td>
+	</tr>
+
+</table>	
+
+<br>
+
+</form>
+</div>
+
+<!--frame invisible para hacer el post-->
+<iframe name="uploadFrame" style="display:none">
+</iframe>
+
+<!--panel de respuesta AJAX #1-->
+<div id="response" style="display:none;width:100%;">
+</div>
+
+<br>
+
+<!--indicador de progreso-->
+<div id="status" class="alert" style="display:none;color:gray;width:20%;font-weight:bold;font-family:Arial">
+	<img src="${def:context}/images/progress.gif"> Por favor espere...
+</div>
+
+
+</center>
+
+<script language="javascript">
+
+	//inicializacion de la pagina cuando carga
+	onload = function()
+	{ 
+		document.form1.description.focus();
+		search();
+	} 
+		
+	//enviar POST del formulario
+	function upload()
+	{
+		
+		if (document.form1.description.value=="") {
+			alert("Por favor ingrese la descripción del documento.");
+			document.form1.description.focus();
+			return false;
+		}
+		
+		if (document.form1.file.value=="") {
+			alert("Por favor indique el archivo a ser cargado.");
+			document.form1.file.focus();
+			return false;
+		}
+
+	
+		document.form1.submit.disabled = true;
+		document.getElementById("status").style.display="";
+		return true;		
+	}
+				
+	//funcion de callback del iframe cuando se carga bien el documento
+	function uploadOK()
+	{
+		document.getElementById("status").style.display="none";	
+		document.form1.description.value="";
+		document.form1.file.value="";
+		document.form1.submit.disabled = false;
+		alert("El documento se cargó exitosamente.");
+		search();
+		document.form1.description.focus();
+	}
+
+	//funcion de callback del iframe cuando no carga correctamente el documento
+	function uploadError(msg)
+	{
+		document.getElementById("status").style.display="none";	
+		document.form1.submit.disabled = false;
+		alert(msg);
+		document.form1.description.focus();
+	}
+
+	//ejecutar consulta
+	function search()
+	{
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/search", 
+						divResponse="response", 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);
+	}
+
+	//define la url en donde se mostrara el resultado de consulta
+	function viewPage()
+	{
+		var url = "${def:actionroot}/view";
+		//llama a la funcion para ir a la pagina indicada 
+		gotoPage(url);
+	}	
+		
+	//invoca un popup para mostrar los documentos
+	function openBlob(id,url)
+	{
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var w = window.open(url, id, features);
+	}
+	
+	//invoca un popup para descargar los documentos
+	function downloadBlob(id,url)
+	{
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var w = window.open(url, id, features);
+	}
+	
+	//eliminar un documento
+	function onDelete(url)
+	{
+		if (window.confirm("¿Está seguro que desea ELIMINAR este documento?")==false)
+		{
+			return false;
+		}
+		
+		window.location= url;
+	}
+	
+	//invoca la generacion de un PDF en un popup
+	function openPDF()
+	{
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var url = "${def:context}${def:actionroot}/pdf?random=" + Math.random();
+		var w = window.open(url, null, features);
+	}
+</script>
+
+</body>
+</html>

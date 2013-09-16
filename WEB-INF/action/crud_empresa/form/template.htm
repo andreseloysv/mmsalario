@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
+<link rel="stylesheet" type="text/css" href="${def:context}/jquery.css" />
+<!--biblioteca generica JS/Dinamica-->
+<script type="text/javascript" src="${def:context}/action/script"></script>
+<script type="text/javascript"
+	src="${def:context}/action/crud_empresa/javascript"></script>
+<title>Crear empresa salarial</title>
+
+</head>
+
+<body>
+<div style="background-color: rgb(243, 243, 243);height: 60px;">
+
+		<div style="width: 250px;color: gray;font-weight: bold;padding-top: 20px;float: right;">
+			Bienvenid@ ${fld:fname} ${fld:lname},
+		</div>
+</div>
+	<div id="divform3" align="center">
+		<!--panel de control de navegacion-->
+		
+		<fieldset class="">
+			<!--formulario addnew/edit-->
+	   			   	<form name="form1" id="form1" onsubmit="return guardaFoto()" action="${def:context}${def:actionroot}/upload" 
+					method="POST" enctype="multipart/form-data" target="uploadFrame">
+	
+					<input id="profile-image-upload" class="hidden" type="file" id="file" name="file" size="30" onchange="upload_empresa()">
+					
+					<div id="profile-image">Haz click aqui para colocar un logo</div>
+	
+					<!-- PKEY -->
+					<input type="hidden" name="id" value="">
+			
+					<!-- informacion del archivo temporal -->
+					<input type="hidden" name="_tempfile" id="_tempfile">
+					<input type="hidden" name="_filename" id="_filename">
+					<input type="hidden" name="_contenttype" id="_contenttype">
+					<input type="hidden" name="_filesize"  id="_filesize">
+			
+					</form>
+					
+	<form name="form2" id="form2">					
+		<table class="" border="0" style="margin-top: 20px;margin-bottom: -20px; text-align: center; border-style: solid;border-width: 1px;border-color: rgb(223, 223, 223);width: 500px; background-color: white;displya:none " id="tabla_nombre_muestra">
+			<tr>
+				<td>
+					
+				</td>
+				<td>
+				
+				</td>
+			</tr>
+			<tr>
+				<td class="texto_centrado" style="width: 250px;">
+					<label>Nombre</label>
+				</td>
+				<td class="texto_centrado" >
+					<input class="input_mater_detail" placeholder="Mi empresa" type="text" id="nombre_empresa" name="nombre_empresa" />
+				</td>
+			</tr>
+			<tr>
+				<td class="texto_centrado" style="width: 250px;">
+					<label>RIF </label>
+				</td>
+				<td class="texto_centrado" >
+					<input class="input_mater_detail"  placeholder="J-00012255-5" type="text" id="rif_empresa" 	name="rif_empresa" />
+				</td>
+			</tr>
+			<tr>
+				<td class="texto_centrado" style="width: 250px;">
+					<label>Telefono </label>
+				</td>
+				<td class="texto_centrado" >
+					<input class="input_mater_detail"  placeholder="02129841232" type="text" id="telefono_empresa" 	name="telefono_empresa" />
+				</td>
+			</tr>
+			<tr>
+				<td class="texto_centrado" style="width: 250px;">
+					<label>Dirección </label>
+				</td>
+				<td class="texto_centrado" >
+					<input class="input_mater_detail"  placeholder="Av Principal de los Ruices" type="text" id="direccion_empresa" 	name="direccion_empresa" />
+				</td>
+			</tr>
+			
+			
+			
+			<tr>
+				<td colspan="2" >
+					<form name="form_filtro_busca_empresa" id="form_filtro_busca_empresa" onsubmit="return false;">
+					<table class=""  style='width: 500px;'  cellspacing="1">
+						<tr>
+							<td class="label_table_add_empresa" >Tamaño</td>
+							<td class="texto_centrado" >
+								<input type="hidden" name="tamano_id" id="tamano_id" />
+								 <!--almacena el nombre del item seleccionado-->
+								<input onClick="pickTamano()" placeholder="AddSolutions" type="text" id="nombre_tamano" name="nombre_tamano" style="border-width: 1px;border-color: rgb(194, 194, 194);border-style: solid;border-collapse: collapse;width: 242px;height: 30px;margin: 0px;padding: 0px;text-align: center;margin-left: 10px;" readonly />
+			    			</td>
+						</tr>
+						<tr>
+							<td class="label_table_add_empresa" >Sector</td>
+							<td  class="texto_centrado"  style=' width: 250px;'>
+						 		<input type="hidden" name="sector_id" id="sector_id" />
+						  		<!--almacena el nombre del item seleccionado-->
+								<input onClick="pickSector()" placeholder="AddSolutions" type="text" id="nombre_sector" name="nombre_sector" style="border-width: 1px;border-color: rgb(194, 194, 194);border-style: solid;border-collapse: collapse;width: 242px;height: 30px;margin: 0px;padding: 0px;text-align: center;margin-left: 10px;" readonly />
+							</td>
+							</tr>
+					</table>
+					
+					<input id="grabar" onclick="save()" type="submit" value="Guardar" />
+					
+					</form>
+				</td>
+			</tr>
+		</table>
+</form>		
+		<div id="response" style="display: none; width: 500px"></div>
+					<!--include al menu iconografico-->
+					${inc:${def:actionroot}/panel/view}
+					
+					<br>
+
+		<tr>
+			<td colspan="3">
+				<div id="form2_error" class="errormsg"></div>
+			</td>
+		</tr>
+	</table>
+	
+		<input type="hidden" name="rowindex" value="" />
+	</form>
+
+	</fieldset>
+		<!-- 		</form> -->
+	</div>
+
+	<!--panel de respuesta AJAX #3-->
+	<div id="responseError" style="display: none; width: 100%;"></div>
+	
+	<!--colocar la respuesta a la izquierda del browser-->
+	
+	<div style="float: left; padding-left: 50px">
+	
+		<!--panel de respuesta AJAX para el grid paginado-->
+		<div id="response" style="display: none; width:500px"></div>
+	</div>
+	
+	<!--frame invisible para hacer el post del archivo-->
+	<iframe name="uploadFrame" style="display: none;">
+	</iframe>
+</body>
+</html>

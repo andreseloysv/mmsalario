@@ -1,0 +1,1 @@
+select (MAX(empresa_id)+1) as empresa_id from empresa;

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<config>
+
+	<summary>
+		Supervisados - Ejecutar consulta y enrutar dependiendo de que un recordset
+		tenga o no registros
+	</summary>
+	
+	<log>false</log>
+	
+		<!--configura el control de paginacion-->
+	<set-request-attribute id="paging.recordset" value="query-view_encuesta.sql" />
+	<set-request-attribute id="paging.pagesize" value="5" />
+	
+	<transaction>
+		<classname>dinamica.GenericTransaction</classname>
+		<validator>false</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+	</transaction>
+	
+	
+
+	<on-exit return-code="0" forward-to="${def:actionroot}/view"/>
+	<on-exit return-code="1" forward-to="${def:actionroot}/notfound"/>
+
+</config>

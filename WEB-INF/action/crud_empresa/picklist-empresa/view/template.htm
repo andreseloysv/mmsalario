@@ -1,0 +1,93 @@
+<!--data grid-->
+<table class="grid" style="width: 95%;">
+
+	<!--toolbar-->
+	<tr>
+		<th colspan="2">
+			<span style="color: gray; float: left;"></span> 
+			<!--panel de control de navegacion--> 
+			<span style="float: right;">${req:controls}</span> 
+			<!--indicador de progreso-->
+			<img id="grid-progress" style="float: right; display: none" src="${def:context}/images/progress.gif">
+		</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		<th width="70%"><a href="javascript:onclick=sortBy('nombre_empresa','query-empresa.sql')" title="Haga CLICK para ordenar por esta columna">Empresa</a></th>
+		<th width="30%"><a href="javascript:onclick=sortBy('fecha_ini_registro','query-empresa.sql')" title="Haga CLICK para ordenar por esta columna">Fecha de los datos</a></th>
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr ${fld:_rowStyle} onmouseover="rowOn(this)"onmouseout="rowOff(this)" onclick="selectItem('${fld:procedencia_datos_id}')">
+		<td style="font-size: 9pt;" align="center"><span  id="${fld:procedencia_datos_id}" name="${fld:procedencia_datos_id}">${fld:nombre_empresa}</span></td>
+		<td style="font-size: 9pt;" align="center"><span id="${fld:procedencia_datos_id}" name="${fld:procedencia_datos_id}">${fld:fecha_datos}</span></td>
+	</tr>
+	</rows>
+	<!--codigo de soporte del template-->
+<script type="text/javascript">
+
+		var currstyle = "";
+
+		
+		
+		//inicializacion de la pagina cuando carga
+		onload = function()
+		{ 
+			document.form1.elements[0].focus();
+			search();
+			
+		} 
+	
+		//mostrar filtro de busqueda
+		function showFilter()
+		{
+			document.form1.elements[0].focus();			
+		}
+
+		//ejecutar consulta
+		function search()
+		{
+
+			//llamada Ajax...
+			return ajaxCall(	httpMethod="POST", 
+								uri="${def:actionroot}/search", 
+								divResponse="response", 
+								divProgress="status", 
+								formName="form1", 
+								afterResponseFn=null, 
+								onErrorFn=showFilter);
+		
+		}
+	
+		//leer una pagina del grid
+		function viewPage()
+		{
+			var url = "${def:actionroot}/view";
+			gotoPage(url);
+		}
+
+		//resaltar row del grid
+		function rowOn(obj) {
+			currStyle = obj.className;
+			obj.className="hilite";
+		}
+		
+		//restaurar color normal del row del grid
+		function rowOff(obj) {
+			obj.className=currStyle
+		}
+		
+		//retornar el item seleccionado a la pagina que llamo al picklist
+		function selectItem(id) {
+//			    document.getElementById("fecha_ini_registro").value=document.getElementsByName(id)[1].innerHTML;
+
+			var description = document.getElementById(id).innerHTML;
+ 			description+=" - "+document.getElementsByName(id)[1].innerHTML;
+			parent.pickSelect(id, description);
+			parent.pickClose();
+		}
+		
+</script>
+</table>
