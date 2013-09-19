@@ -79,14 +79,11 @@ function inizializaTabla() {
 		minWidth : 100,
 		maxWidth : 2000
 	});
-	// $('input.celda').trigger('keyup');
-	// document.getElementById('campo_busqueda').focus();
-	// }, 3000);
-	// overlay.destroy();
+
 	$("#cargando").css({
 		'display' : 'none'
 	});
-	// cargaDialogo();
+
 
 }
 
@@ -168,10 +165,6 @@ function cargaDialogo() {
 										&& checkRegexp(name,
 												/^[a-z]([0-9a-z_])+$/i,
 												"Username may consist of a-z, 0-9, underscores, begin with a letter.");
-								// From jquery.validate.js (by joern),
-								// contributed
-								// by Scott Gonzalez:
-								// http://projects.scottsplayground.com/email_address_validation/
 								bValid = bValid
 										&& checkRegexp(
 												email,
@@ -351,14 +344,7 @@ function buscar(elemento) {
 
 
 
-// funciones del datail
-// inicializa cuando se carga la pagina
-// onload = function()
-// {
-// addNew(); //prepara formulario para ingresar nuevo registro
-// search(); //mostrar registros en vista paginada
-// document.form2.fnacimiento.onkeypress = keypressDate;
-// }
+
 
 /** picklist de seleccion simple * */
 
@@ -372,20 +358,7 @@ function pickCiudadId(){
 // automaticamente
 function search()
 {
-// var url = "${def:actionroot}/search";
-//	
-// //determina si refresca y se para en la pagina actual o en la pagina 1
-// if (currentPage > 0)
-// url = "${def:actionroot}/search?currentpage=" + currentPage;
-//
-// //llamada Ajax...
-// ajaxCall(httpMethod="GET",
-// uri= url,
-// divResponse="response",
-// divProgress="status",
-// formName=null,
-// afterResponseFn=null,
-// onErrorFn=null);
+
 }
 
 // traer la pagina N del grid
@@ -406,18 +379,18 @@ function save()
 	
 	$.each( $("#nombre_muestra_form"), function( key, value ) {
 		$(value).attr('value', $("#nombre_muestra").val());
-});
+	});
 	
 	// determina si es un insert o un update
 	if (document.form2.id.value=="")
 		return insert();
 	else
 		return insert();
-// return update();
+
 }
 
 function inicializaGrabar(){
-	document.getElementById("grabar").disabled=false;
+	alert("afterFunction");
 }
 
 // grabar registro nuevo en BD
@@ -429,7 +402,7 @@ function insert()
 			return 0;
 		}
 		inicializaNombreMuestra();
-		document.getElementById("grabar").disabled=true;
+
 		var mi_form=document.getElementsByName("form_detail");
 		
 		$('<input>').attr({
@@ -438,6 +411,8 @@ function insert()
 		    name: 'nombre_muestra_form',
 		    value: $("#nombre_muestra").val()
 		}).appendTo(mi_form);
+		
+
 		
 		// llamada Ajax...
 		return ajaxCall(httpMethod="POST", 
@@ -700,9 +675,9 @@ function buscar_empresas(){
 			onErrorFn=null);	
 }
 function inicializaNombreMuestra(){
-	var elemento=$("#tabla_nombre_muestra");
-	elemento.css( "display", "none" );
-	elemento.find("input")[0].value="";
+//	var elemento=$("#tabla_nombre_muestra");
+//	elemento.css( "display", "none" );
+//	elemento.find("input")[0].value="";
 }
 
 

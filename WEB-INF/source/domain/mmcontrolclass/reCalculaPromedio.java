@@ -9,15 +9,67 @@ import java.util.regex.Matcher;
 import dinamica.Db;
 import dinamica.GenericTransaction;
 import dinamica.Recordset;
+import dinamica.RecordsetException;
 
 public class reCalculaPromedio extends GenericTransaction {
+	
+	
+	private void agrega_empresas_a_encuesta(Recordset encuesta,Recordset empresas,Recordset rs_es_patrocinante) throws Throwable{
+		
+		int es_patrocinante;
+		es_patrocinante=0;
+		
+		encuesta.top();
+		rs_es_patrocinante.first();
+		
+		while (empresas.next()) {
+			try{
+				Recordset rs_encuesta_empresa=null;
+				rs_encuesta_empresa=new Recordset();
+				
+				
+				rs_encuesta_empresa.append("fk_empresa_id", java.sql.Types.INTEGER);
+				rs_encuesta_empresa.append("fk_encuesta_id", java.sql.Types.INTEGER);
+				rs_encuesta_empresa.append("es_patrocinante", java.sql.Types.INTEGER);
+				
+				rs_encuesta_empresa.addNew();
+				rs_encuesta_empresa.setValue("fk_empresa_id", new Integer(empresas.getString("empresa_id") ));
+				
+				encuesta.first();
+				rs_encuesta_empresa.setValue("fk_encuesta_id", new Integer(encuesta.getString("encuesta_id")));
+				
+				
+				if(rs_es_patrocinante.getString("patrocinante")==null){
+					es_patrocinante=0;
+				}
+				else {
+					es_patrocinante=1;
+				}
+				
+				rs_encuesta_empresa.setValue("es_patrocinante", es_patrocinante);
+				String[] campos_encuesta_empresa={"fk_empresa_id","fk_encuesta_id","es_patrocinante"};
+				getDb().execBatch(getResource("insert_encuesta_empresa.sql"), rs_encuesta_empresa,campos_encuesta_empresa);
+				
+				rs_es_patrocinante.next();
+				
+			}catch(RecordsetException e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
 
 	@Override
 	public int service(Recordset inputParams) throws Throwable {
 		Recordset aux_recordset = (Recordset) getRequest().getSession().getAttribute("detail.sql");
 		
-		
+//		if (aux_recordset==null){
+//			return 0;
+//		}
 		aux_recordset.first();
+		
+		int dimension_empresa=aux_recordset.getRecordCount();
+		
 		
 		Recordset rs_encuesta=null;
 		rs_encuesta=new Recordset();
@@ -28,13 +80,17 @@ public class reCalculaPromedio extends GenericTransaction {
 		rs_encuesta.setValue("nombre_encuesta", new String (aux_recordset.getString("nombre_muestra_form")));
 		rs_encuesta.setValue("descripcion_encuesta", new String ("Mi muestrica"));
 		String[] campos_encuesta={"nombre_encuesta","descripcion_encuesta"};
-		getDb().execBatch(getResource("insert_encuesta.sql"), rs_encuesta,campos_encuesta);
 		
-				
 		String query_max_encuesta = "SELECT max(encuesta_id) as encuesta_id FROM encuesta";
 		Recordset rs_max_encuesta = this.getDb().get(query_max_encuesta);
-
 		
+		rs_max_encuesta.first();
+		int id_encuesta= new  Integer (rs_max_encuesta.getString("encuesta_id"));
+		
+		
+		String query_update_encuesta = "UPDATE encuesta SET nombre_encuesta='"+aux_recordset.getString("nombre_muestra_form")+"', descripcion_encuesta='mi encuestica' WHERE encuesta_id="+id_encuesta+";";
+
+		this.getDb().exec(query_update_encuesta);
 		
 		// Inserto la tupla promedio relacionada a la encuesta que acabo de crear
 		
@@ -63,7 +119,8 @@ public class reCalculaPromedio extends GenericTransaction {
 		String query_tamano = "SELECT tamano_id, nombre FROM tamano";
 		String query_empresa = "SELECT e.empresa_id, e.nombre_empresa ,pd.fecha_datos, s.nombre_sector as sector, t.nombre as tamano, s.sector_id, t.tamano_id FROM empresa as e, procedencia_datos as pd, sector as s, tamano as t WHERE  pd.empresa_fk=e.empresa_id and e.sector_fk=s.sector_id and e.tamano_fk=t.tamano_id ";
 		
-		int dimension_empresa=aux_recordset.getRecordCount();
+		
+		
 		int flag=0;
 		aux_recordset.first();
 		for (int i = 0; i < dimension_empresa; i++) {
@@ -72,14 +129,14 @@ public class reCalculaPromedio extends GenericTransaction {
 				if(flag==0){
 					query_empresa+=" and ";
 				}
-				query_empresa+="  (UPPER(e.nombre_empresa)=UPPER('"+aux_recordset. getString("nombre_empresa")+"') and pd.fecha_datos ='"+newstring+"') or ";
+				query_empresa+="  (UPPER(e.nombre_empresa)=UPPER('"+aux_recordset.getString("nombre_empresa")+"') and pd.fecha_datos ='"+newstring+"') or ";
 				flag=1;
 			}else
 			{
 				if(flag==0){
 					query_empresa+=" and ";
 				}
-				query_empresa+="   (UPPER(e.nombre_empresa)=UPPER('"+aux_recordset. getString("nombre_empresa")+"')  and pd.fecha_datos ='"+newstring+"')  ";
+				query_empresa+="   (UPPER(e.nombre_empresa)=UPPER('"+aux_recordset.getString("nombre_empresa")+"')  and pd.fecha_datos ='"+newstring+"')  ";
 				flag=1;
 			}
 			aux_recordset.next();
@@ -105,6 +162,11 @@ public class reCalculaPromedio extends GenericTransaction {
 		rs_sector = this.getDb().get(query_sector);
 		rs_tamano = this.getDb().get(query_tamano);
 		rs_empresa = this.getDb().get(query_empresa);
+		
+		
+		
+		agrega_empresas_a_encuesta(rs_max_encuesta,rs_empresa,aux_recordset);
+		
 
 		rs_sector.top();
 		
@@ -126,27 +188,27 @@ public class reCalculaPromedio extends GenericTransaction {
 				while (rs_empresa.next()) {
 					
 					
-					Recordset rs_encuesta_empresa=null;
-					rs_encuesta_empresa=new Recordset();
-					rs_encuesta_empresa.append("fk_empresa_id", java.sql.Types.INTEGER);
-					rs_encuesta_empresa.append("fk_encuesta_id", java.sql.Types.INTEGER);
-					rs_encuesta_empresa.append("es_patrocinante", java.sql.Types.INTEGER);
-					
-					rs_encuesta_empresa.addNew();
-					rs_encuesta_empresa.setValue("fk_empresa_id", new Integer(rs_empresa.getString("empresa_id") ));
-					rs_max_encuesta.first();
-					rs_encuesta_empresa.setValue("fk_encuesta_id", new Integer(rs_max_encuesta.getString("encuesta_id")));
-					
-					
-					if(aux_recordset.getString("patrocinante")==null){
-						es_patrocinante=0;
-					}
-					else {
-						es_patrocinante=1;
-					}
-					rs_encuesta_empresa.setValue("es_patrocinante", es_patrocinante);
-					String[] campos_encuesta_empresa={"fk_empresa_id","fk_encuesta_id","es_patrocinante"};
-					getDb().execBatch(getResource("insert_encuesta_empresa.sql"), rs_encuesta_empresa,campos_encuesta_empresa);
+//					Recordset rs_encuesta_empresa=null;
+//					rs_encuesta_empresa=new Recordset();
+//					rs_encuesta_empresa.append("fk_empresa_id", java.sql.Types.INTEGER);
+//					rs_encuesta_empresa.append("fk_encuesta_id", java.sql.Types.INTEGER);
+//					rs_encuesta_empresa.append("es_patrocinante", java.sql.Types.INTEGER);
+//					
+//					rs_encuesta_empresa.addNew();
+//					rs_encuesta_empresa.setValue("fk_empresa_id", new Integer(rs_empresa.getString("empresa_id") ));
+//					rs_max_encuesta.first();
+//					rs_encuesta_empresa.setValue("fk_encuesta_id", new Integer(rs_max_encuesta.getString("encuesta_id")));
+//					
+//					
+//					if(aux_recordset.getString("patrocinante")==null){
+//						es_patrocinante=0;
+//					}
+//					else {
+//						es_patrocinante=1;
+//					}
+//					rs_encuesta_empresa.setValue("es_patrocinante", es_patrocinante);
+//					String[] campos_encuesta_empresa={"fk_empresa_id","fk_encuesta_id","es_patrocinante"};
+//					getDb().execBatch(getResource("insert_encuesta_empresa.sql"), rs_encuesta_empresa,campos_encuesta_empresa);
 					
 					
 						String query_lista_empleados = "select ep.sbm from procedencia_datos as pd, empresa_puesto as ep, tamano_empresa as te , empresa as e, sector as s, tamano as t, cargo as c where te.empresa_fk=ep.fk_empresa_id and e.empresa_id=ep.fk_empresa_id and te.empresa_fk=e.empresa_id  and e.sector_fk=s.sector_id and t.tamano_id=te.tamano_fk and ep.fk_empresa_id=e.empresa_id and ep.codigo_completo=c.codigo_completo  and pd.empresa_fk=ep.fk_empresa_id and pd.fecha_datos='"+rs_empresa.getString("fecha_datos")+"' 	"

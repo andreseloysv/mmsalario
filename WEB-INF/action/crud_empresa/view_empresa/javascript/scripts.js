@@ -20,12 +20,7 @@ onload = function() {
 		      .button()
 		      .click(function( event ) {
 		    	  upload_empresa();
-		    	  location.reload();
 		      });
-	
-	
-	
-//	addNew(); // prepara formulario para ingresar nuevo registro
 	search(); // mostrar registros en vista paginada
 	
 	$("#nombre_empresa").focusin(function () {
@@ -71,40 +66,9 @@ onload = function() {
 	
 }
 
-function capaProtectora() {
-	var docHeight = $(document).height();
-	$("body").append("<div id='cargando'></div>");
-	$("#cargando").height(docHeight).css({
-		'opacity' : 0.4,
-		'position' : 'absolute',
-		'top' : 0,
-		'left' : 0,
-		'background-color' : 'black',
-		'width' : '100%',
-		'z-index' : 5000
-	});
-}
 
-function inizializaTabla() {
-	$(document.getElementById("max_page")).text("/" + $("#PageCount").val());
-	// setTimeout(function() {
-	$('input.celda').autoGrowInput({
-		comfortZone : 50,
-		minWidth : 100,
-		maxWidth : 2000
-	});
-	// $('input.celda').trigger('keyup');
-	// document.getElementById('campo_busqueda').focus();
-	// }, 3000);
-	// overlay.destroy();
-	$("#cargando").css({
-		'display' : 'none'
-	});
-	// cargaDialogo();
 
-}
 
-// document.form2.elements[0].focus();
 
 function pickIdEmpresa() {
 	var url = "${def:context}${def:actionroot}/picklist-empresa/form";
@@ -123,133 +87,6 @@ function pickIdUnidad() {
 				'nombre_empleado', 'empleado');
 	}
 
-}
-
-function cargaDialogo() {
-	var name = $("#name"), email = $("#email"), password = $("#password"), allFields = $(
-			[]).add(name).add(email).add(password), tips = $(".validateTips");
-
-	// //////////////////Control de dialogos
-
-	function updateTips(t) {
-		tips.text(t).addClass("ui-state-highlight");
-		setTimeout(function() {
-			tips.removeClass("ui-state-highlight", 1500);
-		}, 500);
-	}
-
-	function checkLength(o, n, min, max) {
-		if (o.val().length > max || o.val().length < min) {
-			o.addClass("ui-state-error");
-			updateTips("Length of " + n + " must be between " + min + " and "
-					+ max + ".");
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	function checkRegexp(o, regexp, n) {
-		if (!(regexp.test(o.val()))) {
-			o.addClass("ui-state-error");
-			updateTips(n);
-			return false;
-		} else {
-			return true;
-		}
-	}
-	$("#dialog-form")
-			.dialog(
-					{
-						autoOpen : false,
-						height : 400,
-						width : 550,
-						modal : true,
-						buttons : {
-							"Create an account" : function() {
-								var bValid = true;
-								allFields.removeClass("ui-state-error");
-
-								bValid = bValid
-										&& checkLength(name, "username", 3, 16);
-								bValid = bValid
-										&& checkLength(email, "email", 6, 80);
-								bValid = bValid
-										&& checkLength(password, "password", 5,
-												16);
-
-								bValid = bValid
-										&& checkRegexp(name,
-												/^[a-z]([0-9a-z_])+$/i,
-												"Username may consist of a-z, 0-9, underscores, begin with a letter.");
-								// From jquery.validate.js (by joern),
-								// contributed
-								// by Scott Gonzalez:
-								// http://projects.scottsplayground.com/email_address_validation/
-								bValid = bValid
-										&& checkRegexp(
-												email,
-												/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i,
-												"eg. ui@jquery.com");
-								bValid = bValid
-										&& checkRegexp(password,
-												/^([0-9a-zA-Z])+$/,
-												"Password field only allow : a-z 0-9");
-
-								if (bValid) {
-									$("#users tbody").append(
-											"<tr>" + "<td>" + name.val()
-													+ "</td>" + "<td>"
-													+ email.val() + "</td>"
-													+ "<td>" + password.val()
-													+ "</td>" + "</tr>");
-									$(this).dialog("close");
-								}
-							},
-							Cancel : function() {
-								$(this).dialog("close");
-							}
-						},
-						close : function() {
-							allFields.val("").removeClass("ui-state-error");
-						}
-					});
-	// $("#create-user").button().click(function() {
-	$("#dialog-form").dialog("open");
-	// });
-
-}
-
-function pickIdEmpleado() {
-	if (document.getElementById("unidad").value == '') {
-		alert('Primero debe seleccionar una unidad');
-	} else {
-		var url = "${def:context}${def:actionroot}/picklist-empleado/form?unidad="
-				+ document.getElementById("unidad").value;
-		pickOpen('nombre_empleado', 'empleado', url, '400', '300');
-	}
-}
-
-// configurar formulario para ingresar registro nuevo
-function addNew() {
-	clearForm("form2");
-	document.getElementById("formTitle").innerHTML = "Crear cuenta de usuario";
-	document.getElementById("grabar").disabled = false;
-	setFocusOnForm("form2");
-}
-
-// invoca un popup para descargar los documentos
-function infoExcel() {
-	var url = "${def:context}${def:actionroot}/download?id=" + 27;
-	var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
-	window.location = url;
-}
-
-// invoca la generacion de un PDF en un popup
-function openExcel() {
-	var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
-	var url = "${def:context}${def:actionroot}/excel?random=" + Math.random();
-	var w = window.open(url, null, features);
 }
 
 // enviar POST del formulario
@@ -363,37 +200,19 @@ function pickCiudadId(){
 
 // ejecutar consulta y mostrar grid, si hay data viewPage() sera invocada
 // automaticamente
-function search()
-{
-// var url = "${def:actionroot}/search";
-//	
-// //determina si refresca y se para en la pagina actual o en la pagina 1
-// if (currentPage > 0)
-// url = "${def:actionroot}/search?currentpage=" + currentPage;
-//
-// //llamada Ajax...
-// ajaxCall(httpMethod="GET",
-// uri= url,
-// divResponse="response",
-// divProgress="status",
-// formName=null,
-// afterResponseFn=null,
-// onErrorFn=null);
-	//ejecutar consulta
+
 	function search()
 	{
-
 		//llamada Ajax...
 		return ajaxCall(	httpMethod="POST", 
 							uri="${def:actionroot}/search", 
 							divResponse="response", 
 							divProgress="status", 
-							formName="form1", 
-							afterResponseFn=null, 
-							onErrorFn=showFilter);
+							formName=null, 
+							afterResponseFn="inicializaBotones", 
+							onErrorFn="showFilter");
 	
 	}
-}
 
 // traer la pagina N del grid
 function viewPage()
@@ -413,7 +232,7 @@ function save()
 	
 	$.each( $("#nombre_muestra_form"), function( key, value ) {
 		$(value).attr('value', $("#nombre_muestra").val());
-});
+	});
 	
 	// determina si es un insert o un update
 	if (document.form2.id.value=="")
@@ -425,7 +244,9 @@ function save()
 
 function inicializaGrabar(){
 	document.getElementById("grabar").disabled=false;
+	alert("hey you see");
 }
+
 
 // grabar registro nuevo en BD
 function insert()
@@ -512,28 +333,6 @@ function deleteRecord(id)
 					
 }
 
-// configurar formulario para ingresar registro nuevo
-function addNew()
-{
-
-	ajaxCall(httpMethod="GET", 
-					uri="${def:actionroot}/addnew",
-					divResponse=null, 
-					divProgress="status", 
-					formName=null, 
-					afterResponseFn=null, 
-					onErrorFn=null);
-							
-// clearForm("form2");
-	clearForm("form2");
-// document.getElementById("formTitle").innerHTML = "Añadir registro";
-	document.getElementById("saveDetail").value = "Añadir";
-	document.getElementById("grabar").disabled=false;
-	document.getElementById("saveDetail").disabled=false;
-	document.getElementById("detail").innerHTML = "";
-	setFocusOnForm("form2");
-}
-
 // invoca la generacion de un PDF en un popup
 function openPDF()
 {
@@ -585,7 +384,8 @@ function listDetailInsert(form_name,form_objeto)
 							formName=form_name, 
 							afterResponseFn=detailAddNew, 
 							onErrorFn=detailReady);
-}	
+}
+
 function validaNombreMuestra(){
 	if($("#nombre_empresa").val()==""){
 		$('<div>').attr({
@@ -597,6 +397,7 @@ function validaNombreMuestra(){
 	}
 	return true;
 }
+
 function llenaListDestailInsert(){
 	if(!validaNombreMuestra()){
 		return 0;
@@ -705,14 +506,6 @@ function buscar_empresas(){
 			onErrorFn=null);	
 }
 
-function inicializaNombreMuestra(){
-	var elemento=$("#tabla_nombre_muestra");
-	elemento.css( "display", "none" );
-	elemento.find("input")[0].value="";
-}
-
-
-
       	
 $( document ).tooltip({
     position: {
@@ -782,18 +575,7 @@ function uploadError(msg)
 	document.form1.description.focus();
 }
 
-//ejecutar consulta
-function search()
-{
-	//llamada Ajax...
-	ajaxCall(httpMethod="GET", 
-					uri="${def:actionroot}/search", 
-					divResponse="response", 
-					divProgress="status", 
-					formName=null, 
-					afterResponseFn=null, 
-					onErrorFn=null);
-}
+
 
 //define la url en donde se mostrara el resultado de consulta
 function viewPage()
@@ -1012,7 +794,6 @@ function save()
 		}
 			
 	}
-
 	ajaxCall(httpMethod="POST", 
 					uri, 
 					divResponse=null, 
@@ -1029,3 +810,4 @@ function retryAddnewOrEdit() {
 	document.edita_empresa.submit.disabled=false;
 	setFocusOnForm("edita_empresa");		
 }
+

@@ -1,15 +1,5 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<link rel="stylesheet" type="text/css" href="${def:context}/default.css" />
-	<link rel="stylesheet" type="text/css" href="${def:context}/jquery.css" />
-	<!--biblioteca generica JS/Dinamica-->
-	<script type="text/javascript" src="${def:context}/action/script"></script>
-	<script type="text/javascript" src="${def:context}/action/crud_empresa/view_empresa/javascript"></script>
-	
-	<title>Lista de empresas</title>
-
-</head>
 
 <body>
 
@@ -46,17 +36,24 @@
 		<tbody>
 		<rows>
 		<tr ${fld:_rowStyle} ondblclick="editar(this)"  id="${fld:empresa_id}" >
-			<td title="Haz doble click para editar" ><img src="${def:context}/action/crud_empresa/view_empresa/getblob?id=${fld:empresa_id}" width="200px" height="85px" > <input style="display:none;" id="content_type__${fld:empresa_id}" value="${fld:content_type}" ><input style="display:none;" id="file_name__${fld:empresa_id}" value="${fld:filename}" ><input style="display:none;" id="image_size__${fld:empresa_id}" value="${fld:image_size}" ><input style="display:none;" id="image_data__${fld:empresa_id}" value="${fld:image_data}" > </td>
-			<td title="Haz doble click para editar" ><input id="input_${fld:empresa_id}" class="dato" type="text" value="${fld:nombre_empresa}" readonly ></td>
-			<td title="Haz doble click para editar" ><textarea readonly id="textarea_${fld:empresa_id}" class="dato" rows="8" cols="60"  > ${fld:description}</textarea></td>
+			<td title="Haz doble click para editar" >
+				<img src="${def:context}/action/crud_empresa/view_empresa/getblob?id=${fld:empresa_id}" width="200px" height="85px" > 
+				<input style="display:none;" id="content_type__${fld:empresa_id}" value="${fld:content_type}" >
+				<input style="display:none;" id="file_name__${fld:empresa_id}" value="${fld:filename}" >
+				<input style="display:none;" id="image_size__${fld:empresa_id}" value="${fld:image_size}" >
+				<input style="display:none;" id="image_data__${fld:empresa_id}" value="${fld:image_data}" > 
+			</td>
+			<td title="Haz doble click para editar" >
+				<input id="input_${fld:empresa_id}" class="dato" type="text" value="${fld:nombre_empresa}" readonly ></td>
+			<td title="Haz doble click para editar" >
+				<textarea readonly id="textarea_${fld:empresa_id}" class="dato" rows="8" cols="60"  > ${fld:description}</textarea>
+			</td>
 		</tr>
 		</rows>
 	</tbody>
 	
 	</table>
 	</div>
-	<div id="guardar" style="position: absolute;display: none;"><button>Guardar</button></div>
-	
 	
 	<div id="resultado" name="resultado"></div>
 	

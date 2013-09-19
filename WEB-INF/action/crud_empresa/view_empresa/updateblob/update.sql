@@ -1,10 +1,9 @@
-UPDATE encuesta SET
-	descripcion_encuesta=${fld:descripcion_encuesta},
-	encuesta_id=${fld:id},
+UPDATE empresa SET
+	description=${fld:descripcion_empresa},
 	image_size=${fld:_filesize},
 	image_data=?,
 	filename=${fld:_filename},
 	content_type=${fld:_contenttype},
-	nombre_encuesta=${fld:nombre_encuesta}
+	nombre_empresa=${fld:nombre_empresa}
 WHERE
-	encuesta_id=${fld:id}
+	empresa_id=${fld:id}

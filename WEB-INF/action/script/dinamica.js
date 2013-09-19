@@ -92,7 +92,6 @@ function ajaxCall(httpMethod, uri, divResponse, divProgress, formName, afterResp
 							// invocar callback en caso de error
 							if (onErrorFn!=null){
 								onErrorFn();
-								alert("mamalo");
 							}
 							return false;
 						}

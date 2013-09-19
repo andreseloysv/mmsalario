@@ -6,7 +6,8 @@
 	<transaction>
 		<!-- <classname>dinamica.GenericTransaction</classname> -->
 		<classname>domain.mmcontrolclass.reCalculaPromedio</classname>
-		<validator>false</validator>
+		<recordset id="detail.sql" source="session" scope="transaction" />
+		<validator>true</validator>
 		<transaction>false</transaction>
 		<jdbc-log>false</jdbc-log>
 	</transaction>
