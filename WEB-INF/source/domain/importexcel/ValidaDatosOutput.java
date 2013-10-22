@@ -17,7 +17,7 @@ public class ValidaDatosOutput extends GenericTransaction {
 		String resultado = "";
 		Recordset empresa_puesto = null;
 		String campo_busqueda = "";
-
+		String salario_basico_mensual_grafico="";
 		Recordset parametros = inputParams;
 		int pagina = 1;
 
@@ -120,8 +120,11 @@ public class ValidaDatosOutput extends GenericTransaction {
 					resultado += ("<td class='titulotablas celda_td'><input value='"
 							+ empresa_puesto.getString("asignacion_vehiculo") + "' class='celda' disabled/></td>");
 					resultado += ("<td class='titulotablas celda_td'><input value='"
-							+ empresa_puesto.getString("fecha_ingreso") + "' class='celda' disabled/></td>");
+							+ empresa_puesto.getString("fecha_ingreso") + "' class='celda' disabled/></td>");					
 					resultado += ("</tr>");
+
+						salario_basico_mensual_grafico+="<sbm>"+empresa_puesto.getString("sbm")+"</sbm>";
+					
 				}
 			}
 			resultado += ("<tr style='display: none; '><th><input type='hidden' id='PageCount' value=\""
@@ -140,6 +143,14 @@ public class ValidaDatosOutput extends GenericTransaction {
 				resultado += ("<input type='hidden' id='PageNext' value=\""
 						+ (aux.getPageNumber() + 1) + "\" name='PageNext'></th></tr>");
 			}
+			
+			
+			
+				resultado += ("<input type='hidden' id='arreglo_sbm' value=\""
+						+ ("<arreglo_sbm>"+salario_basico_mensual_grafico+"</arreglo_sbm>") + "\" name='PageNext'></th></tr>");
+			
+			
+			
 			resultado = Matcher.quoteReplacement(resultado);
 
 

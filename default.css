@@ -3,8 +3,7 @@
 	border-color: rgb(194, 194, 194);
 	border-style: solid;
 	border-collapse: collapse;
-	width: 100%;
-/* 	width: 242px; */
+	width: 230px;	
 	height: 30px;
 	margin: 0px;
 	padding: 0px;
@@ -838,7 +837,7 @@ input.hidden {
 #profile-image {
 	cursor: pointer;
 	background: #dddddd;
-	width: 250px;
+	width: 240px;
 	height: 80px;
 	line-height: 80px;
 	border-width: 2px;

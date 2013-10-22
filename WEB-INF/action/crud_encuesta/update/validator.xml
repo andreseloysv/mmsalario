@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+?xml version='1.0' encoding='ISO-8859-1'?>
 <validator onerror="/action/error/validation/ajax">
 	
 	<parameter id='id' type='integer' required='true' label='Clave primaria' maxlen='10'/>
 	<parameter id='nombre' type='varchar' required='true' label='Nombre' maxlen='60'/>
-	<parameter id='cedula' type='varchar' required='true' label='Cédula' maxlen='20'/>
-	<parameter id='telefono' type='varchar' required='true' label='Télefono' maxlen='20'/>
+	<parameter id='cedula' type='varchar' required='true' label='CÃ©dula' maxlen='20'/>
+	<parameter id='telefono' type='varchar' required='true' label='TÃ©lefono' maxlen='20'/>
 	<parameter id='email' type='varchar' required='false' label='Email' maxlen='60' regexp='^([\w-]+\.)*?[\w-]+@[\w-]+\.([\w-]+\.)*?[\w]+$' regexp-error-label='Formato incorrecto xxxx@xxxxxx.xxx'/>
 	<parameter id='sexo' type='varchar' required='true' label='Sexo @{M=Masculino|F=Femenino}' maxlen='1'/>
 	<parameter id='ciudad_id_name' type='varchar' required='true' label='Ciudad'/>

@@ -1,0 +1,140 @@
+<!--formulario-->
+<form id="form" name="form1" onsubmit="return postForm()">
+<table width="400px" class="formgrid">
+
+	<!--ancho de la columna de etiquetas-->
+	<col width="30%">
+
+
+	<!--separador-->
+	<tr style="height: 10px">
+		<td colspan="2"></td>
+	</tr>
+
+	<!--control picklist de seleccion múltiple-->
+	<tr>
+		<td class="formlabel required">Sector:</td>
+		<td>
+			<!--listbox--> 
+			<select id="sectores" name="sectores" size="4" style="width: 95%;">
+			</select><br>
+	
+			<!--comandos del listbox-->
+			<div style="float: right; margin-right: 12px; padding-top: 7px">
+			[<a href="javascript:pickCustomers()" title="Añadir items a la lista">Añadir</a>]
+			[<a href="javascript:removeCustomer()" title="Remover un item de la lista">Remover</a>]
+			</div>
+	
+			<!--almacena los IDs de los items separados por ";"--> 
+			<input type="hidden" name="tamano_id" id="tamano_id" />
+		</td>
+	</tr>
+	
+	<!--separador-->
+	<tr style="height: 10px">
+		<td colspan="2"></td>
+	</tr>
+
+</table>
+</form>
+
+
+<!--indicador de progreso-->
+<div id="status" class="progress">
+	<img src="${def:context}/images/progress.gif"> Por favor espere...
+</div>
+
+
+<!--panel de respuesta ajax-->
+<div id="response_sector" style="display: none; width: 100%"></div>
+
+
+
+<!--codigo de soporte del template-->
+<script type="text/javascript">
+
+	//apuntador a funcion para retornar dependiendo de donde este
+	var _goBackFn = null;
+
+	//inicializacion de la pagina cuando carga
+	onload = function()	{
+	} 
+
+	/** picklist de seleccion multiple **/
+	
+	//desplegar picklist de seleccion multiple
+	function pickCustomers(){
+		var url = "${def:context}${def:actionroot}/picklist-multi/form";
+		pickOpen ('sectores','tamano_id',url,'450','300');	
+	}	
+
+	//llamada por el picklist para añadir un item al listbox
+	function selectCustomer(id, title) {
+		listboxAddItem("sectores", id, title);
+	}
+	
+	//remover un item del listbox
+	function removeCustomer() {
+		if (document.form1.sectores.selectedIndex == -1) {
+			alert("Por favor seleccione el item de la lista que desea remover.");
+			return;
+		}
+		listboxRemoveItem("sectores");
+	}
+
+	//mostrar el formulario
+	function displayForm()
+	{
+		document.getElementById("form").style.display="";
+		document.getElementById("response_sector").style.display='none';
+		retryForm();
+	}
+
+	//esconder el formulario, es llamada cuando se muestra la respuesta
+	//ajax, en caso que esta sea un fragmento html
+	function hideForm()
+	{
+		document.getElementById("form").style.display="none";
+	}
+	
+	//habilita el boton de grabar, es llamada en caso de error Ajax
+	function retryForm() {
+		document.getElementById("grabar").disabled=false;
+	}
+
+	//ejecutar consulta, si es exitosa se esconde el formulario
+	//y se muestra el resultado en el DIV de respuesta
+	function postForm()
+	{
+
+		//convertir los IDs de los items del listbox a una lista de valores separados por ";"
+		document.form1.tamano_id.value = listboxGetItemValues("sectores");
+
+		//limpiar mensajes de error y desabilitar boton de grabar
+		clearErrorMessages();
+		document.getElementById("grabar").disabled=true;
+
+		//definir funcion goBack()
+		_goBackFn = displayForm;
+
+		//llamada Ajax...
+		return ajaxCall(	httpMethod="POST", 
+							uri="${def:actionroot}/update", 
+							divResponse="response_sector", 
+							divProgress="status", 
+							formName="form1", 
+							afterResponseFn=hideForm, 
+							onErrorFn=retryForm);
+	
+	}
+
+
+	//retorna al estado previo segun el apuntador a funcion _goBackFn,
+	//este apuntador se define en cada llamada Ajax - si aplica
+	function goBack() 
+	{
+		_goBackFn()			
+	}
+		
+</script>
+

@@ -8,9 +8,62 @@
 	<script type="text/javascript" src="${def:context}/action/crud_encuesta/view_encuesta/javascript"></script>
 	
 	<title>Cuenta de usuario</title>
+	  <script>
+		
+	  	var opt ={
+		      autoOpen: false,
+		      height: 500,
+		      width: 600,
+		      modal: true,
+		      title: "Crear encuesta salarial"
+		    };
+	  
+	    function crea_encuesta(){
+	    	
+	    	$("#form_encuesta").load("http://localhost/mmsalario/action/crud_encuesta/form",function(response,status,xhr){
+			      if (status=="success")
+			      {
+			      
+			      }
+			      else
+			      {
+			      $("#form_encuesta").html("An error occured: <br/>" + xhr.status + " " + xhr.statusText)
+			      }
+			    });
+	    	
+	    	}
+	    
+	    
+	function showFilter(){
+		alert("Hubo un error");
+	}  
+	
+	
+  $(function() {
+    $( "input[type=submit], a, button" )
+      .button()
+      .click(function() {
+			var theDialog = $( "#dialog-form" ).dialog(opt);
+    		theDialog.dialog("open");
+	        crea_encuesta();
+	      });  
+  });
+ 
+  </script>
 </head>
 <body>
-	<div id="resultado" name="resultado"></div>
-	<div id="response" style="display: none; width: 100%; margin-top: 7px"></div>
+	<div style="width: 100%;" >
+		<div style="margin: auto; width: 700px; background-color: rgb(255, 153, 0); text-align: right; color: white; height: 36px;" >
+			<input type="submit" value="+ Crear encuesta" />
+		</div>
+	</div>	
+	<div id="response" style="display: none; width: 100%; margin-top: 7px">
+	</div>
+	<div>
+	<div id="dialog-form" title="Crear encuesta salarial">	
+	    <div id="form_encuesta"></div>
+ 	</div>
+	</div>
+	<div id="guardar" style="position: absolute;display: none;"><button>Guardar</button></div>
 </body>
 </html>

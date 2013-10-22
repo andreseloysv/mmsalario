@@ -42,10 +42,10 @@ public class busca_empresa extends GenericTransaction {
 		Recordset rs_empresa = null;
 		
 		//Muestra por ahora no esta puesto
-//		String query = "select * from empresa as e, tamano as t, sector as s, muestra as m where e.sector_fk=s.sector_id and e.tamano_fk=t.tamano_id ";
+
+//		String query = "select e.nombre_empresa,to_char(p.fecha_datos,'dd-mm-yyyy') as fecha from procedencia_datos p,empresa as e, tamano as t, sector as s where e.sector_fk=s.sector_id and e.tamano_fk=t.tamano_id and p.empresa_fk=e.empresa_id ";
 		
-		String query = "select e.nombre_empresa,to_char(p.fecha_datos,'dd-mm-yyyy') as fecha from procedencia_datos p,empresa as e, tamano as t, sector as s where e.sector_fk=s.sector_id and e.tamano_fk=t.tamano_id and p.empresa_fk=e.empresa_id ";
-		
+		String query = "SELECT	e.nombre_empresa,p.fecha_datos as fecha FROM procedencia_datos p, empresa as e,	tamano as t, sector as s WHERE e.sector_fk=s.sector_id and e.tamano_fk=t.tamano_id and	p.empresa_fk=e.empresa_id ";
 		
 		if((rango_fecha_ini_registro!=null)&&(rango_fecha_fin_registro!=null)){
 			String[] vector = rango_fecha_ini_registro.split("-");
@@ -55,9 +55,7 @@ public class busca_empresa extends GenericTransaction {
 			rango_fecha_fin_registro=vector[2]+"-"+vector[1]+"-"+vector[0];
 			
 			query+=" and p.fecha_datos BETWEEN ' "+rango_fecha_ini_registro+"' and '"+rango_fecha_fin_registro+"'";
-		}
-		
-//		and upper(t.nombre)='MICRO' and upper(s.nombre_sector)='TEGNOLOGICO' 
+		} 
 		
 		if(nombre_tamano!=null){
 			query+=" and upper(t.nombre)=upper('"+nombre_tamano+"')";
@@ -66,6 +64,8 @@ public class busca_empresa extends GenericTransaction {
 			query+=" and upper(s.nombre_sector)=upper('"+nombre_sector+"')";
 		}
 
+		query+=" order by p.fecha_datos desc limit 1";
+		
 		rs_empresa = this.getDb().get(query);
 		rs_empresa.top();
 		resultado+="<table class='grid' style='width: 500px;' cellspacing='1'>";
@@ -84,20 +84,20 @@ public class busca_empresa extends GenericTransaction {
 			resultado+="<form name='form_resultado_busca_empresa__"+contador+"' id='form_resultado_busca_empresa__"+contador+"' onsubmit='return false;'>";
 			
 			resultado+="<div class='div_horizontal' style=' width: 244px;' >";
-				resultado+="<input type='text' id='nombre_empresa' value='"+rs_empresa.getString("nombre_empresa")+"' name='nombre_empresa' style='width: 180;border: none;' disabled>";
+				resultado+="<input type='text' id='nombre_empresa' value='"+rs_empresa.getString("nombre_empresa")+"' name='nombre_empresa' style='width: 180;border: none;background-color: white;' disabled>";
 			resultado+="</div>";
 			
-			resultado+="<div class='div_horizontal' style=' width: 92px;'>";
-				resultado+="<input   id='fecha_ini_registro' name='fecha_ini_registro' disabled value='"+rs_empresa.getString("fecha")+"' style='width: 92px;border: none;text-align: center;'>";
+			resultado+="<div class='div_horizontal' >";
+				resultado+="<input   id='fecha_ini_registro' name='fecha_ini_registro' disabled value='"+rs_empresa.getString("fecha")+"' style='width: 85px;height: 20px;border: none;text-align: center;background-color: white;margin-left: 10px;'>";
 			resultado+="</div>";
 				
 			resultado+="<div class='div_horizontal' style=' width: 90px;text-align: center;'>";
 				resultado+="<input type='hidden' name='rowindex'>";
-				resultado+="  <input type='checkbox' id='patrocinante' name='patrocinante'  style='text-align: center; ' ><br> ";
+				resultado+="  <input type='radio' id='patrocinante' name='tipo_cliente' value='0'  style='text-align: center; ' ><br> ";
 			resultado+="</div>";
 				
 			resultado+="<div class='div_horizontal' style=' width: 60px;text-align: center;'>";
-				resultado+="  <input type='checkbox' id='participante' name='participante'  style='text-align: center;' ><br> ";
+				resultado+="  <input type='radio' id='participante' name='tipo_cliente' value='1'  style='text-align: center;' ><br> ";
 			resultado+="</div>";
 			
 			resultado+="</form>";

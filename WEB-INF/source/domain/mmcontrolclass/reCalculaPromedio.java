@@ -1,8 +1,10 @@
 package domain.mmcontrolclass;
 
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -21,12 +23,13 @@ public class reCalculaPromedio extends GenericTransaction {
 		
 		encuesta.top();
 		rs_es_patrocinante.first();
-		
+
 		while (empresas.next()) {
+			
 			try{
+				
 				Recordset rs_encuesta_empresa=null;
 				rs_encuesta_empresa=new Recordset();
-				
 				
 				rs_encuesta_empresa.append("fk_empresa_id", java.sql.Types.INTEGER);
 				rs_encuesta_empresa.append("fk_encuesta_id", java.sql.Types.INTEGER);
@@ -38,12 +41,11 @@ public class reCalculaPromedio extends GenericTransaction {
 				encuesta.first();
 				rs_encuesta_empresa.setValue("fk_encuesta_id", new Integer(encuesta.getString("encuesta_id")));
 				
-				
-				if(rs_es_patrocinante.getString("patrocinante")==null){
-					es_patrocinante=0;
-				}
-				else {
+				if(rs_es_patrocinante.getInt("tipo_cliente")==0){
 					es_patrocinante=1;
+				}
+				else if(rs_es_patrocinante.getInt("tipo_cliente")==1){
+					es_patrocinante=0;
 				}
 				
 				rs_encuesta_empresa.setValue("es_patrocinante", es_patrocinante);
@@ -57,19 +59,33 @@ public class reCalculaPromedio extends GenericTransaction {
 			}
 		}
 	}
+
 	
+	// Elimina las encuestas que no tienen nombre
+	private boolean limpia_encuesta(){
+		
+		String query="DELETE FROM encuesta WHERE nombre_encuesta is null and encuesta_id!=(select MAX(encuesta_id) from encuesta);";
+		
+		try{
+			this.getDb().exec(query);
+			
+		}catch(Throwable e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public int service(Recordset inputParams) throws Throwable {
+		
+		// Elimina las encuestas que no tienen nombre
+//		limpia_encuesta();
+		
 		Recordset aux_recordset = (Recordset) getRequest().getSession().getAttribute("detail.sql");
-		
-//		if (aux_recordset==null){
-//			return 0;
-//		}
+
 		aux_recordset.first();
-		
 		int dimension_empresa=aux_recordset.getRecordCount();
-		
 		
 		Recordset rs_encuesta=null;
 		rs_encuesta=new Recordset();
@@ -120,21 +136,24 @@ public class reCalculaPromedio extends GenericTransaction {
 		String query_empresa = "SELECT e.empresa_id, e.nombre_empresa ,pd.fecha_datos, s.nombre_sector as sector, t.nombre as tamano, s.sector_id, t.tamano_id FROM empresa as e, procedencia_datos as pd, sector as s, tamano as t WHERE  pd.empresa_fk=e.empresa_id and e.sector_fk=s.sector_id and e.tamano_fk=t.tamano_id ";
 		
 		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");		
 		
 		int flag=0;
 		aux_recordset.first();
 		for (int i = 0; i < dimension_empresa; i++) {
-			String newstring = new SimpleDateFormat("yyyy-MM-dd").format(aux_recordset.getDate("fecha_ini_registro")); 
+			
+			String newstring = aux_recordset.getString("fecha_ini_registro");
+			
 			if((i+1)<dimension_empresa){
 				if(flag==0){
-					query_empresa+=" and ";
+					query_empresa+=" and ( ";
 				}
 				query_empresa+="  (UPPER(e.nombre_empresa)=UPPER('"+aux_recordset.getString("nombre_empresa")+"') and pd.fecha_datos ='"+newstring+"') or ";
 				flag=1;
 			}else
 			{
 				if(flag==0){
-					query_empresa+=" and ";
+					query_empresa+=" and (";
 				}
 				query_empresa+="   (UPPER(e.nombre_empresa)=UPPER('"+aux_recordset.getString("nombre_empresa")+"')  and pd.fecha_datos ='"+newstring+"')  ";
 				flag=1;
@@ -142,15 +161,12 @@ public class reCalculaPromedio extends GenericTransaction {
 			aux_recordset.next();
 		}
 		
+		query_empresa+=" ) ";
 		
 		Recordset rs_sector = null;
 		Recordset rs_tamano = null;
 		Recordset rs_empresa = null;
-//		Recordset rs_promedio = null;
-		
-		//
-		// promedio_id, sector_fk, tamano_empresa_fk, empresa_puesto_fk,
-		// valor
+
 		
 		rs_promedio = new Recordset();
 		rs_promedio.append("sector_fk", java.sql.Types.INTEGER);
@@ -162,7 +178,6 @@ public class reCalculaPromedio extends GenericTransaction {
 		rs_sector = this.getDb().get(query_sector);
 		rs_tamano = this.getDb().get(query_tamano);
 		rs_empresa = this.getDb().get(query_empresa);
-		
 		
 		
 		agrega_empresas_a_encuesta(rs_max_encuesta,rs_empresa,aux_recordset);
@@ -187,30 +202,6 @@ public class reCalculaPromedio extends GenericTransaction {
 			aux_recordset.first();
 				while (rs_empresa.next()) {
 					
-					
-//					Recordset rs_encuesta_empresa=null;
-//					rs_encuesta_empresa=new Recordset();
-//					rs_encuesta_empresa.append("fk_empresa_id", java.sql.Types.INTEGER);
-//					rs_encuesta_empresa.append("fk_encuesta_id", java.sql.Types.INTEGER);
-//					rs_encuesta_empresa.append("es_patrocinante", java.sql.Types.INTEGER);
-//					
-//					rs_encuesta_empresa.addNew();
-//					rs_encuesta_empresa.setValue("fk_empresa_id", new Integer(rs_empresa.getString("empresa_id") ));
-//					rs_max_encuesta.first();
-//					rs_encuesta_empresa.setValue("fk_encuesta_id", new Integer(rs_max_encuesta.getString("encuesta_id")));
-//					
-//					
-//					if(aux_recordset.getString("patrocinante")==null){
-//						es_patrocinante=0;
-//					}
-//					else {
-//						es_patrocinante=1;
-//					}
-//					rs_encuesta_empresa.setValue("es_patrocinante", es_patrocinante);
-//					String[] campos_encuesta_empresa={"fk_empresa_id","fk_encuesta_id","es_patrocinante"};
-//					getDb().execBatch(getResource("insert_encuesta_empresa.sql"), rs_encuesta_empresa,campos_encuesta_empresa);
-					
-					
 						String query_lista_empleados = "select ep.sbm from procedencia_datos as pd, empresa_puesto as ep, tamano_empresa as te , empresa as e, sector as s, tamano as t, cargo as c where te.empresa_fk=ep.fk_empresa_id and e.empresa_id=ep.fk_empresa_id and te.empresa_fk=e.empresa_id  and e.sector_fk=s.sector_id and t.tamano_id=te.tamano_fk and ep.fk_empresa_id=e.empresa_id and ep.codigo_completo=c.codigo_completo  and pd.empresa_fk=ep.fk_empresa_id and pd.fecha_datos='"+rs_empresa.getString("fecha_datos")+"' 	"
 								+ " and e.empresa_id="
 								+ rs_empresa.getString("empresa_id")								
@@ -222,7 +213,7 @@ public class reCalculaPromedio extends GenericTransaction {
 						rs_lista_empleados = this.getDb().get(query_lista_empleados);
 						
 						rs_lista_empleados.top();
-						System.out.print("query__________________"+query_lista_empleados+"__________________________");
+						
 						while (rs_lista_empleados.next()) {
 							list_valores.add(rs_lista_empleados.getDouble("sbm"));
 							total += rs_lista_empleados.getDouble("sbm");

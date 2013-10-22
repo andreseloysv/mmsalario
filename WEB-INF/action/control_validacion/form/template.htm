@@ -7,6 +7,8 @@
 <script type="text/javascript" src="${def:context}/action/script"></script>
 <script type="text/javascript"
 	src="${def:context}/action/control_validacion/javascript"></script>
+	
+<script type="text/javascript" src="${def:context}/action/control_validacion/libreria_estadistica"></script>
 <title>Cuenta de usuario</title>
 
 </head>
@@ -119,15 +121,25 @@
 
 
 	<div id="dialog-form" title="Rango de tolerancia de datos">
-		<p class="validateTips">Seleccione al menos un parametro de tolerancia.</p>
 		<form id="rango_tolerancia_form">
 		<div id="marco">
-			<div id="opcion_1"  style="width: 500px;height: 50px"> 
+			
+			<div style="margin: auto; width: 300px;">
+			<p class="validateTips" style="text-align: center;font-size: 15px;">
+				Distribucion de los datos
+			</p>
+				<p>
+					<span class="dynamicbar">Loading..</span>
+				</p>
+			</div>
+			
+			<p class="validateTips">Seleccione un parametro de tolerancia:</p>
+			
+			<div id="opcion_1"  style="width: 500px;height: 50px">
 					<p>
 					  <label for="amount">Porcentaje de desviacion:</label>
 					  <input type="text" id="porcentaje_desviacion" style="border: 0; color: #f6931f; font-weight: bold;" readonly/>
 					</p>
-					 
 					<div id="porcentaje_desviacion_slider-range-min"></div>
 			</div>
 			<div style="width: 500px;height: 50px" id="overlay_opcion_porcentaje_desviacion">Haga click aqui para aplicar un porcentaje de desviacion</div>
@@ -142,6 +154,7 @@
 			</div>
 			<div style="width: 500px;height: 50px" id="overlay_opcion_rango_desviacion">Haga click aqui para aplicar un numero de desviacones estandar</div>
 			<div>
+				
 			</div>
 			</div>
 			 <input type="hidden" id="tipo_tolerancia"  readonly />
@@ -149,5 +162,6 @@
 		
 	</div>
 	<div id="cargando"></div>
+
 </body>
 </html>

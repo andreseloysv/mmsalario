@@ -1,3 +1,4 @@
+
 <!--data grid-->
 <table class="grid" style="width: 95%;">
 
@@ -20,8 +21,14 @@
 	<!--data-->
 	<rows>
 	<tr ${fld:_rowStyle} onmouseover="rowOn(this)"onmouseout="rowOff(this)" onclick="selectItem('${fld:tamano_id}')">
-		<td style="font-size: 9pt;" align="center"><span  id="${fld:tamano_id}" name="${fld:tamano_id}">${fld:nombre}</span></td>
+		<td style="font-size: 9pt;" align="center">
+		<input type="checkbox" name="vehicle" value="Bike">
+		<span  id="${fld:tamano_id}" name="${fld:tamano_id}">${fld:nombre}</span></td>
 	</tr>
 	</rows>
+	
+	<tr>
+	<td style="text-align: center;"><input type="submit" value="Aceptar" /></td>
+	</tr>
 	
 </table>

@@ -95,29 +95,35 @@ function ajaxCall(httpMethod, uri, divResponse, divProgress, formName, afterResp
 							}
 							return false;
 						}
-
+						
 						// ok - responder de acuerdo al tipo de contenido
 						if( contentType.indexOf("text/javascript")>=0 ) 
 						{
 							eval(text);
+							if(afterResponseFn!=null){
+								afterResponseFn();
+							}
 						} 
 						else 
 						{
+							
 							if($('#tabla_excel').length>0){
 							if(text_anterior!=text){
 							text_anterior=text;
 							$.when( $('#tabla_excel tbody:first').append($.parseHTML(text)) ).done(
-									function(x) { afterResponseFn(); } 
+									function() { afterResponseFn(); } 
 						    );
 							}
 							}else
 							{
+								
 								if(divResponse!=null && afterResponseFn!=null){
 								$.when( $('#'+divResponse).append($.parseHTML(text)) ).done(
-										function(x) { afterResponseFn(); } 
+										function() { afterResponseFn(); } 
 							    );
 								}
 								else{
+									
 								if (http.status == 200 && afterResponseFn!=null){
 									 afterResponseFn();
 									 }
@@ -129,6 +135,11 @@ function ajaxCall(httpMethod, uri, divResponse, divProgress, formName, afterResp
 							 var div = document.getElementById(divResponse);
 							 div.innerHTML = text;
 							 div.style.display='';
+							 
+							 if (http.status == 200 && afterResponseFn!=null){
+								 afterResponseFn();
+								 }
+							
 							}
 						}
 					}
@@ -148,6 +159,7 @@ function ajaxCall(httpMethod, uri, divResponse, divProgress, formName, afterResp
     	if (data != null){
     		//http.setRequestHeader("Content-length", data.length);
     	}
+    	
     	http.send(data);
     	return false;
 
@@ -791,6 +803,24 @@ function pickSelect(id, description)
 {
 	document.getElementById(idControl).value = id;
 	document.getElementById(pickControl).value = description;
+}
+
+/**
+ * Rellena los elementos de la vista HTML padre con los valores seleccionados en
+ * el picklist
+ * 
+ * @arreglo_elemento
+ * 						Arreglo que contiene todos los elementos seleccionados
+ * 						key: Valor comunmente de tipo PK seleccionado en el picklist
+ * 						value: Valor comunmente de tipo texto seleccionado en el picklist
+ * 
+ */
+
+function multiPickSelect(arreglo_elemento)
+{
+	console.debug(arreglo_elemento);
+//	document.getElementById(idControl).value = id;
+//	document.getElementById(pickControl).value = description;
 }
 
 /**

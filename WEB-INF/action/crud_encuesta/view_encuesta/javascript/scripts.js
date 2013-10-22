@@ -15,12 +15,11 @@ var someElement = $("#cargando"), overlay;
 // inicializa cuando se carga la pagina
 onload = function() {
 	
-	 
 		    $( "button" )
 		      .button()
 		      .click(function( event ) {
 		    	  upload_encuesta();
-		    	  location.reload();
+		    	  //location.reload(true);
 		      });
 	
 	
@@ -38,6 +37,7 @@ onload = function() {
 			$("#tabla_nombre_muestra").css( "display", "block" );
 		}
 		});
+	
 	$("#nombre_tamano").focusin(function () {
 		if(nombre_tamano!=$(this).val()){
 			nombre_tamano=$(this).val();
@@ -45,6 +45,7 @@ onload = function() {
 			$("#tabla_nombre_muestra").css( "display", "block" );
 		}
 		});
+	
 	$("#nombre_sector").focusin(function () {
 		if(nombre_sector!=$(this).val()){
 			nombre_sector=$(this).val();
@@ -61,27 +62,13 @@ onload = function() {
 	        $("#tabla_nombre_muestra").css( "display", "block" );
 	      }
 	});
+	
 	$( "#rango_fecha_fin_registro" ).datepicker({
 		onClose: function( selectedDate ) {
 	        $( "#rango_fecha_ini_registro" ).datepicker( "option", "maxDate", selectedDate );
 	        buscar_empresas();
 	        $("#tabla_nombre_muestra").css( "display", "block" );
 	      }
-	});
-	
-}
-
-function capaProtectora() {
-	var docHeight = $(document).height();
-	$("body").append("<div id='cargando'></div>");
-	$("#cargando").height(docHeight).css({
-		'opacity' : 0.4,
-		'position' : 'absolute',
-		'top' : 0,
-		'left' : 0,
-		'background-color' : 'black',
-		'width' : '100%',
-		'z-index' : 5000
 	});
 }
 
@@ -363,37 +350,22 @@ function pickCiudadId(){
 
 // ejecutar consulta y mostrar grid, si hay data viewPage() sera invocada
 // automaticamente
+
 function search()
 {
-// var url = "${def:actionroot}/search";
-//	
-// //determina si refresca y se para en la pagina actual o en la pagina 1
-// if (currentPage > 0)
-// url = "${def:actionroot}/search?currentpage=" + currentPage;
-//
-// //llamada Ajax...
-// ajaxCall(httpMethod="GET",
-// uri= url,
-// divResponse="response",
-// divProgress="status",
-// formName=null,
-// afterResponseFn=null,
-// onErrorFn=null);
-	//ejecutar consulta
-	function search()
-	{
-
 		//llamada Ajax...
-		return ajaxCall(	httpMethod="POST", 
-							uri="${def:actionroot}/search", 
-							divResponse="response", 
-							divProgress="status", 
-							formName="form1", 
-							afterResponseFn=null, 
-							onErrorFn=showFilter);
-	
-	}
+	return ajaxCall(
+			
+		httpMethod="POST", 
+		uri="${def:actionroot}/search", 
+		divResponse="response", 
+		divProgress="status", 
+		formName="form1", 
+		afterResponseFn=null, 
+		onErrorFn=showFilter					
+	);	
 }
+
 
 // traer la pagina N del grid
 function viewPage()
@@ -686,12 +658,12 @@ function pickEmpresa(){
 }
 
 function pickTamano() {
-	var url = "${def:context}/action/muestra/picklist-tamano/form";
+	var url = "${def:context}/action/view_encuesta/picklist-tamano/form";
 	pickOpen('nombre_tamano', 'tamano_id', url, '450', '300');
 }
 
 function pickSector() {
-	var url = "${def:context}/action/muestra/picklist-sector/form";
+	var url = "${def:context}/action/view_encuesta/picklist-sector/form";
 	pickOpen('nombre_sector', 'sector_id', url, '450', '300');
 }
 
@@ -926,6 +898,8 @@ function upload_encuesta(){
 	document.edita_encuesta._tempfile.value="";
 	$("#nombre_encuesta").val($("#input_"+fila_seleccionada.id).val());
 	$("#descripcion_encuesta").val($("#textarea_"+fila_seleccionada.id).val());
+	console.debug($("#descripcion_encuesta").val());
+	console.debug("#textarea_"+fila_seleccionada.id);
 	save();
 
 }

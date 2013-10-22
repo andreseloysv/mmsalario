@@ -8,8 +8,7 @@
 	
 	<log>false</log>
 	<transaction>
-<!-- 		<classname>domain.importexcel.calculaPromedio</classname> -->
-<classname>dinamica.GenericTransaction</classname>
+		<classname>dinamica.GenericTransaction</classname>
 		<validator>false</validator>
 		<transaction>false</transaction>
 		<jdbc-log>false</jdbc-log>

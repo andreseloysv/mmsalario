@@ -1,5 +1,6 @@
 var timeoutID = 0;
 var someElement = $("#cargando"), overlay;
+var valores_sbm;
 
 // inicializa cuando se carga la pagina
 onload = function() {
@@ -117,17 +118,64 @@ $.tablesorter.addParser({
 });
 
 function inizializaTabla() {
+	
 	$(document.getElementById("max_page")).text("/" + $("#PageCount").val());
+	
+	
 	// setTimeout(function() {
 	$('input.celda').autoGrowInput({
 		comfortZone : 50,
 		minWidth : 100,
 		maxWidth : 2000
 	});
+	
 	$("#cargando").css({
 		'display' : 'none'
 	});
-	$("#tabla_excel").trigger("update"); 
+	
+	$("#tabla_excel").trigger("update");
+	
+	var xml = document.getElementById("arreglo_sbm").value,
+	  xmlDoc = $.parseXML( xml ),
+	  $xml = $( xmlDoc ),
+	  $sbm = $xml.find( "sbm" );
+	
+	valores_sbm= new Array();
+	
+	$.each( $sbm, function(key, value ) {
+		  $( "#" + key ).text( "Mine is " + value + "." );
+		  // Will stop running after "three"
+		  
+		  valores_sbm[key]=$(value).text();
+		});
+    
+        /** This code runs when everything has been loaded on the page */
+        /* Inline sparklines take their values from the contents of the tag */
+        $('.inlinesparkline').sparkline(); 
+
+        /* Sparklines can also take their values from the first argument 
+        passed to the sparkline() function */
+        valores_sbm
+
+        $('.dynamicsparkline').sparkline(valores_sbm);
+
+        /* The second argument gives options such as chart type */
+        $('.dynamicbar').sparkline(valores_sbm, {type: 'box',height:'100px',width:'300px',medianColor:'rgb(255, 94, 94);',whiskerColor:'rgb(0, 0, 0);',boxLineColor:'rgb(150, 150, 150);',lineColor:'rgb(150, 150, 150);',boxFillColor:'rgb(255, 247, 191);',tooltipValueLookups: {fields: { lq: 'Q1', med: 'Mediana', uq: 'Q3', lo: 'Left Outlier', ro: 'Right Outlier', lw: 'Bigote Izquierdo', rw: 'Bigote Derecho'}}} );
+        /* Use 'html' instead of an array of values to pass options 
+        to a sparkline with data in the tag */
+        $('.inlinebar').sparkline('html', {type: 'box', barColor: 'red',height:'100px',width:'300px'} );
+        
+        
+        var opcion_1 = $('#opcion_1');
+		var position_1 = opcion_1.position();
+		$('#overlay_opcion_porcentaje_desviacion').css('top', position_1.top);
+		$('#overlay_opcion_porcentaje_desviacion').css('left', position_1.left);
+		
+		var opcion_2 = $('#opcion_2');
+		var position_2 = opcion_2.position();
+		$('#overlay_opcion_rango_desviacion').css('top', (position_2.top+50));
+		$('#overlay_opcion_rango_desviacion').css('left', position_2.left);
+    
 }
 
 // document.form1.elements[0].focus();
@@ -188,7 +236,7 @@ function cargaDialogo() {
 			.dialog(
 					{
 						autoOpen : false,
-						height : 400,
+						height : 520,
 						width : 550,
 						modal : true,
 						buttons : {
@@ -308,7 +356,6 @@ function tiempo(pagina) {
 
 function ajaxBusquedaPagina(pagina, campo_busqueda) {
 	capaProtectora();
-	// overlay = new $.ui.dialog.overlay($("#cargando"));
 	tabla = document.getElementById('tabla_excel');
 	tamano = tabla.rows.length;
 	if (tamano > 4) {

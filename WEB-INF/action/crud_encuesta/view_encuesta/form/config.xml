@@ -9,7 +9,6 @@
 	<log>false</log>
 	
 	<transaction>
-<!-- 		<classname>domain.importexcel.Paginacion</classname> -->
 		<classname>dinamica.GenericTransaction</classname>
 		<validator>false</validator>
 		<transaction>false</transaction>
@@ -19,7 +18,6 @@
 	
 	<output>
 		<classname>dinamica.GenericOutput</classname>
-<!-- 		<print mode="table" recordset="busca_encuesta.sql" tag="lista_encuestas" alternate-colors="true" /> -->
 		<template>template.htm</template>
 		<set-http-headers>true</set-http-headers>
 		<content-type>text/html; charset=iso-8859-1</content-type>

@@ -1,0 +1,66 @@
+<!--data grid-->
+<table class="grid" width="100px" cellspacing="1">
+
+	<!--encabezados-->
+	<tr>
+		<th width="100%">Códigos de Cliente</th>
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr${fld:_rowStyle}>
+		<td align="center">${fld:customerid}</td>
+	</tr>
+	</rows>
+
+</table>
+
+<br>
+<br>
+
+<table class="grid" width="250px" cellspacing="1">
+
+	<tr>
+		<th colspan="2">Producto</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		<th width="15%">Código</th>
+		<th width="85%">Descripción</th>
+	</tr>
+
+	<!--data-->
+	<tr>
+		<td align="center">${fld:productid}</td>
+		<td align="center">${fld:productname}</td>
+	</tr>
+
+</table>
+
+<br>
+<br>
+
+<table class="grid" width="250px" cellspacing="1">
+
+	<tr>
+		<th colspan="2">Categoría</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		<th width="15%">Código</th>
+		<th width="85%">Descripción</th>
+	</tr>
+
+	<!--data-->
+	<tr>
+		<td align="center">${fld:categoryid}</td>
+		<td align="center">${fld:categoryname}</td>
+	</tr>
+
+</table>
+
+<br>
+
+<button onclick="goBack()">Retornar</button>

@@ -13,7 +13,6 @@
 		<validator>true</validator>
 		<transaction>false</transaction>
 		<jdbc-log>false</jdbc-log>
-<!-- 		<recordset id="viewchart.filter" source="session" scope="session" ></recordset> -->
 	</transaction>
 	
 	

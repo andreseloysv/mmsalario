@@ -8,6 +8,8 @@
 
 <script type="text/javascript">
 		//mostrar imagen y esconder su indicador de progreso de carga
+		var id_empresa=0;
+		
 		function displayImage(imageID)
 		{
 			document.getElementById(imageID + "_wait").style.display='none';
@@ -24,10 +26,27 @@
 		}
 		
 		function pickEmpresa(){
-// 			var url = "${def:context}/action/picklist-empresa/form";
-				var url = "${def:context}/action/empresa_puesto_2/picklist-empresa/form";
+				var url = "${def:context}${def:actionroot}/welcome/picklist-empresa/form";
 				pickOpen('nombre_empresa', 'empresa_id', url, '450', '300');
 		}
+
+		//Coloca el id del logo de la empresa seleccionada en el header de la aplicacion
+		//Parametros:
+		// id: id de la empresa seleccionada
+		// descripcion : Nombre de la empresa seleccionada
+		function luisSiSabe(id,descripcion){
+			// Si existe la imagen coloco el nuevo id
+			if( $("#logo_empresa").length > 0){
+				$("#logo_empresa").attr("src","/mmsalario/action/security/home/welcome/getblob?id="+id);
+			}
+			// Sino entonces creo el elemento con el id de la empresas
+			else{
+				$("#div_logo_empresa").append("<img id='logo_empresa' src='${def:context}${def:actionroot}/welcome/getblob?id="+id+"' width='200px' height='60px' >");
+			}
+		}
+		$( document ).ready(function() {
+		
+		});
 	</script>
 
 <style>
@@ -43,7 +62,9 @@
 
 <body>
 <div style="background-color: rgb(243, 243, 243);height: 60px;">
+<div id="div_logo_empresa">
 
+</div>
 		<div style="width: 250px;color: gray;font-weight: bold;padding-top: 20px;float: right;">
 			Bienvenid@ ${fld:fname} ${fld:lname},
 		</div>
@@ -65,17 +86,24 @@
 			<tr>
 				<td width="180" height="30" class="formlabel required">Empresa</td>
 				<td width="371" height="30">
-					<!--almacena el ID del item seleccionado--> <input type="hidden"
-					name="empresa_id" id="empresa_id" /> <!--almacena el nombre del item seleccionado-->
-					<input onClick="pickEmpresa()" placeholder="AddSolutions" type="text" id="nombre_empresa" name="nombre_empresa"
-					style="width: 183;" readonly /> <!--botones del picklist--> <img
-					src="${def:context}/images/search.gif" class="button"
-					onClick="pickEmpresa()" title="Seleccionar item" /></td>
+					
+					<!--almacena el ID del item seleccionado--> 
+					<input type="hidden" name="empresa_id" id="empresa_id"/> 
+					
+					<!--almacena el nombre del item seleccionado-->
+					<input onClick="pickEmpresa()" onchange="alert('hola')" type="text" id="nombre_empresa" name="nombre_empresa" readonly /> 
+					
+					<!--botones del picklist--> 
+					<img src="${def:context}/images/search.gif" class="button" onClick="pickEmpresa()" title="Seleccionar item" />
+					
+				</td>
 			</tr>
 			</rows2>
 		</table>
 	</center>
-
+	<form name="form1" action="http://127.0.0.1/mmsalario/action/security/home/welcome/view" method="post">
+		<input type="submit" value="Iniciar sesión" class="button">
+	</form>
 </body>
 
 </html>

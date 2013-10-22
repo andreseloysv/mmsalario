@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator onerror="/action/error/validation/ajax">
+	<parameter id="customerid" type="varchar" required="true" label="Clientes" />
+	<parameter id="productname" type="varchar" required="true" label="Producto" />
+	<parameter id="categoryname" type="varchar" required="true" label="Categoría" />
+	<parameter id="categoryid" type="integer" required="false" label="ID de Categoría" />
+	<parameter id="productid" type="integer" required="false" label="ID de Producto" />
+	
+	<custom-validator classname="dinamica.validators.StringToRecordset"
+		paramName="customerid" recordsetId="customers" separatorChar=";"
+		colName="customerid" colType="varchar" />
+		
+</validator>
+

@@ -1,0 +1,44 @@
+<!--data grid-->
+<table class="grid" style="width: 95%;">
+
+	<!--toolbar-->
+	<tr>
+		<th colspan="2">
+			<span style="color: gray; float: left;">Seleccione con un click</span> 
+			<!--panel de control de navegacion-->
+			<span style="float: right;"> ${inc:/action/pagecontrols}</span> 
+			<!--indicador de progreso-->
+			<img id="grid-progress" style="float: right; display: none"	src="${def:context}/images/progress.gif">
+		</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		<th style="width: 30%; text-align: center;">
+			<a href="javascript:onclick=sortBy('nombre')" title="Haga CLICK para ordenar por esta columna">Nombre</a>
+		</th>
+
+<!-- 		<th style="width: 70%;"> -->
+<!-- 			Descripción -->
+<!-- 		</th> -->
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr ${fld:_rowStyle} onmouseover="rowOn(this)" onmouseout="rowOff(this)" onclick="selectItem('${fld:sector_id}')">
+		<td style="font-size: 9pt; width: 30%;">
+			<span id="${fld:sector_id}">${fld:nombre_sector}</span>
+		</td>
+<!-- 		<td style="font-size: 9pt; width: 30%;"> -->
+<!-- 			<span> -->
+<!-- 				<strong style="color:gray;">Ventas anuales: </strong> ${fld:volumen_ventas_max}bs y ${fld:volumen_ventas_min}bs  -->
+<!-- 				<br> -->
+<!-- 				<strong style="color:gray;">Empleados: </strong> ${fld:numero_empleados_max} y ${fld:numero_empleados_min} -->
+<!-- 			</span> -->
+<!-- 		</td> -->
+	</tr>
+	</rows>
+<tr>
+<TD colspan="2" align="center" ><input type="submit" value="Aceptar" class="button" style="font-size: 9pt" onclick="parent.pickClose()"></TD>
+</tr>
+</table>

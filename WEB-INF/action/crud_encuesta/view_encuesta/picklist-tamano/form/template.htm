@@ -69,7 +69,6 @@
 </div>
 
 </center>
-
 </body>
 
 <!--codigo de soporte del template-->
@@ -85,18 +84,19 @@
 			document.form1.elements[0].focus();
 			search();
 			
+			
 		} 
-	
+
 		//mostrar filtro de busqueda
 		function showFilter()
 		{
 			document.form1.elements[0].focus();			
-		}
+		}		
+		  
 
 		//ejecutar consulta
 		function search()
 		{
-
 			//llamada Ajax...
 			return ajaxCall(	httpMethod="POST", 
 								uri="${def:actionroot}/search", 
@@ -128,11 +128,9 @@
 		
 		//retornar el item seleccionado a la pagina que llamo al picklist
 		function selectItem(id) {
-//			    document.getElementById("fecha_ini_registro").value=document.getElementsByName(id)[1].innerHTML;
-
 			var description = document.getElementById(id).innerHTML;
-			parent.pickSelect(id, description);
-			parent.pickClose();
+			parent.multiPickSelect(id, description);
+			//parent.pickClose();
 		}
 		
 </script>

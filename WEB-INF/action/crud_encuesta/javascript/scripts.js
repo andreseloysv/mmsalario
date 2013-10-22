@@ -7,54 +7,73 @@ var rango_fecha_fin_registro="";
 
 var someElement = $("#cargando"), overlay;
 
+
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+
+addNew(); // prepara formulario para ingresar nuevo registro
+search(); // mostrar registros en vista paginada
+
+$("#nombre_empresa").focusin(function () {
+	if(nombre_empresa!=$(this).val()){
+		var str=$("#nombre_empresa").val();
+		var n=str.split(" - ");
+		$("#nombre_empresa").val(n[0]);
+		$("#fecha_ini_registro").val(n[1]);
+		
+		$("#tabla_nombre_muestra").css( "display", "block" );
+	}
+	});
+$("#nombre_tamano").focusin(function () {
+	if(nombre_tamano!=$(this).val()){
+		nombre_tamano=$(this).val();
+		buscar_empresas();
+		$("#tabla_nombre_muestra").css( "display", "block" );
+	}
+	});
+$("#nombre_sector").focusin(function () {
+	if(nombre_sector!=$(this).val()){
+		nombre_sector=$(this).val();
+		buscar_empresas();
+		$("#tabla_nombre_muestra").css( "display", "block" );
+	}
+	});
+
+
+$( "#rango_fecha_ini_registro" ).datepicker({
+	onClose: function( selectedDate ) {
+        $( "#rango_fecha_fin_registro" ).datepicker( "option", "minDate", selectedDate );
+        buscar_empresas();
+        $("#tabla_nombre_muestra").css( "display", "block" );
+      }
+});
+$( "#rango_fecha_fin_registro" ).datepicker({
+	onClose: function( selectedDate ) {
+        $( "#rango_fecha_ini_registro" ).datepicker( "option", "maxDate", selectedDate );
+        buscar_empresas();
+        $("#tabla_nombre_muestra").css( "display", "block" );
+      }
+});
+$('#profile-image').on('click', function() {
+    $('#profile-image-upload').click();
+});
+
+/////////////////////////////////////////////////
+
+
+
+
+
 // inicializa cuando se carga la pagina
 onload = function() {
-	addNew(); // prepara formulario para ingresar nuevo registro
-	search(); // mostrar registros en vista paginada
-	
-	$("#nombre_empresa").focusin(function () {
-		if(nombre_empresa!=$(this).val()){
-			var str=$("#nombre_empresa").val();
-			var n=str.split(" - ");
-			$("#nombre_empresa").val(n[0]);
-			$("#fecha_ini_registro").val(n[1]);
-			
-			$("#tabla_nombre_muestra").css( "display", "block" );
-		}
-		});
-	$("#nombre_tamano").focusin(function () {
-		if(nombre_tamano!=$(this).val()){
-			nombre_tamano=$(this).val();
-			buscar_empresas();
-			$("#tabla_nombre_muestra").css( "display", "block" );
-		}
-		});
-	$("#nombre_sector").focusin(function () {
-		if(nombre_sector!=$(this).val()){
-			nombre_sector=$(this).val();
-			buscar_empresas();
-			$("#tabla_nombre_muestra").css( "display", "block" );
-		}
-		});
-
-	
-	$( "#rango_fecha_ini_registro" ).datepicker({
-		onClose: function( selectedDate ) {
-	        $( "#rango_fecha_fin_registro" ).datepicker( "option", "minDate", selectedDate );
-	        buscar_empresas();
-	        $("#tabla_nombre_muestra").css( "display", "block" );
-	      }
-	});
-	$( "#rango_fecha_fin_registro" ).datepicker({
-		onClose: function( selectedDate ) {
-	        $( "#rango_fecha_ini_registro" ).datepicker( "option", "maxDate", selectedDate );
-	        buscar_empresas();
-	        $("#tabla_nombre_muestra").css( "display", "block" );
-	      }
-	});
-	$('#profile-image').on('click', function() {
-        $('#profile-image-upload').click();
-    });
+	 $( "button" )
+     .button()
+     .click(function( event ) {
+   	  upload_encuesta();
+   	  location.reload();
+     });
 }
 
 function capaProtectora() {
@@ -209,13 +228,6 @@ function pickIdEmpleado() {
 	}
 }
 
-// configurar formulario para ingresar registro nuevo
-function addNew() {
-	clearForm("form2");
-	document.getElementById("formTitle").innerHTML = "Crear cuenta de usuario";
-	document.getElementById("grabar").disabled = false;
-	setFocusOnForm("form2");
-}
 
 // invoca un popup para descargar los documentos
 function infoExcel() {
@@ -492,14 +504,15 @@ function addNew()
 					afterResponseFn=null, 
 					onErrorFn=null);
 							
-// clearForm("form2");
-	clearForm("form2");
-// document.getElementById("formTitle").innerHTML = "Añadir registro";
-	document.getElementById("saveDetail").value = "Añadir";
-	document.getElementById("grabar").disabled=false;
-	document.getElementById("saveDetail").disabled=false;
-	document.getElementById("detail").innerHTML = "";
-	setFocusOnForm("form2");
+	
+//  clearForm("form2");
+//	clearForm("form2");
+//  document.getElementById("formTitle").innerHTML = "Añadir registro";
+//  document.getElementById("saveDetail").value = "Añadir";
+//	document.getElementById("grabar").disabled=false;
+//	document.getElementById("saveDetail").disabled=false;
+//	document.getElementById("detail").innerHTML = "";
+//	setFocusOnForm("form2");
 }
 
 // invoca la generacion de un PDF en un popup
@@ -593,14 +606,49 @@ function detailReady() {
 	setFocusOnForm("form2");
 }
 
+
+function splitEmpresaFecha(){
+	var valor_fecha_aux="";
+	$.each($( ".input_mater_detail" ),function( index ,valor) {
+		
+		
+		
+		if(index>0){
+		
+			if( (index % 2)!=0 ){
+			
+				var str=$(valor).val();
+				var n=str.split(" - ");
+				
+				valor.value=n[0];
+				
+				valor_fecha_aux=n[1];
+			}
+			
+			if( (index % 2)==0 ){
+				
+				$( valor ).val(valor_fecha_aux);
+				valor_fecha_aux="";
+				
+			}
+		}
+		
+	});
+	
+}
+
+
 // prepara el formulario de detalle para ingreso de datos
 function detailAddNew() {
-	$("#empresa_muestra_resultado table").html('');
 	
+	$("#empresa_muestra_resultado table").html('');
 	document.getElementById("saveDetail").disabled=false;
 	clearForm("form2");
 	setFocusOnForm("form2");
 	document.getElementById("saveDetail").value = "Añadir";
+	
+	
+	splitEmpresaFecha();
 }
 
 // editar registro en formulario
@@ -654,17 +702,17 @@ function pickEmpresa(){
 }
 
 function pickTamano() {
-	var url = "${def:context}/action/muestra/picklist-tamano/form";
+	var url = "${def:context}/action/crud_encuesta/picklist-tamano/picklist/form";
 	pickOpen('nombre_tamano', 'tamano_id', url, '450', '300');
 }
 
 function pickSector() {
-	var url = "${def:context}/action/muestra/picklist-sector/form";
+	var url = "${def:context}/action/crud_encuesta/picklist-sector/picklist/form";
 	pickOpen('nombre_sector', 'sector_id', url, '450', '300');
 }
 
 function buscar_empresas(){
-	// alert("/action/buscar_empresa/form?nombre_tamano="+$("#nombre_tamano").val()+"&nombre_sector="+$("#nombre_sector").val());
+
 	ajaxCall(httpMethod="POST", 
 // uri="/action/buscar_empresa/form?tamano="+$("#nombre_tamano").val()+"&sector="+$("#nombre_sector").val(),
 			uri="/action/buscar_empresa/form",
@@ -701,7 +749,7 @@ function inicializaNombreMuestra(){
 
 
 function upload_encuesta(){
-	document.getElementById("form1").submit();
+	document.getElementById("form_crear_encuesta").submit();
 //	save();
 
 }
@@ -711,7 +759,7 @@ function guardaFoto(){
 	 $("#file_"+fila_seleccionada.id).attr("id","file");
 	 $("#nombre_encuesta").val($("#input_"+fila_seleccionada.id).val());
 	 $("#descripcion_encuesta").val($("#textarea_"+fila_seleccionada.id).val());
-	 document.getElementById("form1").submit();
+	 document.getElementById("form_crear_encuesta").submit();
 }
 
 
@@ -728,15 +776,15 @@ function upload()
 {
 	
 	//determinar si es un insert
-	if (document.form1.id.value=="") {
+	if (document.form_crear_encuesta.id.value=="") {
 		
-		if (document.form1.file.value=="") {
+		if (document.form_crear_encuesta.file.value=="") {
 			alert("Por favor indique el archivo a ser cargado.");
-			document.form1.file.focus();
+			document.form_crear_encuesta.file.focus();
 			return false;
 		}
-		if (document.form1._tempfile.value=="") {
-			document.form1.submit.disabled = true;
+		if (document.form_crear_encuesta._tempfile.value=="") {
+			document.form_crear_encuesta.submit.disabled = true;
 			document.getElementById("status").style.display="";
 			return true;
 		} else {
@@ -746,11 +794,11 @@ function upload()
 	} else {
 			
 		//es un update, determinar si quieren actualizar tambien el blob
-		if (document.form1.file.value=="") {
+		if (document.form_crear_encuesta.file.value=="") {
 			save_foto();
 			return false;
 		} else {
-			document.form1.submit.disabled = true;
+			document.form_crear_encuesta.submit.disabled = true;
 			return true;
 		}
 	}
@@ -760,11 +808,10 @@ function upload()
 //pone los valores del archivo cargado 
 //en los controles del formulario, es llamada por el iframe escondido
 function setFileInfo(tempFile, fileName, fileSize, contentType) {
- 
-	document.form1._tempfile.value = tempFile;
-	document.form1._filename.value = fileName;
-	document.form1._filesize.value = fileSize;
-	document.form1._contenttype.value = contentType;
+	document.form_crear_encuesta._tempfile.value = tempFile;
+	document.form_crear_encuesta._filename.value = fileName;
+	document.form_crear_encuesta._filesize.value = fileSize;
+	document.form_crear_encuesta._contenttype.value = contentType;
 }
 
 //grabar el formulario
@@ -776,7 +823,7 @@ function save_foto()
 					uri, 
 					divResponse="profile-image", 
 					divProgress="status", 
-					formName="form1", 
+					formName="form_crear_encuesta", 
 					afterResponseFn=null, 
 					onErrorFn=null);
 }
